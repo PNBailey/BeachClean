@@ -23,6 +23,7 @@ import { FriendsComponent } from './friends/friends.component';
 import { MemberCardComponent } from './members/member-card/member-card.component';
 import { MemberDetailComponent } from './members/member-detail/member-detail.component';
 import { TabsModule } from 'ngx-bootstrap/tabs';
+import { PaginationModule } from 'ngx-bootstrap/pagination';
 
 
 
@@ -53,7 +54,9 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
     BsDropdownModule.forRoot(),
     FileUploadModule,
     NgxSpinnerModule,
-    TabsModule.forRoot()
+    TabsModule.forRoot(),
+    PaginationModule.forRoot()
+    
 
  
     

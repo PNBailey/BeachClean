@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using api.DTOs;
 using api.Entities;
+using API.Helpers;
 
 namespace api.Interfaces
 {
@@ -17,7 +18,7 @@ namespace api.Interfaces
 
         Task<AppUser> GetUserByUsernameAsync(string username);
 
-        Task<IEnumerable<MemberDto>> GetMembersAsync(); 
+        Task<PagedList<MemberDto>> GetMembersAsync(UserParams userParams); 
 
         Task<MemberDto> GetMemberAsync(string username); // We create this method as rather than getting all the users from the database and then finding the correct user, it would be more optimal to find the user at the database level and then simply returning that user as a Member Dto
 

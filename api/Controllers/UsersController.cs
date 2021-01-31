@@ -9,6 +9,8 @@ using api.Entities;
 using api.Extensions;
 using api.Helpers;
 using api.Interfaces;
+using API.Extensions;
+using API.Helpers;
 using AutoMapper;
 using CloudinaryDotNet.Actions;
 using Microsoft.AspNetCore.Authorization;
@@ -20,7 +22,7 @@ namespace api.Controllers
 {
 
 
-[Authorize]
+    [Authorize]
     public class UsersController : BaseApiController
     {
         private readonly IMapper _mapper;
@@ -38,16 +40,22 @@ namespace api.Controllers
 
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<MemberDto>>> GetUsers()
+        public async Task<ActionResult<IEnumerable<MemberDto>>> GetUsers([FromQuery] UserParams userParams)
         {
-            var users = await _userRepository.GetMembersAsync();
+            var user = await _userRepository.GetUserByUsernameAsync(User.GetUsername());
+
+            userParams.CurrentUserName = user.UserName;
+
+            var users = await _userRepository.GetMembersAsync(userParams);
+
+            Response.AddPaginationHeader(users.CurrentPage, users.PageSize, users.TotalCount, users.TotalPages);
 
             return Ok(users);
         }
 
 
 
-        [HttpGet("{username}",  Name = "GetUser")]
+        [HttpGet("{username}", Name = "GetUser")]
 
         public async Task<ActionResult<MemberDto>> GetUser(string username)
         {
@@ -63,9 +71,10 @@ namespace api.Controllers
 
             var result = await _photoService.AddPhotoAsync(file);
 
-            if(result.Error != null) return BadRequest(result.Error.Message);
+            if (result.Error != null) return BadRequest(result.Error.Message);
 
-            var photo = new Photo {
+            var photo = new Photo
+            {
                 Url = result.SecureUrl.AbsoluteUri,
                 publicId = result.PublicId
 
@@ -73,29 +82,29 @@ namespace api.Controllers
 
             user.Photo = photo;
 
-            if(await _userRepository.SaveAllAsync()) 
+            if (await _userRepository.SaveAllAsync())
             {
-                return CreatedAtRoute("GetUser", new {username = user.UserName}, _mapper.Map<Photo, PhotoDto>(photo));
+                return CreatedAtRoute("GetUser", new { username = user.UserName }, _mapper.Map<Photo, PhotoDto>(photo));
             }
 
             return BadRequest("Unable to upload photo");
         }
 
 
-            
-            
-           [HttpPut] 
+
+
+        [HttpPut]
 
 
         public async Task<ActionResult> UpdateUser(MemberUpdateDto memberUpdateDto)
-        { 
-            
+        {
 
-             var user = await _userRepository.GetUserByUsernameAsync(User.GetUsername()); 
 
-            _mapper.Map(memberUpdateDto, user); 
+            var user = await _userRepository.GetUserByUsernameAsync(User.GetUsername());
 
-            _userRepository.Update(user); 
+            _mapper.Map(memberUpdateDto, user);
+
+            _userRepository.Update(user);
 
             if (await _userRepository.SaveAllAsync()) return NoContent();
 
@@ -105,5 +114,5 @@ namespace api.Controllers
 
     }
 
-  
+
 }
