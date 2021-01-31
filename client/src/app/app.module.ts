@@ -20,6 +20,7 @@ import { LoadingInterceptor } from './interceptor/loading.interceptor';
 import { NgxSpinnerModule } from "ngx-spinner";
 import { TextInputComponent } from './text-input/text-input.component';
 import { FriendsComponent } from './friends/friends.component';
+import { MemberCardComponent } from './member-card/member-card.component';
 
 
 
@@ -31,7 +32,8 @@ import { FriendsComponent } from './friends/friends.component';
     RegisterComponent,
     EditProfileComponent,
     TextInputComponent,
-    FriendsComponent
+    FriendsComponent,
+    MemberCardComponent
     
   ],
   imports: [
