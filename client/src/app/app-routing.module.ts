@@ -7,6 +7,7 @@ import { AuthGuard } from './guards/auth.guard';
 import { PreventUnsavedChangesGuard } from './guards/prevent-unsaved-changes.guard';
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
+import { MemberDetailComponent } from './members/member-detail/member-detail.component';
 import { RegisterComponent } from './register/register.component';
 
 
@@ -16,6 +17,7 @@ const routes: Routes = [
   {path: 'register', component: RegisterComponent},
   {path: 'edit-profile', component: EditProfileComponent, canActivate: [AuthGuard], canDeactivate: [PreventUnsavedChangesGuard]},
   {path: 'friends', component: FriendsComponent},
+  {path: 'friends/:username', component: MemberDetailComponent},
   {path: '**', component: HomeComponent, pathMatch: 'full'}
   
 
