@@ -19,6 +19,7 @@ import { FileUploadModule } from 'ng2-file-upload';
 import { LoadingInterceptor } from './interceptor/loading.interceptor';
 import { NgxSpinnerModule } from "ngx-spinner";
 import { TextInputComponent } from './text-input/text-input.component';
+import { FriendsComponent } from './friends/friends.component';
 
 
 
@@ -29,7 +30,8 @@ import { TextInputComponent } from './text-input/text-input.component';
     LoginComponent,
     RegisterComponent,
     EditProfileComponent,
-    TextInputComponent
+    TextInputComponent,
+    FriendsComponent
     
   ],
   imports: [

@@ -20,6 +20,7 @@ namespace api.Controllers
 {
 
 
+[Authorize]
     public class UsersController : BaseApiController
     {
         private readonly IMapper _mapper;
@@ -82,7 +83,7 @@ namespace api.Controllers
 
 
             
-            [Authorize]
+            
            [HttpPut] 
 
 

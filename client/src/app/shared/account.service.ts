@@ -25,6 +25,10 @@ export class AccountService {
     return this.http.get<Member>(this.baseUrl + `/users/${userName}`);
   }
 
+  getMembers() {
+    return this.http.get<Member[]>(this.baseUrl + '/users');
+  }
+
   register(user: RegisterUser) {
     return this.http.post(this.baseUrl + '/account/register', user).pipe(
       map((user: User) => { 
