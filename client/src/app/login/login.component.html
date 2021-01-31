@@ -1,0 +1,24 @@
+<div class="log-in-container">
+    <h2>Login</h2>
+</div>
+    <hr>
+    <div>
+        <form [formGroup]="loginForm" (ngSubmit)="login()">
+            <p *ngIf="errorMessage" class="error">{{ errorMessage }}</p>
+            <ul  class="form-container">
+                <li>
+                    <app-text-input [formControl]="loginForm.controls['username']" [label]='"Username"'></app-text-input>
+                <li>
+                    <li>
+                        <app-text-input [formControl]="loginForm.controls['password']" [label]='"Password"' [type]='"password"'></app-text-input>
+                    </li>
+            </ul>
+            <hr>
+            <div class="buttons-container">
+                <button [disabled]="loginForm.invalid" class="login-btn" type="submit">Login</button>
+                <button [routerLink]="['../']">Cancel</button>
+            </div>
+            <p class="back-to-register">Not registered? <a class="back-to-register-link" [routerLink]="['../register']">Register now</a></p>
+        </form>
+    </div>
+

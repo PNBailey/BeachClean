@@ -1,0 +1,58 @@
+<div class="edit-profile-title-container">
+    <h2>Edit Profile</h2>
+</div>
+<hr>
+<div *ngIf="member">
+    <div class="alert alert-info" *ngIf="editForm.dirty"> <!--Using the dirty form property tests whether the form has been altered by the user -->
+        You have made changes. Any unsaved changes will be lost.
+    </div>
+    <div>
+        <div class="edit-profile-container">
+            <div class="card">
+                <img class="card-img-top img-thumbnail" src="{{currentUser.photoUrl || '../../assets/images/Placeholder user image.jpg'}}" alt="{{member.userName}}">
+                <div class="card-body">
+                    Change Photo
+                    <input class="Choose-file-btn" type="file" ng2FileSelect [uploader]="uploader" />
+                    <button type="button" class="btn btn-success btn-s"
+                        (click)="uploader.uploadAll()" [disabled]="!uploader.getNotUploadedItems().length">
+                    <span class="fa fa-upload"></span> Upload
+                </button>
+                <button type="button" class="btn btn-warning btn-s"
+                        (click)="uploader.cancelAll()" [disabled]="!uploader.isUploading">
+                    <span class="fa fa-ban"></span> Cancel
+                </button>
+                <button type="button" class="btn btn-danger btn-s"
+                        (click)="uploader.clearQueue()" [disabled]="!uploader.queue.length">
+                    <span class="fa fa-trash"></span> Remove
+                </button>
+                </div>
+            </div>
+            <form #editForm="ngForm" id="editForm" (ngSubmit)="updateProfile()">
+                <ul class="form-container">
+                    <li>
+                        <label>Name</label>
+                        <input type="text" placeholder="Enter Name" name="name" [(ngModel)]="member.name">
+                    </li>
+                    <li>
+                        <label>Location</label>
+                        <input type="text" placeholder="Enter Location" name="location" [(ngModel)]="member.location">
+                    </li>
+                    <li>
+                        <label>Email Address</label>
+                        <input type="text" placeholder="Enter Email Address" name="emailAddress" [(ngModel)]="member.emailAddress" type="email">
+                    </li>
+                    <li>
+                        <label>Occupation</label>
+                        <input type="text" placeholder="Enter Occupation" name="occupation" [(ngModel)]="member.occupation">
+                    </li>
+                </ul>
+                <hr>
+                <div class="buttons-container">
+                    <button [disabled]="!editForm.dirty" class="edit-profile-btn btn btn-success btn-block" type="submit">Update Profile</button>
+                    <button [routerLink]="['../']">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>

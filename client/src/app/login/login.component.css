@@ -1,0 +1,66 @@
+h2{
+    margin-top: 20px; 
+}
+
+.log-in-container {
+    display: flex;
+    justify-content: center;
+}
+
+.form-container li {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    margin-right: 40px;
+}
+
+.form-container > li > label {
+  flex: 1 0 100px;
+  max-width: 110px;
+  text-align: center;
+}
+
+
+hr {
+    width: 250px;
+}
+
+p {
+    margin-top: 15px;
+}
+
+
+button {
+   
+    border-radius: 3px;
+}
+
+.buttons-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+
+.login-btn {
+    background-color: blue;
+    color: white;
+    border-radius: 3px;
+    margin-right: 10px;
+}
+
+.error {
+    margin-left: 32px;
+    border: 2px red;
+    background-color: rgba(255, 0, 0, 0.466);
+    width: 180px;
+}
+
+.back-to-register {
+    display: flex;
+    justify-content: center;
+}
+
+.back-to-register-link {
+    margin-left: 6px;
+}

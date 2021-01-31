@@ -1,0 +1,37 @@
+<div class="register-container">
+    <h2>Register</h2>
+</div>
+<hr>
+<div>
+    <form [formGroup]="registerForm" (ngSubmit)="registerForm.valid && register()" autocomplete="off">
+        <ul class="form-container">
+            <li>
+                <app-text-input [formControl]="registerForm.controls['username']" [label]='"Username"'></app-text-input>
+            <li>
+                <app-text-input [formControl]="registerForm.controls['location']" [label]='"Location"'></app-text-input>
+            </li>
+            <li>
+                <app-text-input [formControl]="registerForm.controls['password']" [label]='"Password"' [type]='"password"'></app-text-input>
+            </li>
+            <li>
+                <app-text-input [formControl]='registerForm.controls["confirmPassword"]' [label]='"Confirm Password"' [type]='"password"'></app-text-input>
+            </li>
+            <li>
+                <div class="row error-list" *ngIf="validationErrors.length > 0">
+                    <ul class="text-danger">
+                        <li *ngFor="let error of validationErrors">
+                            {{ error }}
+                        </li>
+                    </ul>
+                </div>
+            </li>
+        </ul>
+       
+        <hr>
+        <div class="buttons-container">
+            <button [disabled]="!registerForm.valid" class="register-btn" type="submit">Register</button>
+            <button [routerLink]="['../']">Cancel</button>
+        </div>
+        <label class="back-to-login">Back to <a class="back-to-login-link" [routerLink]="['../login']">login</a></label>
+    </form>
+</div>
