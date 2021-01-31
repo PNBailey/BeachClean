@@ -46,6 +46,8 @@ namespace api.Controllers
 
             userParams.CurrentUserName = user.UserName;
 
+            userParams.CurrentLocation = user.Location;
+
             var users = await _userRepository.GetMembersAsync(userParams);
 
             Response.AddPaginationHeader(users.CurrentPage, users.PageSize, users.TotalCount, users.TotalPages);
