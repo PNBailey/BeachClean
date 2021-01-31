@@ -22,6 +22,8 @@ import { TextInputComponent } from './text-input/text-input.component';
 import { FriendsComponent } from './friends/friends.component';
 import { MemberCardComponent } from './members/member-card/member-card.component';
 import { MemberDetailComponent } from './members/member-detail/member-detail.component';
+import { TabsModule } from 'ngx-bootstrap/tabs';
+
 
 
 
@@ -50,7 +52,8 @@ import { MemberDetailComponent } from './members/member-detail/member-detail.com
     }),
     BsDropdownModule.forRoot(),
     FileUploadModule,
-    NgxSpinnerModule
+    NgxSpinnerModule,
+    TabsModule.forRoot()
 
  
     
