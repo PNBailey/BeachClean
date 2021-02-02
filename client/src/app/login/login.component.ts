@@ -24,7 +24,7 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
-    this.accountService.login(this.model).subscribe(() => {
+    this.accountService.login(this.loginForm.value).subscribe(() => {
     },  error => {
       this.toastrService.error(error.error);
     }, () => {
