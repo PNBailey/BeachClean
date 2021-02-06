@@ -4,6 +4,12 @@
     </div>
 </div>
 
+<div *ngIf="(accountService.currentUser | async) as user">
+    <button class="btn-primary" (click)="getLocalUsers(user.location)">{{ user.location }} users</button>
+    <button class="btn-primary" (click)="getAllUsers()">All users</button>
+</div>
+
+
 <div class="d-flex justify-content-center" *ngIf="pagination">
     <pagination
       [boundaryLinks]="true"

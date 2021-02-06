@@ -1,12 +1,11 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, ReplaySubject } from 'rxjs';
-import { LoginUser } from '../models/loginUser';
-import { RegisterUser } from '../models/registerUser';
+import { ReplaySubject } from 'rxjs';
 import { User } from '../models/user';
-import { map } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 import { Member } from '../models/member';
 import { PaginatedResult } from '../models/pagination';
+import { UserParams } from '../models/userParams';
 
 
 @Injectable({
@@ -14,24 +13,37 @@ import { PaginatedResult } from '../models/pagination';
 })
 export class AccountService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) { 
+    this.currentUserSource.pipe(take(1)).subscribe(user => {
+      this.userParams = new UserParams(user);
+    })
+  }
 
   currentUserSource = new ReplaySubject<User>(1);
   currentUser = this.currentUserSource.asObservable();
   baseUrl: string = "https://localhost:5001/api";
   paginatedResult: PaginatedResult<Member[]> = new PaginatedResult<Member[]>();
+  userParams: UserParams;
+
+  getUserParams() {
+    return this.userParams;
+  }
+
+  setUserParams(user: User) {
+    this.userParams = new UserParams(user);
+  }
 
   getMember(userName: string) {
     return this.http.get<Member>(this.baseUrl + `/users/${userName}`);
   }
 
-  getMembers(page?: number, itemsPerPage?: number) {
+  getMembers(userParams: UserParams) {
     let params = new HttpParams(); 
 
-    if(page !== null && itemsPerPage !== null) {
-      params = params.append('pageNumber', page.toString()); 
-      params = params.append('pageSize', itemsPerPage.toString());
-    }
+      params = params.append('pageNumber', userParams.pageNumber.toString()); 
+      params = params.append('pageSize', userParams.pageSize.toString());
+      params = params.append('location', userParams.usersLocation);
+    
     
     return this.http.get<Member[]>(this.baseUrl + '/users', {observe: 'response', params}).pipe(
     map(response => {
@@ -45,7 +57,7 @@ export class AccountService {
     );
   }
 
-  register(user: RegisterUser) {
+  register(user: any) {
     return this.http.post(this.baseUrl + '/account/register', user).pipe(
       map((user: User) => { 
         if(user) {
@@ -59,7 +71,7 @@ export class AccountService {
     
   }
 
-  login(user: LoginUser) {
+  login(user: any) {
     return this.http.post(this.baseUrl + '/account/login', user).pipe(
       map((user: User) => {
         if(user) {

@@ -32,13 +32,21 @@ namespace api.Data
 
         public async Task<PagedList<MemberDto>> GetMembersAsync(UserParams userParams)
         {
-           var query = _context.Users.AsQueryable();
+            var query = _context.Users.AsQueryable();
 
-           query = query.Where(user => user.UserName != userParams.CurrentUserName);
+            query = query.Where(user => user.UserName != userParams.CurrentUserName);
 
-           query = query.Where(user => user.Location == userParams.CurrentLocation);
+            if (userParams.Location != "allLocations")
+            {
+                query = query.Where(user => user.Location == userParams.Location);
+                return await PagedList<MemberDto>.CreateAsync(query.ProjectTo<MemberDto>(_mapper.ConfigurationProvider).AsNoTracking(), userParams.PageNumber, userParams.PageSize);
+            }
+            else
+            {
+                return await PagedList<MemberDto>.CreateAsync(query.ProjectTo<MemberDto>(_mapper.ConfigurationProvider).AsNoTracking(), userParams.PageNumber, userParams.PageSize);
+            }
 
-            return await PagedList<MemberDto>.CreateAsync(query.ProjectTo<MemberDto>(_mapper.ConfigurationProvider).AsNoTracking(), userParams.PageNumber, userParams.PageSize);
+
         }
 
         public async Task<AppUser> GetUserByIdAsync(int id)
@@ -56,22 +64,22 @@ namespace api.Data
         public async Task<IEnumerable<AppUser>> GetUsersAsync()
         {
             return await _context.Users
-            .Include(p => p.Photo) 
+            .Include(p => p.Photo)
             .ToListAsync();
         }
 
         public async Task<bool> SaveAllAsync()
         {
-            return await _context.SaveChangesAsync() > 0; 
+            return await _context.SaveChangesAsync() > 0;
         }
 
         public void Update(AppUser user)
         {
-             _context.Entry(user).State = EntityState.Modified;
+            _context.Entry(user).State = EntityState.Modified;
         }
 
-      
 
-        
+
+
     }
 }

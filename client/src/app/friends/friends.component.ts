@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { take } from 'rxjs/operators';
 import { Member } from '../models/member';
 import { Pagination } from '../models/pagination';
+import { User } from '../models/user';
+import { UserParams } from '../models/userParams';
 import { AccountService } from '../shared/account.service';
 
 @Component({
@@ -12,26 +15,40 @@ export class FriendsComponent implements OnInit {
 
   members: Member[];
   pagination: Pagination;
-  pageNumber = 1;
-  pageSize = 5;
+  userParams: UserParams;
+  user: User;
+  
 
-  constructor(private accountService: AccountService) { }
+  constructor(public accountService: AccountService) { }
 
   ngOnInit() {
-  
+    
+this.userParams = this.accountService.getUserParams();
 this.loadMembers();
+
 }
 
 loadMembers() {
-  this.accountService.getMembers(this.pageNumber, this.pageSize).subscribe(response => {
-    console.log(response);
+  this.accountService.getMembers(this.userParams).subscribe(response => {
     this.members = response.result;
     this.pagination = response.pagination;
 });
 }
 
+getLocalUsers(usersLocation: string) {
+
+  this.userParams.usersLocation = usersLocation;
+this.loadMembers();
+}
+
+getAllUsers() {
+  this.userParams.usersLocation = "allLocations";
+this.loadMembers();
+}
+
+
 pageChanged(event: any) {
-  this.pageNumber = event.page;
+  this.userParams.pageNumber = event.page;
      this.loadMembers();
 }
 }
