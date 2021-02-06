@@ -17,7 +17,6 @@ export class MemberDetailComponent implements OnInit {
   ngOnInit(): void {
     this.accountService.getMember(this.route.snapshot.paramMap.get('username')).subscribe(member => {
       this.member = member;
-      console.log(this.member);
     })
   }
 

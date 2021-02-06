@@ -36,8 +36,8 @@ namespace api.Data
 
             query = query.Where(user => user.UserName != userParams.CurrentUserName);
 
-            if (userParams.Location != "allLocations")
-             query = query.Where(user => user.Location == userParams.Location);
+            if (userParams.usersLocation != "allLocations")
+             query = query.Where(user => user.Location == userParams.usersLocation);
            
             return await PagedList<MemberDto>.CreateAsync(query.ProjectTo<MemberDto>(_mapper.ConfigurationProvider).AsNoTracking(), userParams.PageNumber, userParams.PageSize);
             

@@ -17,7 +17,7 @@ namespace API.Helpers
 
         public string CurrentUserName { get; set; }
 
-        public string Location { get; set; }
+        public string usersLocation { get; set; }
 
 
     }

@@ -32,12 +32,19 @@ export class AccountService {
   }
 
   getMember(userName: string) {
-    return this.http.get<Member>(this.baseUrl + `/users/${userName}`);
+    const member = [...this.memberCache.values()].
+    reduce((arr, currElem) => arr.concat(currElem.result), []).
+    find((member: Member) => member.userName === userName);
+
+    if(member) {
+      return of(member);
+    }
+
+    return this.http.get<Member>(`${this.baseUrl}/users/${userName}`);
   }
 
   getMembers(userParams: UserParams) {
 
-    
     const response = this.memberCache.get(Object.values(userParams).join('-'));
 
     if(response) {
@@ -48,17 +55,17 @@ export class AccountService {
 
       params = params.append('pageNumber', userParams.pageNumber.toString()); 
       params = params.append('pageSize', userParams.pageSize.toString());
-      params = params.append('location', userParams.usersLocation);
+      params = params.append('usersLocation', userParams.usersLocation);
     
     
-    return this.getPaginatedResult<Member[]>(this.baseUrl + '/users', userParams).pipe(map(response => {
+    return this.getPaginatedResult<Member[]>(`${this.baseUrl}/users`, userParams).pipe(map(response => {
       this.memberCache.set(Object.values(userParams).join('-'), response);
       return response;
     }));
   }
 
   register(user: any) {
-    return this.http.post(this.baseUrl + '/account/register', user).pipe(
+    return this.http.post(`${this.baseUrl}/account/register`, user).pipe(
       map((user: User) => { 
         if(user) {
           localStorage.setItem('user', JSON.stringify(user));
@@ -72,7 +79,7 @@ export class AccountService {
   }
 
   login(user: any) {
-    return this.http.post(this.baseUrl + '/account/login', user).pipe(
+    return this.http.post(`${this.baseUrl}/account/login`, user).pipe(
       map((user: User) => {
         if(user) {
           localStorage.setItem('user', JSON.stringify(user));
@@ -84,7 +91,7 @@ export class AccountService {
   }
 
   updateMember(member: Member) {
-    return this.http.put(this.baseUrl + '/users', member);
+    return this.http.put(`${this.baseUrl}/users`, member);
   }
 
   setCurrentUser(user: User) {
