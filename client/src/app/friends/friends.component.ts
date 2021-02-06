@@ -29,6 +29,7 @@ export class FriendsComponent implements OnInit {
   }
 
   loadMembers() {
+    this.accountService.setUserParams(this.userParams);
     this.accountService.getMembers(this.userParams).subscribe(response => {
       this.members = response.result;
       this.pagination = response.pagination;
@@ -38,6 +39,7 @@ export class FriendsComponent implements OnInit {
   getLocalUsers(usersLocation: string) {
 
     this.userParams.usersLocation = usersLocation;
+    this.accountService.setUserParams
     this.loadMembers();
   }
 
@@ -49,6 +51,7 @@ export class FriendsComponent implements OnInit {
 
   pageChanged(event: any) {
     this.userParams.pageNumber = event.page;
+    this.accountService.setUserParams(this.userParams);
     this.loadMembers();
   }
 }

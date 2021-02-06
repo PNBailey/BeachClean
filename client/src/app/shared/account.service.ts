@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ReplaySubject } from 'rxjs';
+import { of, ReplaySubject, scheduled } from 'rxjs';
 import { User } from '../models/user';
 import { map, take } from 'rxjs/operators';
 import { Member } from '../models/member';
@@ -14,23 +14,21 @@ import { UserParams } from '../models/userParams';
 export class AccountService {
 
   constructor(private http: HttpClient) { 
-    this.currentUserSource.pipe(take(1)).subscribe(user => {
-      this.userParams = new UserParams(user);
-    })
+      this.userParams = new UserParams();
   }
 
   currentUserSource = new ReplaySubject<User>(1);
   currentUser = this.currentUserSource.asObservable();
   baseUrl: string = "https://localhost:5001/api";
-  paginatedResult: PaginatedResult<Member[]> = new PaginatedResult<Member[]>();
   userParams: UserParams;
+  memberCache = new Map();
 
   getUserParams() {
     return this.userParams;
   }
 
-  setUserParams(user: User) {
-    this.userParams = new UserParams(user);
+  setUserParams(userParams: UserParams) {
+    this.userParams = userParams;
   }
 
   getMember(userName: string) {
@@ -38,6 +36,14 @@ export class AccountService {
   }
 
   getMembers(userParams: UserParams) {
+
+    
+    const response = this.memberCache.get(Object.values(userParams).join('-'));
+
+    if(response) {
+      return of(response);
+    }
+
     let params = new HttpParams(); 
 
       params = params.append('pageNumber', userParams.pageNumber.toString()); 
@@ -45,16 +51,10 @@ export class AccountService {
       params = params.append('location', userParams.usersLocation);
     
     
-    return this.http.get<Member[]>(this.baseUrl + '/users', {observe: 'response', params}).pipe(
-    map(response => {
-      this.paginatedResult.result = response.body; 
-      if(response.headers.get('Pagination') !== null) {
-        this.paginatedResult.pagination = JSON.parse(response.headers.get('Pagination'));
-      }
-      return this.paginatedResult;
-    })
-      
-    );
+    return this.getPaginatedResult<Member[]>(this.baseUrl + '/users', userParams).pipe(map(response => {
+      this.memberCache.set(Object.values(userParams).join('-'), response);
+      return response;
+    }));
   }
 
   register(user: any) {
@@ -93,5 +93,18 @@ export class AccountService {
     
   }
 
+  getPaginatedResult<T>(url, params) {
+
+    const paginatedResult: PaginatedResult<T> = new PaginatedResult<T>();
+    return this.http.get<T>(url, {observe: 'response', params}).pipe(
+      map(response => {
+        paginatedResult.result = response.body; 
+        if(response.headers.get('Pagination') !== null) {
+          paginatedResult.pagination = JSON.parse(response.headers.get('Pagination'));
+        }
+        return paginatedResult;
+      }))
+    
+    }
 
 }

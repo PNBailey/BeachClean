@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { EditProfileResolverService } from './edit-profile/edit-profile-resolver.service';
 import { EditProfileComponent } from './edit-profile/edit-profile.component';
 import { FriendsComponent } from './friends/friends.component';
 import { AuthGuard } from './guards/auth.guard';
