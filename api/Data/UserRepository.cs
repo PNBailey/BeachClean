@@ -37,14 +37,10 @@ namespace api.Data
             query = query.Where(user => user.UserName != userParams.CurrentUserName);
 
             if (userParams.Location != "allLocations")
-            {
-                query = query.Where(user => user.Location == userParams.Location);
-                return await PagedList<MemberDto>.CreateAsync(query.ProjectTo<MemberDto>(_mapper.ConfigurationProvider).AsNoTracking(), userParams.PageNumber, userParams.PageSize);
-            }
-            else
-            {
-                return await PagedList<MemberDto>.CreateAsync(query.ProjectTo<MemberDto>(_mapper.ConfigurationProvider).AsNoTracking(), userParams.PageNumber, userParams.PageSize);
-            }
+             query = query.Where(user => user.Location == userParams.Location);
+           
+            return await PagedList<MemberDto>.CreateAsync(query.ProjectTo<MemberDto>(_mapper.ConfigurationProvider).AsNoTracking(), userParams.PageNumber, userParams.PageSize);
+            
 
 
         }

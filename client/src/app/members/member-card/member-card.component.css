@@ -35,6 +35,6 @@
     transition: all 0.3s ease-in-out;
 }
 
-i {
+p > i {
     margin-right: 8px;
 }

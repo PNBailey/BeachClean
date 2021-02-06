@@ -3,3 +3,13 @@
     margin-top: 60px;
 }
 
+.location-btns {
+    margin-left: 10px;
+    margin-top: 4px;
+}
+
+.location-btns > button {
+    margin-right: 8px;
+    border-radius: 4px;
+    cursor: pointer;
+}

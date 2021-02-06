@@ -17,38 +17,38 @@ export class FriendsComponent implements OnInit {
   pagination: Pagination;
   userParams: UserParams;
   user: User;
-  
+
 
   constructor(public accountService: AccountService) { }
 
   ngOnInit() {
-    
-this.userParams = this.accountService.getUserParams();
-this.loadMembers();
 
-}
+    this.userParams = this.accountService.getUserParams();
+    this.loadMembers();
 
-loadMembers() {
-  this.accountService.getMembers(this.userParams).subscribe(response => {
-    this.members = response.result;
-    this.pagination = response.pagination;
-});
-}
+  }
 
-getLocalUsers(usersLocation: string) {
+  loadMembers() {
+    this.accountService.getMembers(this.userParams).subscribe(response => {
+      this.members = response.result;
+      this.pagination = response.pagination;
+    });
+  }
 
-  this.userParams.usersLocation = usersLocation;
-this.loadMembers();
-}
+  getLocalUsers(usersLocation: string) {
 
-getAllUsers() {
-  this.userParams.usersLocation = "allLocations";
-this.loadMembers();
-}
+    this.userParams.usersLocation = usersLocation;
+    this.loadMembers();
+  }
+
+  getAllUsers() {
+    this.userParams.usersLocation = "allLocations";
+    this.loadMembers();
+  }
 
 
-pageChanged(event: any) {
-  this.userParams.pageNumber = event.page;
-     this.loadMembers();
-}
+  pageChanged(event: any) {
+    this.userParams.pageNumber = event.page;
+    this.loadMembers();
+  }
 }
