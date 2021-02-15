@@ -6,6 +6,7 @@ import { map, take } from 'rxjs/operators';
 import { Member } from '../models/member';
 import { PaginatedResult } from '../models/pagination';
 import { UserParams } from '../models/userParams';
+import { LikesParams } from '../models/likesParams';
 
 
 @Injectable({
@@ -112,6 +113,28 @@ export class AccountService {
         return paginatedResult;
       }))
     
+    }
+
+    addLike(userName: string) {
+      return this.http.post(this.baseUrl + '/likes/' + userName, {});
+    }
+
+    getLikes(likesParams: LikesParams) {
+      let params = this.getPaginationHeaders(likesParams.pageNumber, likesParams.pageSize);
+
+      params = params.append('predicate', likesParams.predicate);
+
+      return this.getPaginatedResult<Partial<Member[]>>(this.baseUrl + '/likes', params);
+    }
+
+    private getPaginationHeaders(pageNumber: number, pageSize: number) {
+      let params = new HttpParams();  
+  
+        params = params.append('pageNumber', pageNumber.toString()); 
+        params = params.append('pageSize', pageSize.toString());
+  
+        return params;
+      
     }
 
 }
