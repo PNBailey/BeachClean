@@ -1,4 +1,4 @@
-namespace API.Helpers
+namespace api.Helpers
 
 // This will be what we return to our client in our http response
 

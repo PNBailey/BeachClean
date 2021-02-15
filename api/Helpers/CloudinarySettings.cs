@@ -1,6 +1,6 @@
 // Here we are going to strongly type our configuration for the cloudinary settings. When we are strongly typing a key or configuration in this way, what we are doing is 
 
-namespace API.Helpers
+namespace api.Helpers
 {
     public class CloudinarySettings
     {

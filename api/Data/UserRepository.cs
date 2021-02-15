@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using api.DTOs;
 using api.Entities;
 using api.Interfaces;
-using API.Helpers;
+using api.Helpers;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;

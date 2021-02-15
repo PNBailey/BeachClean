@@ -1,7 +1,4 @@
 using System.Collections.Generic;
-using System.Security.Claims;
-using System.Security.Cryptography;
-using System.Text;
 using System.Threading.Tasks;
 using api.Data;
 using api.DTOs;
@@ -9,14 +6,10 @@ using api.Entities;
 using api.Extensions;
 using api.Helpers;
 using api.Interfaces;
-using API.Extensions;
-using API.Helpers;
 using AutoMapper;
-using CloudinaryDotNet.Actions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace api.Controllers
 {

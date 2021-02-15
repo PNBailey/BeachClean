@@ -1,4 +1,4 @@
-namespace API.Helpers
+namespace api.Helpers
 {
 
     // This class is for the parameters that the user will specify when requesting how many pages to view

@@ -28,6 +28,11 @@ namespace api.Entities
 
         public byte[] PasswordSalt { get; set; } 
 
+        public ICollection<UserLike> LikedByUsers { get; set; }
+
+        public ICollection<UserLike> LikedUsers { get; set; }
+
+
 
     }
 }

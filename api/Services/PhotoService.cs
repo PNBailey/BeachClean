@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
 using api.Interfaces;
-using API.Helpers;
+using api.Helpers;
 using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
 using Microsoft.AspNetCore.Http;

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using api.Entities;
+using api.Helpers;
 
 namespace api.DTOs
 {

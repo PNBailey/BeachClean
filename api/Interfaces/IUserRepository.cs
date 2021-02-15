@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using api.DTOs;
 using api.Entities;
-using API.Helpers;
+using api.Helpers;
 
 namespace api.Interfaces
 {

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 
 
-namespace API.Helpers
+namespace api.Helpers
 {
     public class PagedList<T> : List<T> 
     {
