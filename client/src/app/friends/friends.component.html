@@ -1,21 +1,42 @@
-
-
-<div class="row d-flex justify-content-center members-container">
-    <div *ngFor="let member of members" class="col-2 members">
-        <app-member-card [member]="member"></app-member-card>
-    </div>
-</div>
-
-<div class="d-flex justify-content-center" *ngIf="pagination">
-    <pagination
-      [boundaryLinks]="true"
-      [totalItems]="pagination.totalItems"
-      [itemsPerPage]="pagination.itemsPerPage"
-      [(ngModel)]="pagination.currentPage"
-      (pageChanged)="pageChanged($event)">
-    </pagination>
-    <div class="location-btns" *ngIf="(accountService.currentUser | async) as user">
-        <button class="btn-primary" (click)="getLocalUsers(user.location)">{{ user.location }} users</button>
-        <button class="btn-primary" (click)="getAllUsers()">All users</button>
-    </div>
-</div>
+<tabset class="member-tabset">
+    <tab heading="Friends" id="tab1">
+        <div class="row d-flex justify-content-center members-container">
+            <div *ngFor="let friend of friends" class="col-2 members">
+                <app-member-card [member]="friend"></app-member-card>
+            </div>
+        </div>
+        <div class="d-flex justify-content-center" *ngIf="pagination">
+            <pagination
+              [boundaryLinks]="true"
+              [totalItems]="pagination.totalItems"
+              [itemsPerPage]="pagination.itemsPerPage"
+              [(ngModel)]="pagination.currentPage"
+              (pageChanged)="pageChanged($event)">
+              </pagination>
+            <!-- <div class="location-btns" *ngIf="(accountService.currentUser | async) as user">
+                <button class="btn-primary" (click)="getLocalUsers(user.location)">{{ user.location }} users</button>
+                <button class="btn-primary" (click)="getAllUsers()">All users</button>
+            </div> -->
+        </div>
+    </tab>
+    <tab heading="Other Members">
+        <div class="row d-flex justify-content-center members-container">
+            <div *ngFor="let member of members" class="col-2 members">
+                <app-member-card [member]="member"></app-member-card>
+            </div>
+        </div>
+        <div class="d-flex justify-content-center" *ngIf="pagination">
+            <pagination
+              [boundaryLinks]="true"
+              [totalItems]="pagination.totalItems"
+              [itemsPerPage]="pagination.itemsPerPage"
+              [(ngModel)]="pagination.currentPage"
+              (pageChanged)="pageChanged($event)">
+              </pagination>
+            <div class="location-btns" *ngIf="(accountService.currentUser | async) as user">
+                <button class="btn-primary" (click)="getLocalUsers(user.location)">{{ user.location }} users</button>
+                <button class="btn-primary" (click)="getAllUsers()">All users</button>
+            </div>
+        </div>
+    </tab>
+</tabset>

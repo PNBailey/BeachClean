@@ -16,6 +16,8 @@ export class AccountService {
 
   constructor(private http: HttpClient) { 
       this.userParams = new UserParams();
+      this.likeParams = new LikesParams();
+
   }
 
   currentUserSource = new ReplaySubject<User>(1);
@@ -23,6 +25,7 @@ export class AccountService {
   baseUrl: string = "https://localhost:5001/api";
   userParams: UserParams;
   memberCache = new Map();
+  likeParams: LikesParams;
 
   getUserParams() {
     return this.userParams;
@@ -30,6 +33,14 @@ export class AccountService {
 
   setUserParams(userParams: UserParams) {
     this.userParams = userParams;
+  }
+
+  getLikeParams() {
+    return this.likeParams;
+  }
+
+  setLikeParams(likeParams: LikesParams) {
+    this.likeParams = likeParams;
   }
 
   getMember(userName: string) {
