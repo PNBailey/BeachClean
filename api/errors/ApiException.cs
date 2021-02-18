@@ -2,14 +2,11 @@ namespace api.errors
 {
     public class ApiException
     {
-        private readonly int _StatusCode;
-        private readonly string _Message;
-        private readonly string _Details;
-        public ApiException(int StatusCode, string Message = null, string Details = null)
+        public ApiException(int statusCode, string message = null, string details = null)
         {
-            _Details = Details;
-            _Message = Message;
-            _StatusCode = StatusCode;
+            Details = details;
+            Message = message;
+            StatusCode = statusCode;
 
         }
 
