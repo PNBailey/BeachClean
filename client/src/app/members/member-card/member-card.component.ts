@@ -16,10 +16,13 @@ export class MemberCardComponent implements OnInit {
   ngOnInit() {
   }
 
-  likeMember(userName: string) {
-    this.accountService.addLike(userName).subscribe(() => {
-      this.toastrService.success(`You have liked ${userName}`);
+  likeMember(member: Member) {
+    this.accountService.addLike(member).subscribe(() => {
+      this.toastrService.success(`You have liked ${member.userName}`);
+      this.accountService.userLiked.next();
     });
   }
+
+
 
 }

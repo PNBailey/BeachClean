@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { of, ReplaySubject, scheduled } from 'rxjs';
+import { of, ReplaySubject, scheduled, Subject } from 'rxjs';
 import { User } from '../models/user';
 import { map, take } from 'rxjs/operators';
 import { Member } from '../models/member';
@@ -26,6 +26,7 @@ export class AccountService {
   userParams: UserParams;
   memberCache = new Map();
   likeParams: LikesParams;
+  userLiked: Subject<Member> = new Subject();
 
   getUserParams() {
     return this.userParams;
@@ -126,14 +127,17 @@ export class AccountService {
     
     }
 
-    addLike(userName: string) {
-      return this.http.post(this.baseUrl + '/likes/' + userName, {});
+    addLike(member: Member) {
+      return this.http.post(this.baseUrl + '/likes/' + member.userName, {}).pipe(map(()=> {
+        this.userLiked.next();
+      }));
+      
     }
 
-    getLikes(likesParams: LikesParams) {
-      let params = this.getPaginationHeaders(likesParams.pageNumber, likesParams.pageSize);
+    getLikes() {
+      let params = this.getPaginationHeaders(this.likeParams.pageNumber, this.likeParams.pageSize);
 
-      params = params.append('predicate', likesParams.predicate);
+      params = params.append('predicate', this.likeParams.predicate);
 
       return this.getPaginatedResult<Partial<Member[]>>(this.baseUrl + '/likes', params);
     }

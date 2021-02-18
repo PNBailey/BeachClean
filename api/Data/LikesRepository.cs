@@ -44,7 +44,7 @@ namespace api.Data
             }
 
             var likedUsers = users.Select(user => new LikeDto {
-                Username = user.UserName,
+                UserName = user.UserName,
                 Name = user.Name,
                 Id = user.Id,
                 Photo = user.Photo,

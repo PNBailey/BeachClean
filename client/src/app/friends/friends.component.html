@@ -5,18 +5,14 @@
                 <app-member-card [member]="friend"></app-member-card>
             </div>
         </div>
-        <div class="d-flex justify-content-center" *ngIf="pagination">
+        <div class="d-flex justify-content-center" *ngIf="friendsPagination">
             <pagination
               [boundaryLinks]="true"
-              [totalItems]="pagination.totalItems"
-              [itemsPerPage]="pagination.itemsPerPage"
-              [(ngModel)]="pagination.currentPage"
-              (pageChanged)="pageChanged($event)">
+              [totalItems]="friendsPagination.totalItems"
+              [itemsPerPage]="friendsPagination.itemsPerPage"
+              [(ngModel)]="friendsPagination.currentPage"
+              (pageChanged)="pageChangedFriends($event)">
               </pagination>
-            <!-- <div class="location-btns" *ngIf="(accountService.currentUser | async) as user">
-                <button class="btn-primary" (click)="getLocalUsers(user.location)">{{ user.location }} users</button>
-                <button class="btn-primary" (click)="getAllUsers()">All users</button>
-            </div> -->
         </div>
     </tab>
     <tab heading="Other Members">
@@ -25,13 +21,13 @@
                 <app-member-card [member]="member"></app-member-card>
             </div>
         </div>
-        <div class="d-flex justify-content-center" *ngIf="pagination">
+        <div class="d-flex justify-content-center" *ngIf="membersPagination">
             <pagination
               [boundaryLinks]="true"
-              [totalItems]="pagination.totalItems"
-              [itemsPerPage]="pagination.itemsPerPage"
-              [(ngModel)]="pagination.currentPage"
-              (pageChanged)="pageChanged($event)">
+              [totalItems]="membersPagination.totalItems"
+              [itemsPerPage]="membersPagination.itemsPerPage"
+              [(ngModel)]="membersPagination.currentPage"
+              (pageChanged)="pageChangedMembers($event)">
               </pagination>
             <div class="location-btns" *ngIf="(accountService.currentUser | async) as user">
                 <button class="btn-primary" (click)="getLocalUsers(user.location)">{{ user.location }} users</button>

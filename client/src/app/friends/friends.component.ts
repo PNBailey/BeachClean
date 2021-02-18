@@ -16,7 +16,8 @@ export class FriendsComponent implements OnInit {
 
   members: Member[];
   friends: Member[];
-  pagination: Pagination;
+  friendsPagination: Pagination;
+  membersPagination: Pagination;
   userParams: UserParams;
   likeParams: LikesParams;
   user: User;
@@ -29,21 +30,26 @@ export class FriendsComponent implements OnInit {
     this.userParams = this.accountService.getUserParams();
     this.likeParams = this.accountService.getLikeParams();
     this.loadFriends();
+    this.loadMembers();
+    this.accountService.userLiked.subscribe(() => {
+      console.log("userLiked");
+      this.loadFriends();
+    });
   }
 
   loadMembers() {
-    console.log("clicked");
     this.accountService.setUserParams(this.userParams);
     this.accountService.getMembers(this.userParams).subscribe(response => {
       this.members = response.result;
-      this.pagination = response.pagination;
+      this.membersPagination = response.pagination;
     });
   }
 
   loadFriends() {
-    this.accountService.getLikes(this.likeParams).subscribe(response => {
+    this.accountService.getLikes().subscribe(response => {
       this.friends = response.result;
-      this.pagination = response.pagination;
+      this.friendsPagination = response.pagination;
+      console.log(this.friends);
     })
   }
 
@@ -59,8 +65,13 @@ export class FriendsComponent implements OnInit {
     this.loadMembers();
   }
 
+  pageChangedFriends(event: any) {
+    this.likeParams.pageNumber = event.page;
+    this.accountService.setLikeParams(this.likeParams);
+    this.loadFriends();
+  }
 
-  pageChanged(event: any) {
+  pageChangedMembers(event: any) {
     this.userParams.pageNumber = event.page;
     this.accountService.setUserParams(this.userParams);
     this.loadMembers();
