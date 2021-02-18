@@ -13,7 +13,9 @@ namespace api.DTOs
 
         public string Name { get; set; }
 
-        public Photo Photo { get; set; }
+        public PhotoDto Photo { get; set; }
+
+        public string PhotoUrl { get; set; }
 
     }
 }

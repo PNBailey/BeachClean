@@ -32,7 +32,6 @@ export class FriendsComponent implements OnInit {
     this.loadFriends();
     this.loadMembers();
     this.accountService.userLiked.subscribe(() => {
-      console.log("userLiked");
       this.loadFriends();
     });
   }
@@ -49,7 +48,8 @@ export class FriendsComponent implements OnInit {
     this.accountService.getLikes().subscribe(response => {
       this.friends = response.result;
       this.friendsPagination = response.pagination;
-      console.log(this.friends);
+      console.log(response.result);
+
     })
   }
 

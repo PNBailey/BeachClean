@@ -47,7 +47,7 @@ namespace api.Data
                 UserName = user.UserName,
                 Name = user.Name,
                 Id = user.Id,
-                Photo = user.Photo,
+                PhotoUrl = user.Photo.Url,
                 Location = user.Location
             });
 

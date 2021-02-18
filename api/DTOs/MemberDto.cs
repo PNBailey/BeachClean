@@ -25,7 +25,7 @@ namespace api.DTOs
         
         public string Occupation { get; set; }
 
-        public Photo Photo { get; set; }
+        public PhotoDto Photo { get; set; }
 
     }
 }

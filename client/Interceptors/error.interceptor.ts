@@ -30,7 +30,12 @@ export class ErrorInterceptor implements HttpInterceptor {
                   }
                 }
                 throw modalStateErrors.flat();
-              } else {
+              }
+              else if(typeof(error.error) === 'object') // This checks to see whether the error.error is an object. As there are various different types of 400 errors, we need to accomodate all the different types. If it is a standard 400 error with no message, then an error object will be returned as the error 
+             { 
+
+              this.toastr.error(error.statusText, error.status); // If there is no error in the errors array that comes from our api, then the error can be handled by the toastr
+            } else {
                 this.toastr.error(error.statusText, error.status);
               }
               break;
