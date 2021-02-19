@@ -15,6 +15,8 @@ namespace api.Data
 
         public DbSet<UserLike> Likes { get; set; }
 
+        public DbSet<Event> Events { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder) 
         {
              base.OnModelCreating(builder); 
@@ -32,8 +34,25 @@ namespace api.Data
                 .WithMany(l => l.LikedByUsers)
                 .HasForeignKey(s => s.LikedUserId)
                 .OnDelete(DeleteBehavior.Cascade); 
+
+            builder.Entity<Event>()
+                .HasOne(e => e.EventCreator)
+                .WithMany(e => e.CreatedEvents)
+                .HasForeignKey(e => e.EventCreatorId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<Event>()
+                .HasMany(e => e.Organisers)
+                .WithMany(u => u.OgranisedEvents);
+
+            builder.Entity<Event>()
+                .HasMany(e => e.Attendees)
+                .WithMany(u => u.AttendingEvents);
+
+                
         }
 
+      
 
     }
 }

@@ -32,6 +32,13 @@ namespace api.Entities
 
         public ICollection<UserLike> LikedUsers { get; set; }
 
+        public ICollection<Event> CreatedEvents { get; set; }
+
+        public ICollection<Event> OgranisedEvents { get; set; }
+
+        public ICollection<Event> AttendingEvents { get; set; }
+
+
 
 
     }
