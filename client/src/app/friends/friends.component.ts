@@ -45,6 +45,7 @@ export class FriendsComponent implements OnInit {
   }
 
   loadFriends() {
+    this.accountService.setLikeParams(this.likeParams);
     this.accountService.getLikes().subscribe(response => {
       this.friends = response.result;
       this.friendsPagination = response.pagination;

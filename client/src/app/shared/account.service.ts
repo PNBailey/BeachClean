@@ -135,11 +135,21 @@ export class AccountService {
     }
 
     getLikes() {
+      console.log(this.memberCache.get(Object.values(this.likeParams)));
+      const response = this.memberCache.get(Object.values(this.likeParams).join('-'));
+
+      if(response) {
+        return of(response);
+      }
+
       let params = this.getPaginationHeaders(this.likeParams.pageNumber, this.likeParams.pageSize);
 
       params = params.append('predicate', this.likeParams.predicate);
 
-      return this.getPaginatedResult<Partial<Member[]>>(this.baseUrl + '/likes', params);
+      return this.getPaginatedResult<Partial<Member[]>>(this.baseUrl + '/likes', params).pipe(map(response => {
+        this.memberCache.set(Object.values(this.likeParams).join('-'), response);
+      return response;
+      }));
     }
 
     private getPaginationHeaders(pageNumber: number, pageSize: number) {
