@@ -162,4 +162,8 @@ export class AccountService {
       
     }
 
+    addEvent(event: Event) {
+     return this.http.post(this.baseUrl + '/events', event);
+    }
+
 }

@@ -23,7 +23,7 @@ namespace api.DTOs
         public ICollection<MemberDto> Organisers { get; set; }
 
         public ICollection<MemberDto> Attendees { get; set; }
-    
+        
 
         
     }

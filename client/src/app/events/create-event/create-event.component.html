@@ -1,23 +1,46 @@
-<div class="title-container">
-    <h2>Create Event</h2>
-</div>
-<hr>
-<div>
-    <form [formGroup]="createEventForm" (ngSubmit)="createEventForm.valid && createEvent()" autocomplete="off">
-        <ul class="form-container">
-            <li>
-                <app-text-input [formControl]="createEventForm.controls['eventName']" [label]='"Event name"'></app-text-input>
-            </li>
-            <li>
-                <app-text-input [formControl]="createEventForm.controls['location']" [label]='"Location"'></app-text-input>
-            </li>
-            <li>
-                <app-date-input [formControl]="createEventForm.controls['eventDate']" [label]='"Event date"'  [minDate]="minDate"></app-date-input>
-            </li>
-            <li>
-                <app-text-input [formControl]="createEventForm.controls['organisers']" [label]='"Organisers"'></app-text-input>
-            </li>
-        </ul>
-    </form>
 
+<div class="container">
+    <div class="card">
+        <img class="card-img-top img-thumbnail" src="{{eventPhotoUrl || '../../assets/images/Placeholder user image.jpg'}}" alt="xx">
+                <div class="card-body">
+                    Change Photo
+                    <input class="Choose-file-btn" type="file" ng2FileSelect [uploader]="uploader" />
+                    <button type="button" class="btn btn-success btn-s"
+                        (click)="uploader.uploadAll()" [disabled]="!uploader.getNotUploadedItems().length">
+                    <span class="fa fa-upload"></span> Upload
+                </button>
+                <button type="button" class="btn btn-warning btn-s"
+                        (click)="uploader.cancelAll()" [disabled]="!uploader.isUploading">
+                    <span class="fa fa-ban"></span> Cancel
+                </button>
+                <button type="button" class="btn btn-danger btn-s"
+                        (click)="uploader.clearQueue()" [disabled]="!uploader.queue.length">
+                    <span class="fa fa-trash"></span> Remove
+                </button>
+    </div>
+    <div class="title-container">
+        <h2>Create Event</h2>
+    </div>
+    <hr>
+    
+        <form [formGroup]="createEventForm" (ngSubmit)="createEvent()" autocomplete="off">
+            <ul class="form-container">
+                <li>
+                    <app-text-input [formControl]="createEventForm.controls['eventName']" [label]='"Event name"'></app-text-input>
+                </li>
+                <li>
+                    <app-text-input [formControl]="createEventForm.controls['location']" [label]='"Location"'></app-text-input>
+                </li>
+                <li>
+                    <app-date-input [formControl]="createEventForm.controls['eventDate']" [label]='"Event date"'  [minDate]="minDate"></app-date-input>
+                </li>
+                <li>
+                    <app-text-input [formControl]="createEventForm.controls['organisers']" [label]='"Organisers"'></app-text-input>
+                </li>
+            </ul>
+
+            <button type="submit">submit</button>
+        </form>
+    
+    
 </div>

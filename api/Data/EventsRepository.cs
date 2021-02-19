@@ -30,9 +30,11 @@ namespace api.Data
 
         }
 
-        public Task<PagedList<EventDto>> GetEventByEventNameAsync(string eventName)
+        public async Task<Event> GetEventByIdAsync(int eventId)
         {
-            throw new System.NotImplementedException();
+            return await _context.Events
+            .Where(e => e.Id == eventId)
+            .FirstOrDefaultAsync();
         }
 
         public async Task<IEnumerable<EventDto>> GetEventsAsync()
@@ -40,6 +42,11 @@ namespace api.Data
             return await _context.Events
             .ProjectTo<EventDto>(_mapper.ConfigurationProvider)
             .ToListAsync();
+        }
+
+          public async Task<bool> SaveAllAsync()
+        {
+            return await _context.SaveChangesAsync() > 0;
         }
     }
 }

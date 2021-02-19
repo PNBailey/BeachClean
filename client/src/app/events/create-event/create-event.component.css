@@ -1,3 +1,16 @@
-ul {
+.container {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.title-container {
+    display: flex;
+    justify-content: center;
+}
+
+.form-container li {
     list-style: none;
+    display: flex;
+    justify-content: center;
 }

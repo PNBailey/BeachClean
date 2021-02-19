@@ -12,6 +12,8 @@ namespace api.Interfaces
 
         Task<IEnumerable<EventDto>> GetEventsAsync();
 
-        Task<PagedList<EventDto>> GetEventByEventNameAsync(string eventName);
+        Task<Event> GetEventByIdAsync(int eventId);
+
+        Task<bool> SaveAllAsync();
     }
 }
