@@ -36,9 +36,9 @@ namespace api.Data
                 .OnDelete(DeleteBehavior.Cascade); 
 
             builder.Entity<Event>()
-                .HasOne(e => e.EventCreator)
+                .HasOne(e => e.Creator)
                 .WithMany(e => e.CreatedEvents)
-                .HasForeignKey(e => e.EventCreatorId)
+                .HasForeignKey(e => e.CreatorId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             builder.Entity<Event>()

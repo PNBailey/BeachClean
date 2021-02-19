@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using api.DTOs;
@@ -25,9 +26,9 @@ namespace api.Controllers
 
             var events = await _eventsRepository.GetEventsAsync();
 
-            var matchingDates = events.Where(e => e.EventDate == newEvent.EventDate);
+            var matchingDates = events.Where(e => e.Date == newEvent.Date);
 
-            var matchingEvents = matchingDates.Where(e => e.EventName == newEvent.EventName);
+            var matchingEvents = matchingDates.Where(e => e.Name == newEvent.Name);
 
             if (matchingEvents.Count() > 1)
             {
@@ -40,6 +41,14 @@ namespace api.Controllers
 
             return createdEvent;
 
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<EventDto>>> GetAllEvents() 
+        {
+            var events = await _eventsRepository.GetEventsAsync();
+
+            return Ok(events);
         }
     }
 }

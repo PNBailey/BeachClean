@@ -8,13 +8,13 @@ namespace api.Entities
 
         public int Id { get; set; }
 
-        public AppUser EventCreator { get; set; }
+        public AppUser Creator { get; set; }
 
-        public int EventCreatorId { get; set; }
-        public string EventName { get; set; }
+        public int CreatorId { get; set; }
+        public string Name { get; set; }
 
-        public DateTime EventDate { get; set; }
-        public string EventLocation { get; set; }
+        public DateTime Date { get; set; }
+        public string Location { get; set; }
 
         public ICollection<AppUser> Organisers { get; set; }
 

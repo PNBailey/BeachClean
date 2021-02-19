@@ -5,6 +5,8 @@ using api.DTOs;
 using api.Entities;
 using api.Helpers;
 using api.Interfaces;
+using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
 
 namespace api.Data
@@ -12,8 +14,10 @@ namespace api.Data
     public class EventsRepository : IEventsRepository
     {
         private readonly DataContext _context;
-        public EventsRepository(DataContext context)
+        private readonly IMapper _mapper;
+        public EventsRepository(DataContext context, IMapper mapper)
         {
+            _mapper = mapper;
             _context = context;
         }
 
@@ -31,9 +35,11 @@ namespace api.Data
             throw new System.NotImplementedException();
         }
 
-        public async Task<IEnumerable<Event>> GetEventsAsync()
+        public async Task<IEnumerable<EventDto>> GetEventsAsync()
         {
-            return await _context.Events.ToListAsync();
+            return await _context.Events
+            .ProjectTo<EventDto>(_mapper.ConfigurationProvider)
+            .ToListAsync();
         }
     }
 }
