@@ -25,6 +25,10 @@ import { MemberDetailComponent } from './members/member-detail/member-detail.com
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { TimeagoModule } from 'ngx-timeago';
+import { CreateEventComponent } from './events/create-event/create-event.component';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { DateInputComponent } from './date-input/date-input.component';
+ 
 
 
 
@@ -39,7 +43,9 @@ import { TimeagoModule } from 'ngx-timeago';
     TextInputComponent,
     FriendsComponent,
     MemberCardComponent,
-    MemberDetailComponent
+    MemberDetailComponent,
+    CreateEventComponent,
+    DateInputComponent
     
   ],
   imports: [
@@ -57,7 +63,8 @@ import { TimeagoModule } from 'ngx-timeago';
     NgxSpinnerModule,
     TabsModule.forRoot(),
     PaginationModule.forRoot(),
-    TimeagoModule.forRoot()
+    TimeagoModule.forRoot(),
+    BsDatepickerModule.forRoot()
     
 
  

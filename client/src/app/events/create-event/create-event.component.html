@@ -1,0 +1,23 @@
+<div class="title-container">
+    <h2>Create Event</h2>
+</div>
+<hr>
+<div>
+    <form [formGroup]="createEventForm" (ngSubmit)="createEventForm.valid && createEvent()" autocomplete="off">
+        <ul class="form-container">
+            <li>
+                <app-text-input [formControl]="createEventForm.controls['eventName']" [label]='"Event name"'></app-text-input>
+            </li>
+            <li>
+                <app-text-input [formControl]="createEventForm.controls['location']" [label]='"Location"'></app-text-input>
+            </li>
+            <li>
+                <app-date-input [formControl]="createEventForm.controls['eventDate']" [label]='"Event date"'  [minDate]="minDate"></app-date-input>
+            </li>
+            <li>
+                <app-text-input [formControl]="createEventForm.controls['organisers']" [label]='"Organisers"'></app-text-input>
+            </li>
+        </ul>
+    </form>
+
+</div>
