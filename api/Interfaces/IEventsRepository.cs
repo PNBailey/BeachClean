@@ -1,0 +1,17 @@
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using api.DTOs;
+using api.Entities;
+using api.Helpers;
+
+namespace api.Interfaces
+{
+    public interface IEventsRepository
+    {
+        Task<bool> CreateEvent(Event newEvent);
+
+        Task<IEnumerable<Event>> GetEventsAsync();
+
+        Task<PagedList<EventDto>> GetEventByEventNameAsync(string eventName);
+    }
+}
