@@ -26,7 +26,7 @@
         <form [formGroup]="createEventForm" (ngSubmit)="createEvent()" autocomplete="off">
             <ul class="form-container">
                 <li>
-                    <app-text-input [formControl]="createEventForm.controls['eventName']" [label]='"Event name"'></app-text-input>
+                    <app-text-input [formControl]="createEventForm.controls['name']" [label]='"Event name"'></app-text-input>
                 </li>
                 <li>
                     <app-text-input [formControl]="createEventForm.controls['location']" [label]='"Location"'></app-text-input>
@@ -34,9 +34,9 @@
                 <li>
                     <app-date-input [formControl]="createEventForm.controls['eventDate']" [label]='"Event date"'  [minDate]="minDate"></app-date-input>
                 </li>
-                <li>
+                <!-- <li>
                     <app-text-input [formControl]="createEventForm.controls['organisers']" [label]='"Organisers"'></app-text-input>
-                </li>
+                </li> -->
             </ul>
 
             <button type="submit">submit</button>

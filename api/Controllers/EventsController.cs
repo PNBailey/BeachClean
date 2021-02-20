@@ -28,14 +28,14 @@ namespace api.Controllers
 
 
         [HttpPost]
-        public async Task<ActionResult<EventDto>> CreateEvent(Event newEvent)
+        public async Task<ActionResult<EventDto>> CreateEvent(EventDto newEvent)
         {
 
             var currUserUsername = User.GetUsername();
 
             var currUser = await _userRepository.GetUserByUsernameAsync(currUserUsername);
 
-            newEvent.Creator = currUser;
+            newEvent.Creator = _mapper.Map<AppUser, MemberDto>(currUser);
 
             var events = await _eventsRepository.GetEventsAsync();
 
@@ -43,27 +43,34 @@ namespace api.Controllers
 
             var matchingEvents = matchingDates.Where(e => e.Name == newEvent.Name);
 
-            if (matchingEvents.Count() > 1)
+            if (matchingEvents.Count() > 0)
             {
                 return BadRequest("Event already exists!");
             }
 
-            await _eventsRepository.CreateEvent(newEvent);
+            var createdEvent = _mapper.Map<EventDto, Event>(newEvent);
 
-            var createdEvent = new EventDto
-            {
-                Id = newEvent.Id,
-                Name = newEvent.Name,
-                Date = newEvent.Date,
-                Location = newEvent.Location,
-                Creator = _mapper.Map<AppUser, MemberDto>(newEvent.Creator),
-                MainPhoto = _mapper.Map<Photo, PhotoDto>(newEvent.MainPhoto),
-                Organisers = _mapper.Map<ICollection<AppUser>, ICollection<MemberDto>>(newEvent.Organisers),
-                Attendees = _mapper.Map<ICollection<AppUser>, ICollection<MemberDto>>(newEvent.Attendees)
+            // var createdEvent = new Event
+            // {
+            //     Id = newEvent.Id,
+            //     Name = newEvent.Name,
+            //     Date = newEvent.Date,
+            //     Location = newEvent.Location,
+            //     Creator = _mapper.Map<MemberDto, AppUser>(newEvent.Creator),
+            //     MainPhoto = _mapper.Map<PhotoDto, Photo>(newEvent.MainPhoto)
+            //     // Organisers = _mapper.Map<ICollection<AppUser>, ICollection<MemberDto>>(newEvent.Organisers),
+            //     // Attendees = _mapper.Map<ICollection<AppUser>, ICollection<MemberDto>>(newEvent.Attendees)
 
-            };
+            // };
 
-            return createdEvent;
+            await _eventsRepository.CreateEvent(createdEvent);
+
+            
+    
+
+        return newEvent;
+
+            
 
         }
 

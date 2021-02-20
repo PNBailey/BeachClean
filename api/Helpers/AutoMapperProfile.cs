@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using api.Controllers;
 using api.DTOs;
@@ -12,11 +13,19 @@ namespace api.Helpers
         public AutoMapperProfile() {
             CreateMap<AppUser, MemberDto>();
 
+            CreateMap<MemberDto, AppUser>();
+
             CreateMap<Photo, PhotoDto>();
+
+            CreateMap<PhotoDto, Photo>();
 
             CreateMap<MemberUpdateDto, AppUser>();
 
             CreateMap<Event, EventDto>();
+
+             CreateMap<EventDto, Event>();
+
+            CreateMap<ICollection<AppUser>, ICollection<MemberDto>>();
             
         }
     }

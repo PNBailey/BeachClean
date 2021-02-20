@@ -33,7 +33,7 @@ export class CreateEventComponent implements OnInit {
 
   initializeForm() {
     this.createEventForm = this.formBuilder.group({
-      eventName: ['', Validators.required],
+      name: ['', Validators.required],
       location: ['', Validators.required],
       eventDate: ['', Validators.required],
       eventTime: ['', Validators.required],
