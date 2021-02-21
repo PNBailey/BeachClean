@@ -8,6 +8,8 @@ namespace api.DTOs
     {
         public string Name { get; set; }
 
+        public int Id { get; set; }
+
         public DateTime Date { get; set; }
 
         public string Location { get; set; }
