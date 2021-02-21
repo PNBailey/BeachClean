@@ -34,7 +34,7 @@ namespace api.Entities
 
         public ICollection<Event> CreatedEvents { get; set; }
 
-        public ICollection<Event> OgranisedEvents { get; set; }
+        public ICollection<Event> OrganisedEvents { get; set; }
 
         public ICollection<Event> AttendingEvents { get; set; }
 

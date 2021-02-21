@@ -43,11 +43,19 @@ namespace api.Data
 
             builder.Entity<Event>()
                 .HasMany(e => e.Organisers)
-                .WithMany(u => u.OgranisedEvents);
+                .WithMany(u => u.OrganisedEvents);
 
             builder.Entity<Event>()
                 .HasMany(e => e.Attendees)
                 .WithMany(u => u.AttendingEvents);
+
+            builder.Entity<AppUser>()
+                .HasMany(e => e.AttendingEvents)
+                .WithMany(e => e.Attendees);
+
+            builder.Entity<AppUser>()
+                .HasMany(e => e.OrganisedEvents)
+                .WithMany(e => e.Organisers);
 
                 
         }
