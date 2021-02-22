@@ -5,13 +5,16 @@
 <hr>
 <div>
     <div class="container">
-        <div class="card">
-            <img class="card-img-top img-thumbnail"
-                src="{{eventPhotoUrl || '../../assets/images/Placeholder user image.jpg'}}" alt="xx">
+      <!--   <div class="card">
+            <img
+              class="card-img-top img-thumbnail"
+              [src]="eventPhotoUrl"
+              alt="xx">
             <div class="card-body">
                 Change Photo
                 <input class="Choose-file-btn" type="file" ng2FileSelect [uploader]="uploader" />
-                <button type="button" class="btn btn-success btn-s" (click)="uploader.uploadAll()"
+                <div class="uploader-buttons">
+                    <button type="button" class="btn btn-success btn-s" (click)="uploader.uploadAll()"
                     [disabled]="!uploader.getNotUploadedItems().length">
                     <span class="fa fa-upload"></span> Upload
                 </button>
@@ -23,8 +26,9 @@
                     [disabled]="!uploader.queue.length">
                     <span class="fa fa-trash"></span> Remove
                 </button>
+                </div>
             </div>
-        </div>
+        </div> -->
         <form [formGroup]="createEventForm" (ngSubmit)="createEvent()" autocomplete="off">
             <ul class="form-container">
                 <li>
@@ -36,17 +40,17 @@
                     </app-text-input>
                 </li>
                 <li>
-                    <app-date-input [formControl]="createEventForm.controls['eventDate']" [label]='"Event date"'
+                    <app-date-input [formControl]="createEventForm.controls['Date']" [label]='"Event date"'
                         [minDate]="minDate"></app-date-input>
                 </li>
                 <!-- <li>
                     <app-text-input [formControl]="createEventForm.controls['organisers']" [label]='"Organisers"'></app-text-input>
                 </li> -->
+                <div class="buttons-container">
+                    <button [disabled]="!createEventForm.dirty" class="create-event-form-btn btn btn-success btn-block" type="submit">Create Event</button>
+                    <button class="btn btn-warning" [routerLink]="['../']">Cancel</button>
+                </div>
             </ul>
-            <div class="buttons-container">
-                <button [disabled]="!createEventForm.dirty" class="create-event-form-btn btn btn-success btn-block" type="submit">Create Event</button>
-                <button class="btn btn-warning" [routerLink]="['../']">Cancel</button>
-            </div>
         </form>
     </div>
 </div>

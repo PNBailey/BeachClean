@@ -58,7 +58,7 @@ namespace api.Controllers
 
         [HttpPost("{add-photo}")]
 
-        public async Task<ActionResult<PhotoDto>> AddPhoto(IFormFile file)
+        public async Task<ActionResult<PhotoDto>> AddUserPhoto(IFormFile file)
         {
             var user = await _userRepository.GetUserByUsernameAsync(User.GetUsername());
 

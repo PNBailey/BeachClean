@@ -28,6 +28,7 @@ import { TimeagoModule } from 'ngx-timeago';
 import { CreateEventComponent } from './events/create-event/create-event.component';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { DateInputComponent } from './date-input/date-input.component';
+import { EditEventComponent } from './events/edit-event/edit-event.component';
  
 
 
@@ -45,7 +46,8 @@ import { DateInputComponent } from './date-input/date-input.component';
     MemberCardComponent,
     MemberDetailComponent,
     CreateEventComponent,
-    DateInputComponent
+    DateInputComponent,
+    EditEventComponent
     
   ],
   imports: [

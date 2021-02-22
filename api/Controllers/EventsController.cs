@@ -45,6 +45,14 @@ namespace api.Controllers
                 return BadRequest("Event already exists!");
             }
 
+            if(newEvent.MainPhoto.url != null) {
+                var mainEventPhoto = new Photo {
+                Url = newEvent.MainPhoto.url
+            };
+            }
+
+           
+
             // var createdEvent = _mapper.Map<EventDto, Event>(newEvent);
 
             var createdEvent = new Event
@@ -53,8 +61,8 @@ namespace api.Controllers
                 Date = newEvent.Date,
                 Location = newEvent.Location,
                 Creator = currUser,
-                CreatorId = currUser.Id,
-                MainPhoto = _mapper.Map<PhotoDto, Photo>(newEvent.MainPhoto)
+                CreatorId = currUser.Id
+                // MainPhoto = mainEventPhoto
 
                 // Organisers = _mapper.Map<ICollection<AppUser>, ICollection<MemberDto>>(newEvent.Organisers),
                 // Attendees = _mapper.Map<ICollection<AppUser>, ICollection<MemberDto>>(newEvent.Attendees)
@@ -84,31 +92,34 @@ namespace api.Controllers
             return Ok(events);
         }
 
-        [HttpPost("add-photo/{id}")]
-        public async Task<ActionResult<PhotoDto>> AddPhoto(IFormFile file, int id)
-        {
-            var existingEvent = await _eventsRepository.GetEventByIdAsync(id);
+        // [HttpPost("add-photo/{id}")]
+        // public async Task<ActionResult<PhotoDto>> AddPhoto(IFormFile file, int id)
+        // {
+        //     var existingEvent = await _eventsRepository.GetEventByIdAsync(id);
 
-            var result = await _photoService.AddPhotoAsync(file);
+        //     var result = await _photoService.AddPhotoAsync(file);
 
-            if (result.Error != null) return BadRequest(result.Error.Message);
+        //     if (result.Error != null) return BadRequest(result.Error.Message);
 
-            var photo = new Photo
-            {
-                Url = result.SecureUrl.AbsoluteUri,
-                publicId = result.PublicId
+        //     var photo = new Photo
+        //     {
+        //         Url = result.SecureUrl.AbsoluteUri,
+        //         publicId = result.PublicId
 
-            };
+        //     };
 
-            existingEvent.EventPhotos.Add(photo);
+        //     existingEvent.EventPhotos.Add(photo);
 
-            if (await _eventsRepository.SaveAllAsync())
-            {
-                return CreatedAtRoute("GetEvent", new { eventId = existingEvent.Id }, _mapper.Map<Photo, PhotoDto>(photo));
-            }
+        //     if (await _eventsRepository.SaveAllAsync())
+        //     {
+        //         return CreatedAtRoute("GetEvent", new { eventId = existingEvent.Id }, _mapper.Map<Photo, PhotoDto>(photo));
+        //     }
 
-            return BadRequest("Unable to upload photo");
-        }
+        //     return BadRequest("Unable to upload photo");
+        // }
+
+
+        
 
     }
 }

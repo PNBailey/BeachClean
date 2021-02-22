@@ -17,6 +17,8 @@ namespace api.Data
 
         public DbSet<Event> Events { get; set; }
 
+        public DbSet<UserEvents> UserEvents { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder) 
         {
              base.OnModelCreating(builder); 
@@ -35,27 +37,21 @@ namespace api.Data
                 .HasForeignKey(s => s.LikedUserId)
                 .OnDelete(DeleteBehavior.Cascade); 
 
-            builder.Entity<Event>()
-                .HasOne(e => e.Creator)
-                .WithMany(e => e.CreatedEvents)
-                .HasForeignKey(e => e.CreatorId)
+            builder.Entity<UserEvents>()
+                .HasKey(key => new {key.OrganiserId, key.EventId});
+
+            builder.Entity<UserEvents>()
+                .HasOne(e => e.Organiser)
+                .WithMany(e => e.OrganisedEvents)
+                .HasForeignKey(e => e.OrganiserId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            builder.Entity<Event>()
-                .HasMany(e => e.Organisers)
-                .WithMany(u => u.OrganisedEvents);
+            builder.Entity<UserEvents>()
+                .HasOne(e => e.Event)
+                .WithMany(e => e.Organisers)
+                .HasForeignKey(e => e.EventId)
+                .OnDelete(DeleteBehavior.Cascade);
 
-            builder.Entity<Event>()
-                .HasMany(e => e.Attendees)
-                .WithMany(u => u.AttendingEvents);
-
-            builder.Entity<AppUser>()
-                .HasMany(e => e.AttendingEvents)
-                .WithMany(e => e.Attendees);
-
-            builder.Entity<AppUser>()
-                .HasMany(e => e.OrganisedEvents)
-                .WithMany(e => e.Organisers);
 
                 
         }

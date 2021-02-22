@@ -16,7 +16,7 @@ export class CreateEventComponent implements OnInit {
   uploader: FileUploader;
   baseUrl: string = "https://localhost:5001/api";
   currentUser: User;
-  eventPhotoUrl: string;
+  // eventPhotoUrl = "../../assets/images/Picture-icon.png";
 
   constructor(private formBuilder: FormBuilder, private accountService: AccountService) { }
 
@@ -35,21 +35,23 @@ export class CreateEventComponent implements OnInit {
     this.createEventForm = this.formBuilder.group({
       name: ['', Validators.required],
       location: ['', Validators.required],
-      eventDate: ['', Validators.required],
-      eventTime: ['', Validators.required],
-      organisers: [''],
+      Date: ['', Validators.required],
+      Time: ['', Validators.required],
+      // MainPhoto: [''],
+      organisers: ['']
 
     })
   }
 
   createEvent() {
-    console.log("submitted")
+    // this.createEventForm.patchValue({MainPhoto: {url: this.eventPhotoUrl}});
     this.accountService.addEvent(this.createEventForm.value).subscribe(eventDto => {
       console.log(eventDto);
     } );
   }
 
   initializeUploader() {
+    
     this.uploader = new FileUploader({
      url: this.baseUrl + '/users/add-photo',
      authToken: 'Bearer ' + this.currentUser.token,
@@ -66,7 +68,7 @@ export class CreateEventComponent implements OnInit {
    this.uploader.onSuccessItem = (item, response, status, headers) => {
      if (response) {
        const photo = JSON.parse(response); // This gets the photo from the JSON data that is retrieved from the response 
-       this.eventPhotoUrl = photo.url;
+      //  this.eventPhotoUrl = photo.url;
      }
    }
 

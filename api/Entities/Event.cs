@@ -16,13 +16,10 @@ namespace api.Entities
         public DateTime Date { get; set; }
         public string Location { get; set; }
 
-        public ICollection<AppUser> Organisers { get; set; }
+        public ICollection<UserEvents> Organisers { get; set; }
 
-        public ICollection<AppUser> Attendees { get; set; }
+        public ICollection<Event> Attendees { get; set; }
 
-        public ICollection<Photo> EventPhotos { get; set; }
-
-        public Photo MainPhoto { get; set; }
 
     }
 }
