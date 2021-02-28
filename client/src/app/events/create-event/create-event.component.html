@@ -29,7 +29,10 @@
                 </div>
             </div>
         </div> -->
-        <form [formGroup]="createEventForm" (ngSubmit)="createEvent()" autocomplete="off">
+        <div *ngIf="currentUser === null" class="redirection-container">
+            You must log in to create an event! Redirecting to log in page...
+        </div>
+        <form *ngIf="currentUser != null" [formGroup]="createEventForm" (ngSubmit)="createEvent()" autocomplete="off">
             <ul class="form-container">
                 <li>
                     <app-text-input [formControl]="createEventForm.controls['name']" [label]='"Event name"'>

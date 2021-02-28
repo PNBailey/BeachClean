@@ -19,6 +19,8 @@ namespace api.Data
 
         public DbSet<UserEvents> UserEvents { get; set; }
 
+        public DbSet<EventUsers> EventUsers { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder) 
         {
              base.OnModelCreating(builder); 
@@ -52,8 +54,25 @@ namespace api.Data
                 .HasForeignKey(e => e.EventId)
                 .OnDelete(DeleteBehavior.Cascade);
 
+            builder.Entity<EventUsers>()
+                .HasKey(key => new {key.AttendeeId, key.AttendingEventId});
 
-                
+            builder.Entity<EventUsers>()
+                .HasOne(e => e.Attendee)
+                .WithMany(e => e.AttendingEvents)
+                .HasForeignKey(e => e.AttendeeId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<EventUsers>()
+                .HasOne(e => e.AttendingEvent)
+                .WithMany(e => e.Attendees)
+                .HasForeignKey(e => e.AttendingEventId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<Event>()
+                .HasOne(e => e.Creator)
+                .WithMany(e => e.CreatedEvents)
+                .HasForeignKey(e => e.CreatorId);
         }
 
       

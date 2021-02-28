@@ -18,7 +18,7 @@ namespace api.Entities
 
         public ICollection<UserEvents> Organisers { get; set; }
 
-        public ICollection<Event> Attendees { get; set; }
+        public ICollection<EventUsers> Attendees { get; set; }
 
 
     }
