@@ -10,7 +10,7 @@ namespace api.Interfaces
     {
         Task<bool> CreateEvent(Event newEvent);
 
-        Task<IEnumerable<Event>> GetEventsAsync();
+        Task<IEnumerable<EventDto>> GetEventsAsync();
 
         Task<Event> GetEventByIdAsync(int eventId);
 

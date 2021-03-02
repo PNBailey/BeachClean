@@ -26,6 +26,10 @@ namespace api.Helpers
              CreateMap<EventDto, Event>();
 
             CreateMap<ICollection<AppUser>, ICollection<MemberDto>>();
+
+            CreateMap<EventUsers, MemberDto>();
+
+            CreateMap<UserEvents, MemberDto>();
             
         }
     }

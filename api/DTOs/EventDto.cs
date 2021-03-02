@@ -20,7 +20,7 @@ namespace api.DTOs
 
         public MemberDto Creator { get; set; }
 
-        // public ICollection<MemberDto> Organisers { get; set; }
+        public ICollection<MemberDto> Organisers { get; set; }
 
         public ICollection<MemberDto> Attendees { get; set; }
         
