@@ -45,7 +45,7 @@ namespace api.Controllers
                 return BadRequest("Event already exists!");
             }
 
-            if(newEvent.MainPhoto.url != null) {
+            if(newEvent.MainPhoto != null) {
                 var mainEventPhoto = new Photo {
                 Url = newEvent.MainPhoto.url
             };
@@ -62,6 +62,7 @@ namespace api.Controllers
                 Location = newEvent.Location,
                 Creator = currUser,
                 CreatorId = currUser.Id
+
                 // MainPhoto = mainEventPhoto
 
                 // Organisers = _mapper.Map<ICollection<AppUser>, ICollection<MemberDto>>(newEvent.Organisers),
@@ -85,7 +86,7 @@ namespace api.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<EventDto>>> GetAllEvents()
+        public async Task<ActionResult<IEnumerable<Event>>> GetAllEvents()
         {
             var events = await _eventsRepository.GetEventsAsync();
 

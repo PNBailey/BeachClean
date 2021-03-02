@@ -39,6 +39,12 @@ namespace api.Data
                 .HasForeignKey(s => s.LikedUserId)
                 .OnDelete(DeleteBehavior.Cascade); 
 
+            
+            builder.Entity<Event>()
+                .HasOne(e => e.Creator)
+                .WithMany(e => e.CreatedEvents)
+                .HasForeignKey(e => e.CreatorId);
+
             builder.Entity<UserEvents>()
                 .HasKey(key => new {key.OrganiserId, key.EventId});
 
@@ -69,10 +75,7 @@ namespace api.Data
                 .HasForeignKey(e => e.AttendingEventId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            builder.Entity<Event>()
-                .HasOne(e => e.Creator)
-                .WithMany(e => e.CreatedEvents)
-                .HasForeignKey(e => e.CreatorId);
+           
         }
 
       

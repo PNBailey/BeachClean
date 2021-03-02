@@ -37,10 +37,10 @@ namespace api.Data
             .FirstOrDefaultAsync();
         }
 
-        public async Task<IEnumerable<EventDto>> GetEventsAsync()
+        public async Task<IEnumerable<Event>> GetEventsAsync()
         {
             return await _context.Events
-            .ProjectTo<EventDto>(_mapper.ConfigurationProvider)
+            // .ProjectTo<EventDto>(_mapper.ConfigurationProvider)
             .ToListAsync();
         }
 
