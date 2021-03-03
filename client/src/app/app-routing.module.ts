@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { EditProfileComponent } from './edit-profile/edit-profile.component';
 import { CreateEventComponent } from './events/create-event/create-event.component';
+import { EditEventComponent } from './events/edit-event/edit-event.component';
 import { FriendsComponent } from './friends/friends.component';
 import { AuthGuard } from './guards/auth.guard';
 import { PreventUnsavedChangesGuard } from './guards/prevent-unsaved-changes.guard';
@@ -19,6 +20,7 @@ const routes: Routes = [
   {path: 'friends', component: FriendsComponent},
   {path: 'friends/:username', component: MemberDetailComponent},
   {path: 'create-event', component: CreateEventComponent},
+  {path: 'edit-event/:id', component: EditEventComponent},
   {path: '**', component: HomeComponent, pathMatch: 'full'}
   
 

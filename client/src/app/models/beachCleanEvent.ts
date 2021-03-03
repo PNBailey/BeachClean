@@ -1,10 +1,10 @@
 import { Member } from "./member";
 
-export class Event {
-    creator: Member;
+export class beachCleanEvent {
+    creator: {};
     name: string;
     location: string;
     date: Date;
-    // organisers: string;
+    
 
 }

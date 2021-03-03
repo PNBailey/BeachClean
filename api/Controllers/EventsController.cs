@@ -64,13 +64,13 @@ namespace api.Controllers
 
         }
 
-        [HttpGet("{eventId}", Name = "GetEvent")]
+        [HttpGet("{id}", Name = "GetEvent")]
 
-        public async Task<ActionResult<EventDto>> GetEventById(int eventId)
+        public async Task<ActionResult<EventDto>> GetEventById(int id)
         {
-            var existingEvent = await _eventsRepository.GetEventByIdAsync(eventId);
+            var existingEvent = await _eventsRepository.GetEventByIdAsync(id);
 
-            return _mapper.Map<Event, EventDto>(existingEvent);
+            return existingEvent;
         }
 
         [HttpGet]

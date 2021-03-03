@@ -7,6 +7,7 @@ import { Member } from '../models/member';
 import { PaginatedResult } from '../models/pagination';
 import { UserParams } from '../models/userParams';
 import { LikesParams } from '../models/likesParams';
+import { beachCleanEvent } from '../models/beachCleanEvent';
 
 
 @Injectable({
@@ -164,6 +165,10 @@ export class AccountService {
 
     addEvent(event: Event) {
      return this.http.post(this.baseUrl + '/events', event);
+    }
+
+    getEvent(id: Number) {
+      return this.http.get<beachCleanEvent>(`${this.baseUrl}/events/${id}`);
     }
 
 }

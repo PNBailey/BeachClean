@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { FileUploader } from 'ng2-file-upload';
 import { take } from 'rxjs/operators';
+import { beachCleanEvent } from 'src/app/models/beachCleanEvent';
 import { User } from 'src/app/models/user';
 import { AccountService } from 'src/app/shared/account.service';
 
@@ -18,18 +20,21 @@ export class EditEventComponent implements OnInit {
   uploader: FileUploader;
   baseUrl: string = "https://localhost:5001/api";
   eventPhotoUrl = "../../assets/images/Picture-icon.png";
-  event: Event;
+  event: beachCleanEvent;
 
-  constructor(private accountService: AccountService, private formBuilder: FormBuilder, private fileUploader: FileUploader) { }
+  constructor(private accountService: AccountService, private formBuilder: FormBuilder, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
+    this.accountService.getEvent(this.route.snapshot.params['id']).subscribe(event => {
+      this.event = event;
+    });
     this.accountService.currentUserSource.pipe(take(1)).subscribe(user => {
       this.currentUser = user;
     });
     this.minDate = new Date();
     this.initializeForm();
     this.initializeUploader();
-
+    
 
   }
 
