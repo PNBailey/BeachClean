@@ -27,12 +27,10 @@ namespace api.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<EventDto>> CreateEvent(EventDto newEvent)
+        public async Task<ActionResult<int>> CreateEvent(EventDto newEvent)
         {
 
             var currUser = await _userRepository.GetUserByUsernameAsync(User.GetUsername());
-
-            // newEvent.Creator = _mapper.Map<AppUser, MemberDto>(currUser);
 
             var events = await _eventsRepository.GetEventsAsync();
 
@@ -45,16 +43,13 @@ namespace api.Controllers
                 return BadRequest("Event already exists!");
             }
 
-            if(newEvent.MainPhoto != null) {
-                var mainEventPhoto = new Photo {
-                Url = newEvent.MainPhoto.url
-            };
-            }
+            // if(newEvent.MainPhoto != null) {
+            //     var mainEventPhoto = new Photo {
+            //     Url = newEvent.MainPhoto.url
+            // };
+            // }
 
            
-
-            // var createdEvent = _mapper.Map<EventDto, Event>(newEvent);
-
             var createdEvent = new Event
             {
                 Name = newEvent.Name,
@@ -63,16 +58,9 @@ namespace api.Controllers
                 Creator = currUser,
                 CreatorId = currUser.Id
 
-                // MainPhoto = mainEventPhoto
-
-                // Organisers = _mapper.Map<ICollection<AppUser>, ICollection<MemberDto>>(newEvent.Organisers),
-                // Attendees = _mapper.Map<ICollection<AppUser>, ICollection<MemberDto>>(newEvent.Attendees)
-
             };
 
-            await _eventsRepository.CreateEvent(createdEvent);
-
-            return newEvent;
+           return await _eventsRepository.CreateEvent(createdEvent);
 
         }
 

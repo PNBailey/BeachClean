@@ -21,12 +21,16 @@ namespace api.Data
             _context = context;
         }
 
-        public async Task<bool> CreateEvent(Event newEvent)
+        public async Task<int> CreateEvent(Event newEvent)
         {
 
             _context.Events.Add(newEvent);
 
-            return await _context.SaveChangesAsync() > 0;
+            await _context.SaveChangesAsync();
+
+            return newEvent.Id;
+
+
 
         }
 

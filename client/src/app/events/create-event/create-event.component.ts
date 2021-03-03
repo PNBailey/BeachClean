@@ -55,8 +55,8 @@ export class CreateEventComponent implements OnInit {
 
   createEvent() {
     // this.createEventForm.patchValue({MainPhoto: {url: this.eventPhotoUrl}});
-    this.accountService.addEvent(this.createEventForm.value).subscribe(eventDto => {
-      console.log(eventDto);
+    this.accountService.addEvent(this.createEventForm.value).subscribe(eventId => {
+      console.log(eventId);
     } );
   }
 

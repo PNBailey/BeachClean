@@ -8,7 +8,7 @@ namespace api.Interfaces
 {
     public interface IEventsRepository
     {
-        Task<bool> CreateEvent(Event newEvent);
+        Task<int> CreateEvent(Event newEvent);
 
         Task<IEnumerable<EventDto>> GetEventsAsync();
 
