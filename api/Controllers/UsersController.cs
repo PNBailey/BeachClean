@@ -66,7 +66,7 @@ namespace api.Controllers
 
             if (result.Error != null) return BadRequest(result.Error.Message);
 
-            var photo = new Photo
+            var photo = new UserPhoto
             {
                 Url = result.SecureUrl.AbsoluteUri,
                 publicId = result.PublicId
@@ -77,7 +77,7 @@ namespace api.Controllers
 
             if (await _userRepository.SaveAllAsync())
             {
-                return CreatedAtRoute("GetUser", new { username = user.UserName }, _mapper.Map<Photo, PhotoDto>(photo));
+                return CreatedAtRoute("GetUser", new { username = user.UserName }, _mapper.Map<UserPhoto, PhotoDto>(photo));
             }
 
             return BadRequest("Unable to upload photo");

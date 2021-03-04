@@ -22,7 +22,7 @@ namespace api.Entities
 
         public string Occupation { get; set; }
 
-        public Photo Photo { get; set; }
+        public UserPhoto Photo { get; set; }
 
         public byte[] PasswordHash { get; set; } 
 

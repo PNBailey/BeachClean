@@ -163,7 +163,7 @@ export class AccountService {
       
     }
 
-    addEvent(event: Event) {
+    addEvent(event: beachCleanEvent) {
      return this.http.post(this.baseUrl + '/events', event);
     }
 

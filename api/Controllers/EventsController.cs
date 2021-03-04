@@ -70,7 +70,9 @@ namespace api.Controllers
         {
             var existingEvent = await _eventsRepository.GetEventByIdAsync(id);
 
-            return existingEvent;
+            var existingEventDto = _mapper.Map<Event, EventDto>(existingEvent);
+
+            return existingEventDto;
         }
 
         [HttpGet]
@@ -78,34 +80,36 @@ namespace api.Controllers
         {
             var events = await _eventsRepository.GetEventsAsync();
 
+
             return Ok(events);
         }
 
-        // [HttpPost("add-photo/{id}")]
-        // public async Task<ActionResult<PhotoDto>> AddPhoto(IFormFile file, int id)
-        // {
-        //     var existingEvent = await _eventsRepository.GetEventByIdAsync(id);
+        [HttpPost("add-photo/{id}")]
+        public async Task<ActionResult<PhotoDto>> AddPhoto(IFormFile file, int id)
+        {
+            var existingEvent = await _eventsRepository.GetEventByIdAsync(id);
 
-        //     var result = await _photoService.AddPhotoAsync(file);
+            var result = await _photoService.AddPhotoAsync(file);
 
-        //     if (result.Error != null) return BadRequest(result.Error.Message);
+            if (result.Error != null) return BadRequest(result.Error.Message);
 
-        //     var photo = new Photo
-        //     {
-        //         Url = result.SecureUrl.AbsoluteUri,
-        //         publicId = result.PublicId
+            var photo = new EventPhoto
+            {
+                Url = result.SecureUrl.AbsoluteUri,
+                publicId = result.PublicId
 
-        //     };
+            };
 
-        //     existingEvent.EventPhotos.Add(photo);
+            existingEvent.Photos = existingEvent.Photos ?? new List<EventPhoto>();
+            existingEvent.Photos.Add(photo);
 
-        //     if (await _eventsRepository.SaveAllAsync())
-        //     {
-        //         return CreatedAtRoute("GetEvent", new { eventId = existingEvent.Id }, _mapper.Map<Photo, PhotoDto>(photo));
-        //     }
+            if (await _eventsRepository.SaveAllAsync())
+            {
+                return CreatedAtRoute("GetEvent", new { eventId = existingEvent.Id }, _mapper.Map<EventPhoto, PhotoDto>(photo));
+            }
 
-        //     return BadRequest("Unable to upload photo");
-        // }
+            return BadRequest("Unable to upload photo");
+        }
 
 
         

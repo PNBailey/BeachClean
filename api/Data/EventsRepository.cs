@@ -34,11 +34,11 @@ namespace api.Data
 
         }
 
-        public async Task<EventDto> GetEventByIdAsync(int eventId)
+        public async Task<Event> GetEventByIdAsync(int eventId)
         {
             return await _context.Events
             .Where(e => e.Id == eventId)
-            .ProjectTo<EventDto>(_mapper.ConfigurationProvider)
+            // .ProjectTo<EventDto>(_mapper.ConfigurationProvider)
             .FirstOrDefaultAsync();
         }
 

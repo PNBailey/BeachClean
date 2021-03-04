@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using api.Data;
 
 namespace api.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20210304152745_removingandaddingagain")]
+    partial class removingandaddingagain
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -79,28 +81,6 @@ namespace api.Data.Migrations
                     b.ToTable("Events");
                 });
 
-            modelBuilder.Entity("api.Entities.EventPhoto", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("EventId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Url")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("publicId")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("EventId");
-
-                    b.ToTable("EventPhoto");
-                });
-
             modelBuilder.Entity("api.Entities.EventUsers", b =>
                 {
                     b.Property<int>("AttendeeId")
@@ -114,6 +94,34 @@ namespace api.Data.Migrations
                     b.HasIndex("AttendingEventId");
 
                     b.ToTable("EventUsers");
+                });
+
+            modelBuilder.Entity("api.Entities.Photo", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("AppUserId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("EventId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Url")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("publicId")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AppUserId")
+                        .IsUnique();
+
+                    b.HasIndex("EventId");
+
+                    b.ToTable("Photos");
                 });
 
             modelBuilder.Entity("api.Entities.UserEvents", b =>
@@ -146,29 +154,6 @@ namespace api.Data.Migrations
                     b.ToTable("Likes");
                 });
 
-            modelBuilder.Entity("api.Entities.UserPhoto", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("AppUserId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Url")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("publicId")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AppUserId")
-                        .IsUnique();
-
-                    b.ToTable("UserPhoto");
-                });
-
             modelBuilder.Entity("api.Entities.Event", b =>
                 {
                     b.HasOne("api.Entities.AppUser", "Creator")
@@ -178,17 +163,6 @@ namespace api.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("Creator");
-                });
-
-            modelBuilder.Entity("api.Entities.EventPhoto", b =>
-                {
-                    b.HasOne("api.Entities.Event", "Event")
-                        .WithMany("Photos")
-                        .HasForeignKey("EventId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Event");
                 });
 
             modelBuilder.Entity("api.Entities.EventUsers", b =>
@@ -208,6 +182,21 @@ namespace api.Data.Migrations
                     b.Navigation("Attendee");
 
                     b.Navigation("AttendingEvent");
+                });
+
+            modelBuilder.Entity("api.Entities.Photo", b =>
+                {
+                    b.HasOne("api.Entities.AppUser", "AppUser")
+                        .WithOne("Photo")
+                        .HasForeignKey("api.Entities.Photo", "AppUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("api.Entities.Event", null)
+                        .WithMany("Photos")
+                        .HasForeignKey("EventId");
+
+                    b.Navigation("AppUser");
                 });
 
             modelBuilder.Entity("api.Entities.UserEvents", b =>
@@ -246,17 +235,6 @@ namespace api.Data.Migrations
                     b.Navigation("LikedUser");
 
                     b.Navigation("SourceUser");
-                });
-
-            modelBuilder.Entity("api.Entities.UserPhoto", b =>
-                {
-                    b.HasOne("api.Entities.AppUser", "AppUser")
-                        .WithOne("Photo")
-                        .HasForeignKey("api.Entities.UserPhoto", "AppUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("AppUser");
                 });
 
             modelBuilder.Entity("api.Entities.AppUser", b =>

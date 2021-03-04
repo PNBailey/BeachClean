@@ -20,6 +20,8 @@ namespace api.Entities
 
         public ICollection<EventUsers> Attendees { get; set; }
 
+        public ICollection<EventPhoto> Photos { get; set; }
+
 
     }
 }

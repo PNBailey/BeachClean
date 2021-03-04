@@ -21,19 +21,24 @@ export class EditEventComponent implements OnInit {
   baseUrl: string = "https://localhost:5001/api";
   eventPhotoUrl = "../../assets/images/Picture-icon.png";
   event: beachCleanEvent;
+  eventId: number;
 
   constructor(private accountService: AccountService, private formBuilder: FormBuilder, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
+    this.eventId = this.route.snapshot.params['id'];
+    console.log(this.eventId);
     this.accountService.getEvent(this.route.snapshot.params['id']).subscribe(event => {
       this.event = event;
+      this.initializeUploader();
+      console.log(this.event);
     });
     this.accountService.currentUserSource.pipe(take(1)).subscribe(user => {
       this.currentUser = user;
     });
     this.minDate = new Date();
     this.initializeForm();
-    this.initializeUploader();
+   
     
 
   }
@@ -57,7 +62,7 @@ export class EditEventComponent implements OnInit {
       initializeUploader() {
     
     this.uploader = new FileUploader({
-     url: this.baseUrl + '/users/add-photo',
+     url: `${this.baseUrl}/events/add-photo/${this.eventId}`,
      authToken: 'Bearer ' + this.currentUser.token,
      isHTML5: true,
      allowedFileType: ['image'],
