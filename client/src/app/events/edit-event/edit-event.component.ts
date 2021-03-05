@@ -27,11 +27,9 @@ export class EditEventComponent implements OnInit {
 
   ngOnInit(): void {
     this.eventId = this.route.snapshot.params['id'];
-    console.log(this.eventId);
     this.accountService.getEvent(this.route.snapshot.params['id']).subscribe(event => {
       this.event = event;
       this.initializeUploader();
-      console.log(this.event);
     });
     this.accountService.currentUserSource.pipe(take(1)).subscribe(user => {
       this.currentUser = user;
@@ -78,6 +76,7 @@ export class EditEventComponent implements OnInit {
      if (response) {
        const photo = JSON.parse(response); // This gets the photo from the JSON data that is retrieved from the response 
        this.eventPhotoUrl = photo.url;
+       console.log(response);
      }
    }
 

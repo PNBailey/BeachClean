@@ -105,7 +105,7 @@ namespace api.Controllers
 
             if (await _eventsRepository.SaveAllAsync())
             {
-                return CreatedAtRoute("GetEvent", new { eventId = existingEvent.Id }, _mapper.Map<EventPhoto, PhotoDto>(photo));
+                return CreatedAtRoute("GetEvent", new { id = existingEvent.Id }, _mapper.Map<EventPhoto, PhotoDto>(photo));
             }
 
             return BadRequest("Unable to upload photo");
