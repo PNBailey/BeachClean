@@ -52,7 +52,7 @@ export class CreateEventComponent implements OnInit {
   }
 
   createEvent() {
-    // this.createEventForm.patchValue({MainPhoto: {url: this.eventPhotoUrl}});
+    
     this.accountService.addEvent(this.createEventForm.value).subscribe(eventId => {
       this.route.navigate(['../edit-event/', eventId]);
     } );

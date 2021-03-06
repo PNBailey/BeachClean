@@ -6,6 +6,8 @@ namespace api.DTOs
 
         public string url { get; set; }
 
+        public bool mainPhoto { get; set; }
+
 
     }
 }

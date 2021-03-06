@@ -38,6 +38,7 @@ namespace api.Data
         {
             return await _context.Events
             .Where(e => e.Id == eventId)
+            .Include(e => e.Photos)
             // .ProjectTo<EventDto>(_mapper.ConfigurationProvider)
             .FirstOrDefaultAsync();
         }

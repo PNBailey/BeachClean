@@ -48,7 +48,8 @@ namespace api.Controllers
             //     Url = newEvent.MainPhoto.url
             // };
             // }
-
+            
+        //    var newEventDate = newEvent.Date.ToShortDateString();
            
             var createdEvent = new Event
             {
@@ -99,6 +100,10 @@ namespace api.Controllers
                 publicId = result.PublicId
 
             };
+
+            if(existingEvent.Photos.Count == 0) {
+                photo.MainPhoto = true;
+            }
 
             existingEvent.Photos = existingEvent.Photos ?? new List<EventPhoto>();
             existingEvent.Photos.Add(photo);

@@ -17,8 +17,9 @@
 
 .form-container li {
     list-style: none;
-    display: flex;
-    justify-content: center;
+    /* display: flex;
+    justify-content: center; */
+    width: 300px;
 }
 
 .form-container > li > label {
@@ -48,6 +49,11 @@
     margin-right: 19px;
 }
 
+
+.uploader-buttons > button {
+    margin-left: 6px;
+}
+
 .create-event-form-btn {
     background-color: blue;
     color: white;
@@ -57,15 +63,17 @@
 
 .buttons-container {
     display: flex;
-    justify-content: center;
     margin-top: 10px;
 }
 
+.buttons-container > button {
+   margin-right: 8px;
+}
+
 button {
-    margin-left: 6px;
     margin-top: 10px;
-    display: flex;
-    justify-content: center;
+    /* display: flex;
+    justify-content: center; */
 }
 
 input {
@@ -78,3 +86,9 @@ input {
 .Choose-file-btn {
     margin-top: 8px;
 }
+
+.top-input {
+    margin-top: 20px;
+}
+
+

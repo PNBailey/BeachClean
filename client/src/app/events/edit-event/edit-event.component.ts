@@ -19,7 +19,7 @@ export class EditEventComponent implements OnInit {
   minDate: Date;
   uploader: FileUploader;
   baseUrl: string = "https://localhost:5001/api";
-  eventPhotoUrl = "../../assets/images/Picture-icon.png";
+  eventPhotoUrl: string;
   event: beachCleanEvent;
   eventId: number;
 
@@ -27,9 +27,14 @@ export class EditEventComponent implements OnInit {
 
   ngOnInit(): void {
     this.eventId = this.route.snapshot.params['id'];
-    this.accountService.getEvent(this.route.snapshot.params['id']).subscribe(event => {
+    this.accountService.getEvent(this.eventId).subscribe(event => {
       this.event = event;
       this.initializeUploader();
+      this.eventPhotoUrl = event.photos.find(x => x.mainPhoto).url;
+      this.editEventForm.patchValue({name: event.name});
+      this.editEventForm.patchValue({location: event.location});
+      this.editEventForm.patchValue({Date: event.date});
+      console.log(event);
     });
     this.accountService.currentUserSource.pipe(take(1)).subscribe(user => {
       this.currentUser = user;
@@ -76,8 +81,7 @@ export class EditEventComponent implements OnInit {
      if (response) {
        const photo = JSON.parse(response); // This gets the photo from the JSON data that is retrieved from the response 
        this.eventPhotoUrl = photo.url;
-       console.log(response);
-     }
+       }
    }
 
  }

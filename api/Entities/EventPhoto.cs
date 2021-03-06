@@ -12,6 +12,8 @@ namespace api.Entities
 
         public string Url { get; set; }
 
+        public bool MainPhoto { get; set; }
+
         public Event Event { get; set; }
 
         public int EventId { get; set; }
