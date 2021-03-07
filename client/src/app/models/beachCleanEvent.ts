@@ -5,6 +5,7 @@ export class beachCleanEvent {
     creator: {};
     name: string;
     location: string;
+    mainPhotoUrl: string;
     date: Date;
     photos: Photo[];
 

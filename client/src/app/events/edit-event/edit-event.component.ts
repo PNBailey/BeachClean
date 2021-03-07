@@ -30,16 +30,18 @@ export class EditEventComponent implements OnInit {
     this.accountService.getEvent(this.eventId).subscribe(event => {
       this.event = event;
       this.initializeUploader();
-      this.eventPhotoUrl = event.photos.find(x => x.mainPhoto).url;
+      this.eventPhotoUrl = event.mainPhotoUrl;
       this.editEventForm.patchValue({name: event.name});
       this.editEventForm.patchValue({location: event.location});
       this.editEventForm.patchValue({Date: event.date});
+      console.log(this.event);
     });
     this.accountService.currentUserSource.pipe(take(1)).subscribe(user => {
       this.currentUser = user;
     });
     this.minDate = new Date();
     this.initializeForm();
+    
    
     
 
@@ -79,7 +81,9 @@ export class EditEventComponent implements OnInit {
    this.uploader.onSuccessItem = (item, response, status, headers) => {
      if (response) {
        const photo = JSON.parse(response); // This gets the photo from the JSON data that is retrieved from the response 
-       this.eventPhotoUrl = photo.url;
+       if(!this.eventPhotoUrl) {
+         this.eventPhotoUrl = photo.url;
+       }
        }
    }
 

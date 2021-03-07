@@ -14,7 +14,7 @@ namespace api.DTOs
 
         public string Location { get; set; }
 
-        public PhotoDto MainPhoto { get; set; }
+        public string MainPhotoUrl { get; set; }
 
         public ICollection<PhotoDto> Photos { get; set; }
 

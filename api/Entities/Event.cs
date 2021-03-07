@@ -13,6 +13,7 @@ namespace api.Entities
         public int CreatorId { get; set; }
         public string Name { get; set; }
 
+        public string MainPhotoUrl { get; set; }
         public DateTime Date { get; set; }
         public string Location { get; set; }
 

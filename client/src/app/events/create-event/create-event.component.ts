@@ -52,7 +52,7 @@ export class CreateEventComponent implements OnInit {
   }
 
   createEvent() {
-    
+    console.log(this.createEventForm.value);
     this.accountService.addEvent(this.createEventForm.value).subscribe(eventId => {
       this.route.navigate(['../edit-event/', eventId]);
     } );

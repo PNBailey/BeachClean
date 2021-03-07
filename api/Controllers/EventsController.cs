@@ -103,6 +103,7 @@ namespace api.Controllers
 
             if(existingEvent.Photos.Count == 0) {
                 photo.MainPhoto = true;
+                existingEvent.MainPhotoUrl = photo.Url;
             }
 
             existingEvent.Photos = existingEvent.Photos ?? new List<EventPhoto>();
