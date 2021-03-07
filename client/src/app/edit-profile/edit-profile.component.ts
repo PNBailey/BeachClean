@@ -31,7 +31,7 @@ export class EditProfileComponent implements OnInit {
   constructor(private accountService: AccountService, private toastrService: ToastrService) {
     
     this.accountService.currentUser.pipe(take(1)).subscribe(user => this.currentUser = user);
-   }
+     }
 
   ngOnInit(): void {
 

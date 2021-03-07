@@ -25,6 +25,7 @@ namespace api.Data
         {
             return await _context.Users
             .Where(user => user.UserName == username)
+            .Include(user => user.Photo)
             .ProjectTo<MemberDto>(_mapper.ConfigurationProvider)                
             .SingleOrDefaultAsync();
 

@@ -34,7 +34,6 @@ export class EditEventComponent implements OnInit {
       this.editEventForm.patchValue({name: event.name});
       this.editEventForm.patchValue({location: event.location});
       this.editEventForm.patchValue({Date: event.date});
-      console.log(event);
     });
     this.accountService.currentUserSource.pipe(take(1)).subscribe(user => {
       this.currentUser = user;
