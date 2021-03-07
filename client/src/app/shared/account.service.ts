@@ -172,4 +172,8 @@ export class AccountService {
       return this.http.get<beachCleanEvent>(`${this.baseUrl}/events/${id}`);
     }
 
+    updateEvent(updatedEvent: beachCleanEvent) {
+      return this.http.put(`${this.baseUrl}/events`, updatedEvent);
+    }
+
 }

@@ -8,7 +8,10 @@
             <div class="card">
                 <img class="card-img-top img-thumbnail" src="{{eventPhotoUrl || '../../assets/images/Picture-icon.png'}}" alt="{{event.name}}">
                 <div class="card-body">
-                    <p class="justify-content.center"><i class="fa fa-calendar"></i>{{event.date | date: 'dd MMMM yyyy'}}</p>
+                    <p class="body-title">{{event.name}}</p>
+                    <p class="body-item"><i class="fa fa-calendar"></i>{{event.date | date: 'dd MMMM yyyy'}}</p>
+                    <p class="body-item">Event Organisers: 0</p>
+                    <p class="body-item">Event Attendees: 0</p>
                 </div>
             </div>
             <div *ngIf="currentUser === null" class="redirection-container">

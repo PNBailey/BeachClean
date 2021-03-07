@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { FileUploader } from 'ng2-file-upload';
+import { ToastrService } from 'ngx-toastr';
 import { take } from 'rxjs/operators';
 import { beachCleanEvent } from 'src/app/models/beachCleanEvent';
 import { User } from 'src/app/models/user';
@@ -23,7 +24,7 @@ export class EditEventComponent implements OnInit {
   event: beachCleanEvent;
   eventId: number;
 
-  constructor(private accountService: AccountService, private formBuilder: FormBuilder, private route: ActivatedRoute) { }
+  constructor(private accountService: AccountService, private formBuilder: FormBuilder, private route: ActivatedRoute, private toastr: ToastrService) { }
 
   ngOnInit(): void {
     this.eventId = this.route.snapshot.params['id'];
@@ -33,17 +34,12 @@ export class EditEventComponent implements OnInit {
       this.eventPhotoUrl = event.mainPhotoUrl;
       this.editEventForm.patchValue({name: event.name});
       this.editEventForm.patchValue({location: event.location});
-      this.editEventForm.patchValue({Date: event.date});
-      console.log(this.event);
     });
     this.accountService.currentUserSource.pipe(take(1)).subscribe(user => {
       this.currentUser = user;
     });
     this.minDate = new Date();
     this.initializeForm();
-    
-   
-    
 
   }
 
@@ -52,15 +48,18 @@ export class EditEventComponent implements OnInit {
       name: ['', Validators.required],
       location: ['', Validators.required],
       Date: ['', Validators.required],
-      Time: ['', Validators.required],
-      // MainPhoto: [''],
-      organisers: ['']
+      id: ['']
+      // Time: ['', Validators.required],
+      // organisers: ['']
 
     });
   }
 
     editEvent() {
-
+      this.editEventForm.patchValue({id: this.eventId});
+      this.accountService.updateEvent(this.editEventForm.value).subscribe(() => {
+        this.toastr.success("Event Successfully Updated");
+      });
     }
 
       initializeUploader() {

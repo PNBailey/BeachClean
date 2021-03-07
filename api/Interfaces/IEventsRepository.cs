@@ -15,5 +15,7 @@ namespace api.Interfaces
         Task<Event> GetEventByIdAsync(int eventId);
 
         Task<bool> SaveAllAsync();
+
+        void updateEvent(Event updatedEvent);
     }
 }

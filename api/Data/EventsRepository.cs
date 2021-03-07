@@ -39,6 +39,7 @@ namespace api.Data
             return await _context.Events
             .Where(e => e.Id == eventId)
             .Include(e => e.Photos)
+            .Include(e => e.Creator)
             // .ProjectTo<EventDto>(_mapper.ConfigurationProvider)
             .FirstOrDefaultAsync();
         }
@@ -54,6 +55,11 @@ namespace api.Data
           public async Task<bool> SaveAllAsync()
         {
             return await _context.SaveChangesAsync() > 0;
+        }
+
+        public void updateEvent(Event updatedEvent)
+        {
+            _context.Entry(updatedEvent).State = EntityState.Modified;
         }
     }
 }

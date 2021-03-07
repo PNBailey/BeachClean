@@ -117,6 +117,23 @@ namespace api.Controllers
             return BadRequest("Unable to upload photo");
         }
 
+        [HttpPut]
+
+        public async Task<ActionResult> updateEvent (eventUpdateDto updatedEvent) 
+        {
+            var existingEvent = await _eventsRepository.GetEventByIdAsync(updatedEvent.Id);
+
+            _mapper.Map(updatedEvent, existingEvent);
+
+            _eventsRepository.updateEvent(existingEvent);
+
+            if(await _eventsRepository.SaveAllAsync()) return NoContent();
+
+            return BadRequest("Unable to update event");
+
+
+        }
+
 
         
 

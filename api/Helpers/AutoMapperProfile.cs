@@ -34,6 +34,8 @@ namespace api.Helpers
             CreateMap<EventUsers, MemberDto>();
 
             CreateMap<UserEvents, MemberDto>();
+
+            CreateMap<eventUpdateDto, Event>();
             
         }
     }
