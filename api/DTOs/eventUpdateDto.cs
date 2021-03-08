@@ -8,7 +8,7 @@ namespace api.DTOs
 
         public int Id { get; set; }
 
-        public DateTime Date { get; set; }
+        public DateTime? Date { get; set; }
 
         public string Location { get; set; }
     }

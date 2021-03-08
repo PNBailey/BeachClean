@@ -35,7 +35,8 @@ namespace api.Helpers
 
             CreateMap<UserEvents, MemberDto>();
 
-            CreateMap<eventUpdateDto, Event>();
+            CreateMap<eventUpdateDto, Event>()
+                        .ForAllMembers(o => o.Condition((src, dest, value) => value != null));
             
         }
     }

@@ -47,7 +47,7 @@ export class EditEventComponent implements OnInit {
     this.editEventForm = this.formBuilder.group({
       name: ['', Validators.required],
       location: ['', Validators.required],
-      Date: ['', Validators.required],
+      Date: [''],
       id: ['']
       // Time: ['', Validators.required],
       // organisers: ['']
@@ -56,10 +56,13 @@ export class EditEventComponent implements OnInit {
   }
 
   editEvent() {
+    console.log(this.editEventForm.controls['Date'].value);
     this.editEventForm.patchValue({ id: this.eventId });
     this.accountService.updateEvent(this.editEventForm.value).subscribe(() => {
       this.toastr.success("Event Successfully Updated");
-      this.event.date = this.editEventForm.controls['Date'].value;
+      if(this.editEventForm.controls['Date'].value != "") {
+        this.event.date = this.editEventForm.controls['Date'].value;
+      }
       this.event.location = this.editEventForm.controls['location'].value;
       this.event.name = this.editEventForm.controls['name'].value;
     });

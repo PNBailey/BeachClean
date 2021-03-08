@@ -123,6 +123,11 @@ namespace api.Controllers
         {
             var existingEvent = await _eventsRepository.GetEventByIdAsync(updatedEvent.Id);
 
+            if(updatedEvent.Date == null)
+            {
+                updatedEvent.Date = existingEvent.Date;
+            }
+
             _mapper.Map(updatedEvent, existingEvent);
 
             _eventsRepository.updateEvent(existingEvent);
