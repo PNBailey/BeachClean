@@ -29,6 +29,7 @@ export class EditEventComponent implements OnInit {
   ngOnInit(): void {
     this.eventId = this.route.snapshot.params['id'];
     this.accountService.getEvent(this.eventId).subscribe(event => {
+      console.log(event);
       this.event = event;
       this.initializeUploader();
       this.eventPhotoUrl = event.mainPhotoUrl;
@@ -56,7 +57,6 @@ export class EditEventComponent implements OnInit {
   }
 
   editEvent() {
-    console.log(this.editEventForm.controls['Date'].value);
     this.editEventForm.patchValue({ id: this.eventId });
     this.accountService.updateEvent(this.editEventForm.value).subscribe(() => {
       this.toastr.success("Event Successfully Updated");

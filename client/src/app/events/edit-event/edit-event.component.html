@@ -53,6 +53,11 @@
                     <tab heading="Event Organisers"></tab>
                     <tab heading="Event Attendees"></tab>
                     <tab heading="Event Photos">
+                        <div class="photos-container" >
+                            <ul *ngFor="let photo of event.photos">
+                                <li class="photo-small"><img src="{{photo.url}}" alt="image not found"></li>
+                            </ul>
+                        </div>
                         <input class="Choose-file-btn" type="file" ng2FileSelect [uploader]="uploader" />
                             <div class="uploader-buttons">
                                 <button type="button" class="btn btn-success btn-s" (click)="uploader.uploadAll()"

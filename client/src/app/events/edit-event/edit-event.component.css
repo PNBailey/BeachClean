@@ -108,4 +108,25 @@ i {
     margin-left: 10px;
 }
 
+.photos-container {
+    display: flex;
+    justify-content: flex-start;
+    /* margin-top: 15px; */
+    
+}
+
+.photo-small > img {
+    width: 130px;
+    height: 130px;
+}
+
+.photo-small {
+    padding: 15px;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+}
+
 
