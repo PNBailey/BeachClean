@@ -100,7 +100,6 @@ export class AccountService {
           localStorage.setItem('user', JSON.stringify(user));
           this.currentUserSource.next(user);
           this.setCurrentUser(user);
-          console.log(user);
         }
       }) 
     );
@@ -131,14 +130,11 @@ export class AccountService {
     }
 
     addLike(member: Member) {
-      return this.http.post(this.baseUrl + '/likes/' + member.userName, {}).pipe(map(()=> {
-        this.userLiked.next();
-      }));
+      return this.http.post(this.baseUrl + '/likes/' + member.userName, {});
       
     }
 
     getLikes() {
-      console.log(this.memberCache.get(Object.values(this.likeParams)));
       const response = this.memberCache.get(Object.values(this.likeParams).join('-'));
 
       if(response) {
