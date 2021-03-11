@@ -5,6 +5,7 @@ import { FileUploader } from 'ng2-file-upload';
 import { ToastrService } from 'ngx-toastr';
 import { take } from 'rxjs/operators';
 import { beachCleanEvent } from 'src/app/models/beachCleanEvent';
+import { Photo } from 'src/app/models/photo';
 import { User } from 'src/app/models/user';
 import { AccountService } from 'src/app/shared/account.service';
 
@@ -92,6 +93,14 @@ export class EditEventComponent implements OnInit {
       }
     }
 
+  }
+
+  setMainPhoto(photo: Photo) {
+    const currentMainPhoto = this.event.photos.find(photo => photo.mainPhoto);
+    currentMainPhoto.mainPhoto = false;
+    photo.mainPhoto = true;
+    this.event.mainPhotoUrl = photo.url;
+    
   }
 
 }

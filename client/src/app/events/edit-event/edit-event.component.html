@@ -6,7 +6,7 @@
     <div>
         <div class="container">
             <div class="card">
-                <img class="card-img-top img-thumbnail" src="{{eventPhotoUrl || '../../assets/images/Picture-icon.png'}}" alt="{{event.name}}">
+                <img class="card-img-top img-thumbnail" src="{{event.mainPhotoUrl || '../../assets/images/Picture-icon.png'}}" alt="{{event.name}}">
                 <div class="card-body">
                     <p class="body-title">{{event.name}}</p>
                     <p class="body-item"><i class="fa fa-calendar"></i>{{event.date | date: 'dd MMMM yyyy'}}</p>
@@ -55,7 +55,20 @@
                     <tab heading="Event Photos">
                         <div class="photos-container" >
                             <ul *ngFor="let photo of event.photos">
-                                <li class="photo-small"><img src="{{photo.url}}" alt="image not found"></li>
+                                <li class="photo-list-item">
+                                    <img class="img-thumbnail img-small" src="{{photo.url}}" alt="image not found">
+                                    <div class="photo-btn-container">
+                                        <button
+                                        [disabled]="photo.mainPhoto"
+                                        class="btn btn-sm"
+                                        [ngClass]='photo.mainPhoto ? "btn-primary" : "btn-outline-primary"'
+                                        (click)="setMainPhoto(photo)"
+                                        >Main</button>
+                                        <button
+                                        class="btn btn-sm btn-danger btn-trash"
+                                        ><i class="fa fa-trash"></i></button>
+                                    </div>
+                                </li>
                             </ul>
                         </div>
                         <input class="Choose-file-btn" type="file" ng2FileSelect [uploader]="uploader" />

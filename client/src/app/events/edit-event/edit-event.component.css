@@ -115,18 +115,38 @@ i {
     
 }
 
-.photo-small > img {
+.photo-list-item > img {
     width: 130px;
     height: 130px;
 }
 
-.photo-small {
+.photo-list-item {
     padding: 15px;
+    display: flex;
+    flex-direction: column;
 }
 
 ul {
     list-style: none;
     padding: 0;
+}
+
+.img-small {
+    margin: 0px;
+}
+
+.photo-btn-container {
+    display: flex;
+    justify-content: center;
+
+}
+
+.photo-btn-container > button {
+    margin: 8px 3px;
+}
+
+.btn-trash {
+    width: 30px;
 }
 
 
