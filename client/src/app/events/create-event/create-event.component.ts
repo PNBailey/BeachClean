@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { FileUploader } from 'ng2-file-upload';
+import { ToastrService } from 'ngx-toastr';
 import { delay, take } from 'rxjs/operators';
 import { User } from 'src/app/models/user';
 import { AccountService } from 'src/app/shared/account.service';
@@ -18,7 +19,7 @@ export class CreateEventComponent implements OnInit {
   currentUser: User;
   
 
-  constructor(private formBuilder: FormBuilder, private accountService: AccountService, private route: Router) { }
+  constructor(private formBuilder: FormBuilder, private accountService: AccountService, private route: Router, private toastr: ToastrService) { }
 
   ngOnInit() {
     this.accountService.currentUserSource.pipe(take(1)).subscribe(user => {
@@ -52,9 +53,9 @@ export class CreateEventComponent implements OnInit {
   }
 
   createEvent() {
-    console.log(this.createEventForm.value);
     this.accountService.addEvent(this.createEventForm.value).subscribe(eventId => {
       this.route.navigate(['../edit-event/', eventId]);
+      this.toastr.success("Event created");
     } );
   }
 

@@ -33,6 +33,9 @@ export class EditEventComponent implements OnInit {
       this.initializeUploader();
       this.editEventForm.patchValue({ name: event.name });
       this.editEventForm.patchValue({ location: event.location });
+      if(this.event.mainPhotoUrl == null) {
+        this.event.mainPhotoUrl = "../../assets/images/Picture-icon.png";
+      }
     });
     this.accountService.currentUserSource.pipe(take(1)).subscribe(user => {
       this.currentUser = user;
@@ -83,10 +86,7 @@ export class EditEventComponent implements OnInit {
 
     this.uploader.onSuccessItem = (item, response, status, headers) => {
       if (response) {
-        const photo = JSON.parse(response); // This gets the photo from the JSON data that is retrieved from the response 
-        // if(this.event.photos.length == 0) {
-        //   this.setMainPhoto(photo);
-        // }
+        const photo = JSON.parse(response); // This gets the photo from the JSON data that is retrieved 
         this.event.photos.push(photo);
         if (this.event.mainPhotoUrl == "../../assets/images/Picture-icon.png") {
           this.event.mainPhotoUrl = photo.url;
@@ -99,13 +99,13 @@ export class EditEventComponent implements OnInit {
 
   setMainPhoto(photo: Photo) {
     const currentMainPhoto = this.event.photos.find(photo => photo.mainPhoto);
-    this.event.mainPhotoUrl = photo.url;
+    if(currentMainPhoto) {
+      currentMainPhoto.mainPhoto = false;
+    }
+    photo.mainPhoto = true;
     this.accountService.setMainPhoto(this.eventId, photo).subscribe(() => {
+      this.event.mainPhotoUrl = photo.url;
       this.toastr.success("Main Photo Set");
-      if(currentMainPhoto) {
-        currentMainPhoto.mainPhoto = false;
-      }
-      photo.mainPhoto = true;
     });
   }
 
