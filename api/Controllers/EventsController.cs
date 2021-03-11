@@ -139,7 +139,72 @@ namespace api.Controllers
 
         }
 
+        [HttpPut("set-main-photo/{eventId}")]
+        
+        public async Task<ActionResult> setMainPhoto(int eventId, PhotoDto photo)
+        {
+            // 1. get existing event
+            var existingEvent = await _eventsRepository.GetEventByIdAsync(eventId);
 
+            //2. change existing event mainPhotoUrl to image Url passed into this method
+            existingEvent.MainPhotoUrl = photo.url;
+
+            //3. get the main photo
+             var currMainPhoto = existingEvent.Photos.FirstOrDefault(p => p.MainPhoto);
+
+             //4. set currMainPhoto to false
+             if(currMainPhoto != null) currMainPhoto.MainPhoto = false;
+
+             // 5. get new main photo
+             var newMainPhoto = existingEvent.Photos.FirstOrDefault(p => p.Url == photo.url);
+
+            if(newMainPhoto.MainPhoto) return BadRequest("This is already your main photo");
+
+             //6. set new main photo to main photo
+             newMainPhoto.MainPhoto = true;
+
+             //7. update event usng repo method 
+             if(await _eventsRepository.SaveAllAsync()) return NoContent();
+
+             return BadRequest("Unable to update main photo on server");
+        }
+
+    [HttpDelete("deletePhoto/{eventId}/{photoId}")]
+    public async Task<ActionResult> deletePhoto(int eventId, int photoId)  
+    
+    {
+        //get existg event
+        
+        var existingEvent = await _eventsRepository.GetEventByIdAsync(eventId);
+
+        //1. get public id of photo
+
+        var photoToDelete = existingEvent.Photos.FirstOrDefault(p => p.Id == photoId);
+
+        // delete from main photo on event if it is the main photo
+
+        if(existingEvent.MainPhotoUrl == photoToDelete.Url) existingEvent.MainPhotoUrl = null;
+
+        // delete from cloudinary 
+
+        if(photoToDelete == null) return BadRequest("Photo already deleted");
+        
+        await _photoService.DeletePhotoAsync(photoToDelete.publicId);
+
+        // delete from event
+
+        existingEvent.Photos.Remove(photoToDelete);
+
+        // update event
+
+        if(await _eventsRepository.SaveAllAsync()) return NoContent();
+
+        return BadRequest("Unable to delete photo");
+
+        
+
+
+    }
         
 
     }

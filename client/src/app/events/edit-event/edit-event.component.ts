@@ -21,7 +21,6 @@ export class EditEventComponent implements OnInit {
   minDate: Date;
   uploader: FileUploader;
   baseUrl: string = "https://localhost:5001/api";
-  eventPhotoUrl: string;
   event: beachCleanEvent;
   eventId: number;
 
@@ -30,10 +29,8 @@ export class EditEventComponent implements OnInit {
   ngOnInit(): void {
     this.eventId = this.route.snapshot.params['id'];
     this.accountService.getEvent(this.eventId).subscribe(event => {
-      console.log(event);
       this.event = event;
       this.initializeUploader();
-      this.eventPhotoUrl = event.mainPhotoUrl;
       this.editEventForm.patchValue({ name: event.name });
       this.editEventForm.patchValue({ location: event.location });
     });
@@ -87,9 +84,14 @@ export class EditEventComponent implements OnInit {
     this.uploader.onSuccessItem = (item, response, status, headers) => {
       if (response) {
         const photo = JSON.parse(response); // This gets the photo from the JSON data that is retrieved from the response 
-        if (!this.eventPhotoUrl) {
-          this.eventPhotoUrl = photo.url;
-        }
+        // if(this.event.photos.length == 0) {
+        //   this.setMainPhoto(photo);
+        // }
+        this.event.photos.push(photo);
+        if (this.event.mainPhotoUrl == "../../assets/images/Picture-icon.png") {
+          this.event.mainPhotoUrl = photo.url;
+        }       
+        this.toastr.success("Photo added");
       }
     }
 
@@ -97,10 +99,25 @@ export class EditEventComponent implements OnInit {
 
   setMainPhoto(photo: Photo) {
     const currentMainPhoto = this.event.photos.find(photo => photo.mainPhoto);
-    currentMainPhoto.mainPhoto = false;
-    photo.mainPhoto = true;
     this.event.mainPhotoUrl = photo.url;
-    
+    this.accountService.setMainPhoto(this.eventId, photo).subscribe(() => {
+      this.toastr.success("Main Photo Set");
+      if(currentMainPhoto) {
+        currentMainPhoto.mainPhoto = false;
+      }
+      photo.mainPhoto = true;
+    });
+  }
+
+  deletePhoto(photo: Photo) {
+    this.accountService.deletePhoto(this.eventId, photo.id).subscribe(() => {
+      this.toastr.success("Photo deleted");
+      const photoIndex = this.event.photos.findIndex(p => p == photo);
+      this.event.photos.splice(photoIndex, 1);
+      if(this.event.mainPhotoUrl == photo.url) {
+        this.event.mainPhotoUrl = "../../assets/images/Picture-icon.png";
+      }
+    });
   }
 
 }

@@ -8,6 +8,7 @@ import { PaginatedResult } from '../models/pagination';
 import { UserParams } from '../models/userParams';
 import { LikesParams } from '../models/likesParams';
 import { beachCleanEvent } from '../models/beachCleanEvent';
+import { Photo } from '../models/photo';
 
 
 @Injectable({
@@ -174,6 +175,14 @@ export class AccountService {
 
     updateEvent(updatedEvent: beachCleanEvent) {
       return this.http.put(`${this.baseUrl}/events`, updatedEvent);
+    }
+
+    setMainPhoto(eventId: Number, image: Photo) {
+      return this.http.put(`${this.baseUrl}/events/set-main-photo/${eventId}`, image);
+    }
+
+    deletePhoto(eventId: Number, imageId: Number) {
+      return this.http.delete(`${this.baseUrl}/events/deletePhoto/${eventId}/${imageId}`);
     }
 
 }

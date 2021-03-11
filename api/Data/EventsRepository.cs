@@ -48,6 +48,7 @@ namespace api.Data
         {
             return await _context.Events
             .Include(e => e.Creator)
+            .Include(e => e.Photos)
             .ProjectTo<EventDto>(_mapper.ConfigurationProvider)
             .ToListAsync();
         }
