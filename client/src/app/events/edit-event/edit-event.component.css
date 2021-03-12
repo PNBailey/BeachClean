@@ -87,9 +87,6 @@ input {
     /* justify-self: flex-end; */
 }
 
-.Choose-file-btn {
-    margin-top: 8px;
-}
 
 .top-input {
     margin-top: 20px;
@@ -112,12 +109,17 @@ i {
     display: flex;
     justify-content: flex-start;
     /* margin-top: 15px; */
+    width: 800px;
+    flex-wrap: wrap;
+
     
 }
 
 .photo-list-item > img {
     width: 130px;
     height: 130px;
+    min-width: 130px;
+    min-height: 130px;
 }
 
 .photo-list-item {
@@ -133,6 +135,7 @@ ul {
 
 .img-small {
     margin: 0px;
+    
 }
 
 .photo-btn-container {
@@ -147,6 +150,15 @@ ul {
 
 .btn-trash {
     width: 30px;
+}
+
+.file-select-btns {
+    display: flex;
+    justify-content: flex-start;
+}
+
+.file-select-btns > input {
+    width: 230px;
 }
 
 

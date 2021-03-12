@@ -79,7 +79,6 @@ export class EditEventComponent implements OnInit {
       removeAfterUpload: true,
       autoUpload: false,
       maxFileSize: 10 * 1024 * 1024,
-      queueLimit: 1
     })
     this.uploader.onAfterAddingFile = (file) =>
       file.withCredentials = false; // If we didn't specify this, we would need to make adjustments to our CORS configuration and allow credentials to go up with our request 

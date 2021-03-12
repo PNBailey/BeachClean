@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { take } from 'rxjs/operators';
 import { LikesParams } from '../models/likesParams';
 import { Member } from '../models/member';
 import { Pagination } from '../models/pagination';

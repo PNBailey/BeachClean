@@ -72,7 +72,10 @@
                                 </li>
                             </ul>
                         </div>
-                        <input class="Choose-file-btn" type="file" ng2FileSelect [uploader]="uploader" />
+                        <div class="file-select-btns">
+                            <input type="file" ng2FileSelect [uploader]="uploader" multiple/>
+                            <input class="Choose-file-btn" type="file" ng2FileSelect [uploader]="uploader" />
+                        </div>
                             <div class="uploader-buttons">
                                 <button type="button" class="btn btn-success btn-s" (click)="uploader.uploadAll()"
                                     [disabled]="!uploader.getNotUploadedItems().length">
