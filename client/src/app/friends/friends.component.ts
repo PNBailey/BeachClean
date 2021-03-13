@@ -31,7 +31,8 @@ export class FriendsComponent implements OnInit {
     this.loadFriends();
     this.loadMembers();
     this.accountService.userLiked.subscribe((friend) => {
-      this.friends.push(friend);
+      // this.friends.push(friend);
+      this.loadFriends();
     });
   }
 
@@ -45,12 +46,12 @@ export class FriendsComponent implements OnInit {
 
   loadFriends() {
     this.accountService.setLikeParams(this.likeParams);
-    this.accountService.getLikes().subscribe(response => {
+    console.log(this.likeParams);
+    this.accountService.getPaginatedLikes().subscribe(response => {
       this.friends = response.result;
       this.friendsPagination = response.pagination;
-      
-
-    })
+    
+    });
   }
 
   getLocalUsers(usersLocation: string) {

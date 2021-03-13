@@ -52,6 +52,18 @@ namespace api.Controllers
 
         }
 
+            [HttpGet("Full")]
+
+        public async Task<ActionResult<IEnumerable<LikeDto>>> GetFullLikes()
+        {
+            var userId = User.GetUserId();
+
+            var likedUsers = await _likesRepository.GetFullLikes(userId);
+
+            return Ok(likedUsers);
+
+        }
+
         [HttpGet]
 
         public async Task<ActionResult<IEnumerable<LikeDto>>> GetUserLikes([FromQuery]LikesParams likesParams) 

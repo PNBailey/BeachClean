@@ -29,6 +29,7 @@ export class AccountService {
   memberCache = new Map();
   likeParams: LikesParams;
   userLiked: Subject<Member> = new Subject();
+  newLike: boolean = false;
 
   getUserParams() {
     return this.userParams;
@@ -134,12 +135,18 @@ export class AccountService {
       
     }
 
-    getLikes() {
+    updateNewLike() {
+      this.newLike = true;
+    }
+
+    getPaginatedLikes() {
       const response = this.memberCache.get(Object.values(this.likeParams).join('-'));
 
-      if(response) {
+      if(response && this.newLike == false) {
         return of(response);
       }
+
+     
 
       let params = this.getPaginationHeaders(this.likeParams.pageNumber, this.likeParams.pageSize);
 
@@ -147,8 +154,14 @@ export class AccountService {
 
       return this.getPaginatedResult<Partial<Member[]>>(this.baseUrl + '/likes', params).pipe(map(response => {
         this.memberCache.set(Object.values(this.likeParams).join('-'), response);
+        this.newLike = false;
       return response;
       }));
+    }
+
+
+    getFullLikes() {
+      return this.http.get<Member[]>(`${this.baseUrl}/likes/Full`);
     }
 
     private getPaginationHeaders(pageNumber: number, pageSize: number) {

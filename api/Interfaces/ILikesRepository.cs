@@ -2,6 +2,7 @@ using System.Threading.Tasks;
 using api.Entities;
 using api.Helpers;
 using api.DTOs;
+using System.Collections.Generic;
 
 namespace api.Interfaces
 {
@@ -12,6 +13,8 @@ namespace api.Interfaces
         Task<AppUser> GetUserWithLikes(int userId);
 
         Task<PagedList<LikeDto>> GetUserLikes(LikesParams likesParams); // This couild be a list of users that have been liked or liked by 
+
+        Task<IEnumerable<LikeDto>> GetFullLikes (int userId);
 
         
      

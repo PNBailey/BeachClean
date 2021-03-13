@@ -1,13 +1,20 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
+import { ReactiveFormsModule, FormControl, FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { FileUploader } from 'ng2-file-upload';
 import { ToastrService } from 'ngx-toastr';
-import { take } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { debounceTime, distinctUntilChanged, map, startWith, take } from 'rxjs/operators';
 import { beachCleanEvent } from 'src/app/models/beachCleanEvent';
+import { LikesParams } from 'src/app/models/likesParams';
+import { Member } from 'src/app/models/member';
 import { Photo } from 'src/app/models/photo';
 import { User } from 'src/app/models/user';
 import { AccountService } from 'src/app/shared/account.service';
+// import 'rxjs/add/operator/map';
+// import 'rxjs/add/operator/debounceTime';
+// import 'rxjs/add/operator/distinctUntilChanged';
+
 
 @Component({
   selector: 'app-edit-event',
@@ -23,6 +30,10 @@ export class EditEventComponent implements OnInit {
   baseUrl: string = "https://localhost:5001/api";
   event: beachCleanEvent;
   eventId: number;
+  likeParams: LikesParams;
+  friends: Member[];
+  
+  // filteredOptions: Observable<string[]>;
 
   constructor(private accountService: AccountService, private formBuilder: FormBuilder, private route: ActivatedRoute, private toastr: ToastrService) { }
 
@@ -33,7 +44,7 @@ export class EditEventComponent implements OnInit {
       this.initializeUploader();
       this.editEventForm.patchValue({ name: event.name });
       this.editEventForm.patchValue({ location: event.location });
-      if(this.event.mainPhotoUrl == null) {
+      if (this.event.mainPhotoUrl == null) {
         this.event.mainPhotoUrl = "../../assets/images/Picture-icon.png";
       }
     });
@@ -42,7 +53,26 @@ export class EditEventComponent implements OnInit {
     });
     this.minDate = new Date();
     this.initializeForm();
+    // this.filteredOptions = this.editEventForm.controls['organisers'].valueChanges
+    //   .pipe(
+    //     startWith(''),
+    //     map(value => this._filter(value))
+    //   );
+    
 
+  }
+
+  // private _filter(value: string): string[] {
+  //   const filterValue = value.toLowerCase();
+
+  //   return this.friends.filter(option => option.toLowerCase().includes(filterValue));
+  // }
+
+  logFocus() {
+    this.accountService.getFullLikes().subscribe(friends => {
+      this.friends = friends;
+      console.log(this.friends);
+    });
   }
 
   initializeForm() {
@@ -50,9 +80,10 @@ export class EditEventComponent implements OnInit {
       name: ['', Validators.required],
       location: ['', Validators.required],
       Date: [''],
-      id: ['']
+      id: [''],
+      organisers: ['']
       // Time: ['', Validators.required],
-      // organisers: ['']
+
 
     });
   }
@@ -61,7 +92,7 @@ export class EditEventComponent implements OnInit {
     this.editEventForm.patchValue({ id: this.eventId });
     this.accountService.updateEvent(this.editEventForm.value).subscribe(() => {
       this.toastr.success("Event Successfully Updated");
-      if(this.editEventForm.controls['Date'].value != "") {
+      if (this.editEventForm.controls['Date'].value != "") {
         this.event.date = this.editEventForm.controls['Date'].value;
       }
       this.event.location = this.editEventForm.controls['location'].value;
@@ -89,7 +120,7 @@ export class EditEventComponent implements OnInit {
         this.event.photos.push(photo);
         if (this.event.mainPhotoUrl == "../../assets/images/Picture-icon.png") {
           this.event.mainPhotoUrl = photo.url;
-        }       
+        }
         this.toastr.success("Photo added");
       }
     }
@@ -98,7 +129,7 @@ export class EditEventComponent implements OnInit {
 
   setMainPhoto(photo: Photo) {
     const currentMainPhoto = this.event.photos.find(photo => photo.mainPhoto);
-    if(currentMainPhoto) {
+    if (currentMainPhoto) {
       currentMainPhoto.mainPhoto = false;
     }
     photo.mainPhoto = true;
@@ -113,7 +144,7 @@ export class EditEventComponent implements OnInit {
       this.toastr.success("Photo deleted");
       const photoIndex = this.event.photos.findIndex(p => p == photo);
       this.event.photos.splice(photoIndex, 1);
-      if(this.event.mainPhotoUrl == photo.url) {
+      if (this.event.mainPhotoUrl == photo.url) {
         this.event.mainPhotoUrl = "../../assets/images/Picture-icon.png";
       }
     });

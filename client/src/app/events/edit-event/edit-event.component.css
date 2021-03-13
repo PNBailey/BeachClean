@@ -17,14 +17,10 @@
 
 .form-container li {
     list-style: none;
-    /* display: flex;
-    justify-content: center; */
     width: 300px;
 }
 
 .form-container > li > label {
-  /* flex: 1 0;
-  max-width: 110px; */
   text-align: center;
 }
 
@@ -76,15 +72,12 @@
 
 button {
     margin-top: 10px;
-    /* display: flex;
-    justify-content: center; */
 }
 
 input {
     height: 30px;
     display: flex;
     align-self: center;
-    /* justify-self: flex-end; */
 }
 
 
@@ -108,7 +101,6 @@ i {
 .photos-container {
     display: flex;
     justify-content: flex-start;
-    /* margin-top: 15px; */
     width: 800px;
     flex-wrap: wrap;
 
@@ -159,6 +151,11 @@ ul {
 
 .file-select-btns > input {
     width: 230px;
+}
+
+.user-finder-input {
+    margin-top: 20px;
+    width: 250px;
 }
 
 

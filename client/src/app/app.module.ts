@@ -29,6 +29,7 @@ import { CreateEventComponent } from './events/create-event/create-event.compone
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { DateInputComponent } from './date-input/date-input.component';
 import { EditEventComponent } from './events/edit-event/edit-event.component';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
  
 
 
@@ -66,7 +67,8 @@ import { EditEventComponent } from './events/edit-event/edit-event.component';
     TabsModule.forRoot(),
     PaginationModule.forRoot(),
     TimeagoModule.forRoot(),
-    BsDatepickerModule.forRoot()
+    BsDatepickerModule.forRoot(),
+    MatAutocompleteModule,
     
 
  
