@@ -51,27 +51,35 @@
                         </form>
                     </tab>
                     <tab heading="Event Organisers">
+                        <!-- <form action=""> -->
+                            <mat-form-field>
+                                    <p>Enter friends name</p>
+                                <!-- <mat-label>Enter friends name</mat-label> -->
+                                <input
+                                type="text"
+                                [formControl]="editEventForm.controls['organisers']"
+                                aria-label="organisers"
+                                class="form-control user-finder-input"
+                                matInput
+                                [matAutocomplete]="auto"
+                                (focus)="getFriendsOnFocus()"
+                                >
+                              <mat-autocomplete #auto="matAutocomplete">
+                                  <mat-option *ngFor="let friend of filteredOptions | async" [value]="friend.userName">
+                                  {{friend.userName}}
+                                  </mat-option>
+                              </mat-autocomplete>
+                              </mat-form-field>
+                        <!-- </form> -->
+                       
                         <!-- <input
-                          type="text"
-                          [formControl]="editEventForm.controls['organisers']"
-                          aria-label="organisers"
-                          class="form-control user-finder-input"
-                          placeholder="Type users name"
-                          matInput
-                          [matAutocomplete]="auto">
-                        <mat-autocomplete #auto="matAutocomplete">
-                            <mat-option *ngFor="let friend of friends" [value]="friend">
-                            {{friend}}
-                            </mat-option>
-                        </mat-autocomplete> -->
-                        <input
                           type="text"
                           [formControl]="editEventForm.controls['organisers']"
                           label="organisers"
                           class="form-control user-finder-input"
                           placeholder="Type users name"
                           (focus)="logFocus($event)"
-                          >
+                          > -->
 
                     </tab>
                     <tab heading="Event Attendees"></tab>

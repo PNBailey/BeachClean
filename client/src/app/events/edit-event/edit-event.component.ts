@@ -31,9 +31,9 @@ export class EditEventComponent implements OnInit {
   event: beachCleanEvent;
   eventId: number;
   likeParams: LikesParams;
-  friends: Member[];
+  friends: Member[] = [];
   
-  // filteredOptions: Observable<string[]>;
+  filteredOptions: Observable<Member[]>;
 
   constructor(private accountService: AccountService, private formBuilder: FormBuilder, private route: ActivatedRoute, private toastr: ToastrService) { }
 
@@ -53,26 +53,28 @@ export class EditEventComponent implements OnInit {
     });
     this.minDate = new Date();
     this.initializeForm();
-    // this.filteredOptions = this.editEventForm.controls['organisers'].valueChanges
-    //   .pipe(
-    //     startWith(''),
-    //     map(value => this._filter(value))
-    //   );
+    this.filteredOptions = this.editEventForm.controls['organisers'].valueChanges
+      .pipe(
+        startWith(''),
+        map(value => this._filter(value))
+      );
     
 
   }
 
-  // private _filter(value: string): string[] {
-  //   const filterValue = value.toLowerCase();
+  private _filter(value: string) {
+    const filterValue = value.toLowerCase();
 
-  //   return this.friends.filter(option => option.toLowerCase().includes(filterValue));
-  // }
+    return this.friends.filter(friend => friend.userName.toLowerCase().includes(filterValue));
+  }
 
-  logFocus() {
-    this.accountService.getFullLikes().subscribe(friends => {
-      this.friends = friends;
-      console.log(this.friends);
-    });
+  getFriendsOnFocus() {
+    if(this.friends.length == 0) {
+      this.accountService.getFullLikes().subscribe(friends => {
+        this.friends = friends;
+        console.log(this.friends);
+      });
+    }
   }
 
   initializeForm() {

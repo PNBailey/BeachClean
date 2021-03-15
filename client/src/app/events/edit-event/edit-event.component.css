@@ -156,6 +156,9 @@ ul {
 .user-finder-input {
     margin-top: 20px;
     width: 250px;
+    border: solid 1px rgb(177, 177, 177);
+    border-radius: 2px;
+    color: black;
 }
 
 
