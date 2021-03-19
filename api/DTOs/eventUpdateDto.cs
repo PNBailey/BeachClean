@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace api.DTOs
 {
@@ -11,5 +12,7 @@ namespace api.DTOs
         public DateTime? Date { get; set; }
 
         public string Location { get; set; }
+
+        public ICollection<MemberDto> Organisers { get; set; }
     }
 }

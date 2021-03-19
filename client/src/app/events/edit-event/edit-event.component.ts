@@ -1,20 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { ReactiveFormsModule, FormControl, FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { FileUploader } from 'ng2-file-upload';
 import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
-import { debounceTime, distinctUntilChanged, map, startWith, take } from 'rxjs/operators';
+import { map, startWith, take } from 'rxjs/operators';
 import { beachCleanEvent } from 'src/app/models/beachCleanEvent';
 import { LikesParams } from 'src/app/models/likesParams';
 import { Member } from 'src/app/models/member';
 import { Photo } from 'src/app/models/photo';
 import { User } from 'src/app/models/user';
 import { AccountService } from 'src/app/shared/account.service';
-// import 'rxjs/add/operator/map';
-// import 'rxjs/add/operator/debounceTime';
-// import 'rxjs/add/operator/distinctUntilChanged';
-
 
 @Component({
   selector: 'app-edit-event',
@@ -41,7 +37,6 @@ export class EditEventComponent implements OnInit {
     this.eventId = this.route.snapshot.params['id'];
     this.accountService.getEvent(this.eventId).subscribe(event => {
       this.event = event;
-      console.log(this.event);
       this.initializeUploader();
       this.editEventForm.patchValue({ name: event.name });
       this.editEventForm.patchValue({ location: event.location });
@@ -59,14 +54,10 @@ export class EditEventComponent implements OnInit {
         startWith(''),
         map(value => this._filter(value))
       );
-      
-    
-
   }
 
   private _filter(value: string) {
     const filterValue = value.toLowerCase();
-
     return this.friends.filter(friend => friend.userName.toLowerCase().includes(filterValue));
   }
 
@@ -86,8 +77,6 @@ export class EditEventComponent implements OnInit {
       id: [''],
       organisers: ['']
       // Time: ['', Validators.required],
-
-
     });
   }
 
@@ -155,8 +144,11 @@ export class EditEventComponent implements OnInit {
 
   addOrganiser() {
     const friend = this.friends.find(friend => friend.userName == this.editEventForm.controls['organisers'].value);
+    this.event.organisers.push(friend);
+    this.accountService.addOrganiser(this.eventId, friend.id).subscribe(() => {
+      this.toastr.success("Organiser added");
+    });
 
-    console.log(friend);
   }
 
 }

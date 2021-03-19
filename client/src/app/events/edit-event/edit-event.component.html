@@ -62,7 +62,7 @@
                                 <button class="btn btn-primary" (click)="addOrganiser()">Add</button>
                             </div>
                             <mat-autocomplete class="friends-list-drop-down-container" #auto="matAutocomplete">
-                                <mat-option class="friends-list-drop-down-item row"
+                                <mat-option class="friends-list-drop-down-item row" 
                                     *ngFor="let friend of filteredOptions | async" [value]="friend.userName">
                                     <img class="friend-list-image"
                                         src="{{friend.photoUrl || '../../assets/images/Placeholder user image.jpg'}}"

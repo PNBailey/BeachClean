@@ -194,4 +194,8 @@ export class AccountService {
       return this.http.delete(`${this.baseUrl}/events/deletePhoto/${eventId}/${imageId}`);
     }
 
+    addOrganiser(eventId: Number, organiserId: Number) {
+      return this.http.put(`${this.baseUrl}/events/add-organiser/${eventId}/${organiserId}`, {});
+    }
+
 }

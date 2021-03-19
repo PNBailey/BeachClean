@@ -201,8 +201,27 @@ namespace api.Controllers
 
         return BadRequest("Unable to delete photo");
 
-        
+    }
 
+    [HttpPut("add-organiser/{eventId}/{organiserId}")]
+    public async Task<ActionResult> addOrganiser(int eventId, int organiserId)    
+    {
+        var existingEvent = await _eventsRepository.GetEventByIdAsync(eventId);
+
+        var organiser = await _userRepository.GetUserByIdAsync(organiserId);
+
+        var userEvent = new UserEvents {
+            OrganiserId = organiserId,
+            Organiser = organiser,
+            EventId = eventId,
+            Event = existingEvent
+        };
+
+        existingEvent.Organisers.Add(userEvent);
+
+        if(await _eventsRepository.SaveAllAsync()) return Ok();
+
+        return BadRequest("Failed to add organiser");
 
     }
         
