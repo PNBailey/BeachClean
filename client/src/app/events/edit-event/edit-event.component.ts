@@ -153,4 +153,10 @@ export class EditEventComponent implements OnInit {
     });
   }
 
+  addOrganiser() {
+    const friend = this.friends.find(friend => friend.userName == this.editEventForm.controls['organisers'].value);
+
+    console.log(friend);
+  }
+
 }

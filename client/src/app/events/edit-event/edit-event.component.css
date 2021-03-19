@@ -47,6 +47,7 @@
 
 .uploader-buttons {
     margin-right: 19px;
+    margin-top: 10px;
 }
 
 
@@ -70,9 +71,6 @@
    margin-right: 8px;
 }
 
-button {
-    margin-top: 10px;
-}
 
 input {
     height: 30px;
@@ -154,10 +152,11 @@ ul {
 }
 
 .user-finder-input {
-    margin-top: 20px;
+    /* margin-top: 20px; */
     border: solid 1px rgb(177, 177, 177);
     border-radius: 2px;
     color: black;
+    width: 200px;
 }
 
 .friend-list-image {
@@ -167,16 +166,21 @@ ul {
     
 }
 
-mat-form-field {
-    width: 200px;
-}
-
 .mat-option {
     display: flex;
     justify-content: center;
     height: 55px;
 }
 
+.input-and-buttons {
+    display: flex;
+}
+
+.input-and-buttons > button {
+    height: 30px;
+    line-height: 10px;
+    margin-left: 10px;
+}
 
 
 
