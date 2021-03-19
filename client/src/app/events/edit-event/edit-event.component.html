@@ -6,13 +6,14 @@
     <div>
         <div class="container">
             <div class="card">
-                <img class="card-img-top img-thumbnail" src="{{event.mainPhotoUrl || '../../assets/images/Picture-icon.png'}}" alt="{{event.name}}">
+                <img class="card-img-top img-thumbnail"
+                    src="{{event.mainPhotoUrl || '../../assets/images/Picture-icon.png'}}" alt="{{event.name}}">
                 <div class="card-body">
                     <p class="body-title">{{event.name}}</p>
                     <p class="body-item"><i class="fa fa-calendar"></i>{{event.date | date: 'dd MMMM yyyy'}}</p>
                     <p class="body-item"><i class="fa fa-location-arrow"></i>{{event.location}}</p>
-                    <p class="body-item">Event Organisers: 0</p>
-                    <p class="body-item">Event Attendees: 0</p>
+                    <p class="body-item">Event Organisers: {{event.organisers.length}}</p>
+                    <p class="body-item">Event Attendees: {{event.attendees.length}}</p>
                 </div>
             </div>
             <div *ngIf="currentUser === null" class="redirection-container">
@@ -52,26 +53,23 @@
                     </tab>
                     <tab heading="Event Organisers">
                         <!-- <form action=""> -->
-                            <mat-form-field>
-                                    <p>Enter friends name</p>
-                                <!-- <mat-label>Enter friends name</mat-label> -->
-                                <input
-                                type="text"
-                                [formControl]="editEventForm.controls['organisers']"
-                                aria-label="organisers"
-                                class="form-control user-finder-input"
-                                matInput
-                                [matAutocomplete]="auto"
-                                (focus)="getFriendsOnFocus()"
-                                >
-                              <mat-autocomplete #auto="matAutocomplete">
-                                  <mat-option *ngFor="let friend of filteredOptions | async" [value]="friend.userName">
-                                  {{friend.userName}}
-                                  </mat-option>
-                              </mat-autocomplete>
-                              </mat-form-field>
+                        <mat-form-field>
+                            <p>Enter friends name</p>
+                            <input type="text" [formControl]="editEventForm.controls['organisers']"
+                                aria-label="organisers" class="form-control user-finder-input" matInput
+                                [matAutocomplete]="auto" (focus)="getFriendsOnFocus()">
+                            <mat-autocomplete class="friends-list-drop-down-container" #auto="matAutocomplete">
+                                <mat-option class="friends-list-drop-down-item row"
+                                    *ngFor="let friend of filteredOptions | async" [value]="friend.userName">
+                                    <img class="friend-list-image"
+                                        src="{{friend.photoUrl || '../../assets/images/Placeholder user image.jpg'}}"
+                                        alt="{{friend.photoUrl}}">
+                                    {{friend.userName}}
+                                </mat-option>
+                            </mat-autocomplete>
+                        </mat-form-field>
                         <!-- </form> -->
-                       
+
                         <!-- <input
                           type="text"
                           [formControl]="editEventForm.controls['organisers']"
@@ -84,43 +82,38 @@
                     </tab>
                     <tab heading="Event Attendees"></tab>
                     <tab heading="Event Photos">
-                        <div class="photos-container" >
+                        <div class="photos-container">
                             <ul *ngFor="let photo of event.photos">
                                 <li class="photo-list-item">
                                     <img class="img-thumbnail img-small" src="{{photo.url}}" alt="image not found">
                                     <div class="photo-btn-container">
-                                        <button
-                                        [disabled]="photo.mainPhoto"
-                                        class="btn btn-sm"
-                                        [ngClass]='photo.mainPhoto ? "btn-primary" : "btn-outline-primary"'
-                                        (click)="setMainPhoto(photo)"
-                                        >Main</button>
-                                        <button
-                                        (click)="deletePhoto(photo)"
-                                        class="btn btn-sm btn-danger btn-trash"
-                                        ><i class="fa fa-trash"></i></button>
+                                        <button [disabled]="photo.mainPhoto" class="btn btn-sm"
+                                            [ngClass]='photo.mainPhoto ? "btn-primary" : "btn-outline-primary"'
+                                            (click)="setMainPhoto(photo)">Main</button>
+                                        <button (click)="deletePhoto(photo)" class="btn btn-sm btn-danger btn-trash"><i
+                                                class="fa fa-trash"></i></button>
                                     </div>
                                 </li>
                             </ul>
                         </div>
                         <div class="file-select-btns">
-                            <input type="file" ng2FileSelect [uploader]="uploader" multiple/>
+                            <input type="file" ng2FileSelect [uploader]="uploader" multiple />
                             <input class="Choose-file-btn" type="file" ng2FileSelect [uploader]="uploader" />
                         </div>
-                            <div class="uploader-buttons">
-                                <button type="button" class="btn btn-success btn-s" (click)="uploader.uploadAll()"
-                                    [disabled]="!uploader.getNotUploadedItems().length">
-                                    <span class="fa fa-upload"></span> Upload
-                                </button>
-                                <button type="button" class="btn btn-warning btn-s" (click)="uploader.cancelAll()"
-                                    [disabled]="!uploader.isUploading">
-                                    <span class="fa fa-ban"></span> Cancel
-                                </button>
-                                <button type="button" class="btn btn-danger btn-s" (click)="uploader.clearQueue()"
-                                    [disabled]="!uploader.queue.length">
-                                    <span class="fa fa-trash"></span> Remove
-                                </button>
-                            </div>
+                        <div class="uploader-buttons">
+                            <button type="button" class="btn btn-success btn-s" (click)="uploader.uploadAll()"
+                                [disabled]="!uploader.getNotUploadedItems().length">
+                                <span class="fa fa-upload"></span> Upload
+                            </button>
+                            <button type="button" class="btn btn-warning btn-s" (click)="uploader.cancelAll()"
+                                [disabled]="!uploader.isUploading">
+                                <span class="fa fa-ban"></span> Cancel
+                            </button>
+                            <button type="button" class="btn btn-danger btn-s" (click)="uploader.clearQueue()"
+                                [disabled]="!uploader.queue.length">
+                                <span class="fa fa-trash"></span> Remove
+                            </button>
+                        </div>
                     </tab>
                 </tabset>
             </div>

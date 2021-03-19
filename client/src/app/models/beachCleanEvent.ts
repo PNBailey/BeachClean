@@ -8,6 +8,8 @@ export class beachCleanEvent {
     mainPhotoUrl: string;
     date: Date;
     photos: Photo[];
+    organisers: Member[];
+    attendees: Member[];
 
     
 

@@ -33,6 +33,7 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatButtonModule} from '@angular/material/button';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
+import { CommonModule } from '@angular/common'; 
 
 
  
@@ -75,7 +76,8 @@ import {MatInputModule} from '@angular/material/input';
     BsDatepickerModule.forRoot(),
     MatAutocompleteModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
+    CommonModule
     
     
 

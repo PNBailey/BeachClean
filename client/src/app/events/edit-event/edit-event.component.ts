@@ -41,6 +41,7 @@ export class EditEventComponent implements OnInit {
     this.eventId = this.route.snapshot.params['id'];
     this.accountService.getEvent(this.eventId).subscribe(event => {
       this.event = event;
+      console.log(this.event);
       this.initializeUploader();
       this.editEventForm.patchValue({ name: event.name });
       this.editEventForm.patchValue({ location: event.location });
@@ -58,6 +59,7 @@ export class EditEventComponent implements OnInit {
         startWith(''),
         map(value => this._filter(value))
       );
+      
     
 
   }
@@ -72,7 +74,6 @@ export class EditEventComponent implements OnInit {
     if(this.friends.length == 0) {
       this.accountService.getFullLikes().subscribe(friends => {
         this.friends = friends;
-        console.log(this.friends);
       });
     }
   }
@@ -143,12 +144,12 @@ export class EditEventComponent implements OnInit {
 
   deletePhoto(photo: Photo) {
     this.accountService.deletePhoto(this.eventId, photo.id).subscribe(() => {
-      this.toastr.success("Photo deleted");
       const photoIndex = this.event.photos.findIndex(p => p == photo);
       this.event.photos.splice(photoIndex, 1);
       if (this.event.mainPhotoUrl == photo.url) {
         this.event.mainPhotoUrl = "../../assets/images/Picture-icon.png";
       }
+      this.toastr.success("Photo deleted");
     });
   }
 

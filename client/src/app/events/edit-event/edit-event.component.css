@@ -24,7 +24,7 @@
   text-align: center;
 }
 
-.img-thumbnail {
+.card-image-top.img-thumbnail {
     margin: 25px 25px 0 25px;
     width: 300px;
     height: 300px;
@@ -155,10 +155,31 @@ ul {
 
 .user-finder-input {
     margin-top: 20px;
-    width: 250px;
     border: solid 1px rgb(177, 177, 177);
     border-radius: 2px;
     color: black;
 }
+
+.friend-list-image {
+    height: 40px;
+    width: 35px;
+    margin: 0 15px 5px 15px;
+    
+}
+
+mat-form-field {
+    width: 200px;
+}
+
+.mat-option {
+    display: flex;
+    justify-content: center;
+    height: 55px;
+}
+
+
+
+
+
 
 
