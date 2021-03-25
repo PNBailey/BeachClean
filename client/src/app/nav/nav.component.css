@@ -18,13 +18,14 @@
     display: flex;
     list-style-type: none;
     margin: 0px;
-
+    line-height: 20px;
 }
 
 
 .nav-item{
     margin: 0px 35px 0px 0px;
     transition: transform 0.2s;
+    line-height: 20px;
 
 } 
 
@@ -35,6 +36,7 @@
 
 .title {
     margin-left: 25px;
+    margin-bottom: 5px;
 }
 
 .title:hover {
@@ -56,14 +58,13 @@ a:hover {
 
 
 img {
-    max-height: 30px;
+    height: 30px;
     border: 2px solid white;
     margin-right: 9px;
  
 }
-
-.nav-item.dropdown{
-    margin-top: 0px !important;
+.regular-nav-item {
+    padding-top: 5px;
 }
 
 

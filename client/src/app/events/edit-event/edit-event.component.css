@@ -33,6 +33,7 @@
 .card {
     width: 350px;
     margin-right: 10px;
+    height: fit-content;
 }
 
 .card-body {

@@ -42,6 +42,7 @@ namespace api.Data
             .Include(e => e.Creator)
             .Include(e => e.Organisers)
             .ThenInclude(e => e.Organiser)
+            .ThenInclude(o => o.Photo)
             .FirstOrDefaultAsync();
         }
 
@@ -52,6 +53,7 @@ namespace api.Data
             .Include(e => e.Photos)
             .Include(e => e.Organisers)
             .ThenInclude(e => e.Organiser)
+            .ThenInclude(o => o.Photo)
             .ProjectTo<EventDto>(_mapper.ConfigurationProvider)
             .ToListAsync();
         }
