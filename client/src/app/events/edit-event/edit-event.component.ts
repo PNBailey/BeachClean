@@ -37,6 +37,7 @@ export class EditEventComponent implements OnInit {
     this.eventId = this.route.snapshot.params['id'];
     this.accountService.getEvent(this.eventId).subscribe(event => {
       this.event = event;
+      console.log(this.event);
       this.initializeUploader();
       this.editEventForm.patchValue({ name: event.name });
       this.editEventForm.patchValue({ location: event.location });

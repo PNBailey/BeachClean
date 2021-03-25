@@ -1,12 +1,13 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace api.Entities
 {
     public class Event
     {
-
+        
         public int Id { get; set; }
 
         public AppUser Creator { get; set; }

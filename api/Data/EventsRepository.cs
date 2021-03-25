@@ -40,7 +40,8 @@ namespace api.Data
             .Where(e => e.Id == eventId)
             .Include(e => e.Photos)
             .Include(e => e.Creator)
-            // .ProjectTo<EventDto>(_mapper.ConfigurationProvider)
+            .Include(e => e.Organisers)
+            .ThenInclude(e => e.Organiser)
             .FirstOrDefaultAsync();
         }
 
@@ -49,6 +50,8 @@ namespace api.Data
             return await _context.Events
             .Include(e => e.Creator)
             .Include(e => e.Photos)
+            .Include(e => e.Organisers)
+            .ThenInclude(e => e.Organiser)
             .ProjectTo<EventDto>(_mapper.ConfigurationProvider)
             .ToListAsync();
         }

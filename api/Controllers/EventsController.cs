@@ -77,10 +77,9 @@ namespace api.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Event>>> GetAllEvents()
+        public async Task<ActionResult<IEnumerable<EventDto>>> GetAllEvents()
         {
             var events = await _eventsRepository.GetEventsAsync();
-
 
             return Ok(events);
         }
@@ -216,6 +215,8 @@ namespace api.Controllers
             EventId = eventId,
             Event = existingEvent
         };
+
+        existingEvent.Organisers = existingEvent.Organisers ?? new List<UserEvents>();
 
         existingEvent.Organisers.Add(userEvent);
 

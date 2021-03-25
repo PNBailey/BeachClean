@@ -182,6 +182,25 @@ ul {
     margin-left: 10px;
 }
 
+.organisers-container {
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    margin-bottom: 5px;
+}
+
+.organiser-card {
+    height: 250px;
+    width: 150px;
+    margin: 10px 10px 25px 10px;
+}
+
+.organiser-below-icon {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+
 
 
 
