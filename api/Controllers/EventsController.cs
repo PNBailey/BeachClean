@@ -211,9 +211,7 @@ namespace api.Controllers
 
         var userEvent = new UserEvents {
             OrganiserId = organiserId,
-            Organiser = organiser,
-            EventId = eventId,
-            Event = existingEvent
+            EventId = eventId
         };
 
         existingEvent.Organisers = existingEvent.Organisers ?? new List<UserEvents>();
