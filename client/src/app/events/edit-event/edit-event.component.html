@@ -1,3 +1,4 @@
+
 <div *ngIf="uploader">
     <div class="title-container">
         <h2>{{event.name}}</h2>
@@ -10,8 +11,8 @@
                     src="{{event.mainPhotoUrl || '../../assets/images/Picture-icon.png'}}" alt="{{event.name}}">
                 <div class="card-body">
                     <p class="body-title">{{event.name}}</p>
-                    <p class="body-item"><i class="fa fa-calendar"></i>{{event.date | date: 'dd MMMM yyyy'}}</p>
-                    <p class="body-item"><i class="fa fa-location-arrow"></i>{{event.location}}</p>
+                    <p class="body-item"><fa-icon class="body-icon" [icon]="faCalendar"></fa-icon>{{event.date | date: 'dd MMMM yyyy'}}</p>
+                    <p class="body-item"><fa-icon class="body-icon" [icon]="faLocationArrow"></fa-icon>{{event.location}}</p>
                     <p class="body-item">Event Organisers: {{event.organisers.length}}</p>
                     <p class="body-item">Event Attendees: {{event.attendees.length}}</p>
                 </div>
@@ -55,8 +56,8 @@
                         <div class="organisers-container">
                             <div class="organiser-card" *ngFor="let organiser of event.organisers">
                                 <app-member-card [member]="organiser"></app-member-card>
-                                <div class="organiser-below-icon">
-                                    <i class="fa fa-trash"></i>
+                                <div class="organiser-below-button">
+                                    <button (click)="removeOrganiser(organiser.id)" class="btn btn-danger">Remove Organiser</button>
                                 </div>
                             </div>
                         </div>                

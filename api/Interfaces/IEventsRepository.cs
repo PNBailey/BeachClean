@@ -17,5 +17,7 @@ namespace api.Interfaces
         Task<bool> SaveAllAsync();
 
         void updateEvent(Event updatedEvent);
+
+        Task<bool> removeOrganiser(int organiserId,  int eventId);
     }
 }

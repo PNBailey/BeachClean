@@ -23,14 +23,9 @@ namespace api.Data
 
         public async Task<int> CreateEvent(Event newEvent)
         {
-
             _context.Events.Add(newEvent);
-
             await _context.SaveChangesAsync();
-
             return newEvent.Id;
-
-
 
         }
 
@@ -66,6 +61,15 @@ namespace api.Data
         public void updateEvent(Event updatedEvent)
         {
             _context.Entry(updatedEvent).State = EntityState.Modified;
+        }
+
+        public async Task<bool> removeOrganiser(int organiserId, int eventId)
+        {
+            var userEvent = await _context.UserEvents.FindAsync(organiserId, eventId);
+
+            _context.UserEvents.Remove(userEvent);
+
+            return true;
         }
     }
 }

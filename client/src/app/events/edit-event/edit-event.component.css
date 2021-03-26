@@ -84,7 +84,7 @@ input {
     margin-top: 20px;
 }
 
-i {
+.body-icon {
     margin-right: 15px;
 }
 
@@ -193,13 +193,14 @@ ul {
 .organiser-card {
     height: 250px;
     width: 150px;
-    margin: 10px 10px 25px 10px;
+    margin: 20px 10px 45px 10px;
 }
 
-.organiser-below-icon {
+.organiser-below-button {
     display: flex;
     justify-content: center;
     margin-top: 10px;
+    
 }
 
 

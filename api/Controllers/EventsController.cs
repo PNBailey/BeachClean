@@ -223,6 +223,20 @@ namespace api.Controllers
         return BadRequest("Failed to add organiser");
 
     }
+
+    [HttpDelete("removeOrganiser/{eventId}/{organiserid}")]
+    public async Task<ActionResult> removeOrganiser(int eventId, int organiserId) 
+    {
+        var existingEvent = await _eventsRepository.GetEventByIdAsync(eventId);
+
+        var organiser = await _userRepository.GetUserByIdAsync(organiserId);
+
+        await _eventsRepository.removeOrganiser(organiserId, eventId);
+
+         if(await _eventsRepository.SaveAllAsync()) return Ok();
+
+        return BadRequest("Failed to remove organiser"); 
+    }
         
 
     }

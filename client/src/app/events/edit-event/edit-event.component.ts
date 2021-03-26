@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { faCalendar, faCoffee, faLocationArrow, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FileUploader } from 'ng2-file-upload';
 import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
@@ -28,6 +29,9 @@ export class EditEventComponent implements OnInit {
   eventId: number;
   likeParams: LikesParams;
   friends: Member[] = [];
+  faTrash = faTrash;
+  faLocationArrow = faLocationArrow;
+  faCalendar = faCalendar;
   
   filteredOptions: Observable<Member[]>;
 
@@ -150,6 +154,13 @@ export class EditEventComponent implements OnInit {
       this.toastr.success("Organiser added");
     });
 
+  }
+
+  removeOrganiser(organiserId: Number) {
+    this.accountService.removeOrganiser(this.eventId, organiserId).subscribe(() => {
+      this.event.organisers.splice(this.event.organisers.findIndex(organiser => organiser.id == organiserId), 1);
+      this.toastr.success("Organiser removed")
+    });
   }
 
 }

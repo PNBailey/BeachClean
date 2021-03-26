@@ -33,7 +33,8 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatButtonModule} from '@angular/material/button';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
-import { CommonModule } from '@angular/common'; 
+import { CommonModule } from '@angular/common';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome'; 
 
 
  
@@ -77,7 +78,8 @@ import { CommonModule } from '@angular/common';
     MatAutocompleteModule,
     MatFormFieldModule,
     MatInputModule,
-    CommonModule
+    CommonModule,
+    FontAwesomeModule
     
     
 

@@ -198,4 +198,8 @@ export class AccountService {
       return this.http.put(`${this.baseUrl}/events/add-organiser/${eventId}/${organiserId}`, {});
     }
 
+    removeOrganiser(eventid: Number, organiserId: Number) {
+      return this.http.delete(`${this.baseUrl}/events/removeOrganiser/${eventid}/${organiserId}`);
+    }
+
 }

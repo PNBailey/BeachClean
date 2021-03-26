@@ -35,6 +35,6 @@
     transition: all 0.3s ease-in-out;
 }
 
-p > i {
+p > fa-icon {
     margin-right: 8px;
 }

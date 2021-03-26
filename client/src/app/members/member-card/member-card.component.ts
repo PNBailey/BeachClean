@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { faEnvelope, faHeart, faLocationArrow, faUser } from '@fortawesome/free-solid-svg-icons';
 import { ToastrService } from 'ngx-toastr';
 import { AccountService } from 'src/app/shared/account.service';
 import { Member } from '../../models/member';
@@ -10,6 +11,10 @@ import { Member } from '../../models/member';
 })
 export class MemberCardComponent implements OnInit {
   @Input() member: Member;
+  faEnvelope = faEnvelope;
+  faHeart = faHeart;
+  faUser = faUser;
+  faLocationArrow = faLocationArrow;
 
   constructor(private accountService: AccountService, private toastrService: ToastrService) { }
 
