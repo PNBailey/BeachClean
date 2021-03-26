@@ -1,0 +1,22 @@
+/* .container {
+    display: flex;
+    justify-content: center;
+} */
+
+.event-item {
+    display: flex;
+    justify-content: space-between;
+    /* max-height: 400px;
+    width: 300px; */
+    margin: 25px;
+    
+}
+
+.events-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+
+

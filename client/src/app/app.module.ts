@@ -33,8 +33,11 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatButtonModule} from '@angular/material/button';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
+import {MatCardModule} from '@angular/material/card';
 import { CommonModule } from '@angular/common';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome'; 
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { AllEventsComponent } from './events/all-events/all-events.component';
+import { EventCardComponent } from './events/event-card/event-card.component'; 
 
 
  
@@ -55,7 +58,9 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     MemberDetailComponent,
     CreateEventComponent,
     DateInputComponent,
-    EditEventComponent
+    EditEventComponent,
+    AllEventsComponent,
+    EventCardComponent
     
   ],
   imports: [
@@ -79,7 +84,8 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     MatFormFieldModule,
     MatInputModule,
     CommonModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    MatCardModule
     
     
 

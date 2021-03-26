@@ -1,7 +1,7 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { faCalendar, faCoffee, faLocationArrow, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faBan, faCalendar, faLocationArrow, faTrash, faUpload } from '@fortawesome/free-solid-svg-icons';
 import { FileUploader } from 'ng2-file-upload';
 import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
@@ -22,6 +22,7 @@ export class EditEventComponent implements OnInit {
 
   currentUser: User;
   editEventForm: FormGroup;
+  addOrganiserForm: FormGroup;
   minDate: Date;
   uploader: FileUploader;
   baseUrl: string = "https://localhost:5001/api";
@@ -32,6 +33,10 @@ export class EditEventComponent implements OnInit {
   faTrash = faTrash;
   faLocationArrow = faLocationArrow;
   faCalendar = faCalendar;
+  friendName = "";
+  faBan = faBan;
+  faUpload = faUpload;
+  filteredOptions: Observable<Member[]>;
   @HostListener('window:beforeunload', ['$event']) unloadNotification($event: any) { // This allows us to show a warning message if the user tries to close a tab (or go to google for example) and asks them if they want to leave the page as any changes made to the form will be . The hostlistener gives us access to browser events 
   
 
@@ -41,7 +46,7 @@ export class EditEventComponent implements OnInit {
 
   } 
   
-  filteredOptions: Observable<Member[]>;
+  
 
   constructor(private accountService: AccountService, private formBuilder: FormBuilder, private route: ActivatedRoute, private toastr: ToastrService) { }
 
@@ -62,12 +67,13 @@ export class EditEventComponent implements OnInit {
     });
     this.minDate = new Date();
     this.initializeForm();
-    this.filteredOptions = this.editEventForm.controls['organisers'].valueChanges
+    this.filteredOptions = this.addOrganiserForm.controls['organisers'].valueChanges
       .pipe(
         startWith(''),
         map(value => this._filter(value))
       );
   }
+  
 
   private _filter(value: string) {
     const filterValue = value.toLowerCase();
@@ -88,8 +94,11 @@ export class EditEventComponent implements OnInit {
       location: ['', Validators.required],
       Date: [''],
       id: [''],
-      organisers: ['']
+      
       // Time: ['', Validators.required],
+    });
+    this.addOrganiserForm = this.formBuilder.group({
+      organisers: ['']
     });
   }
 
@@ -156,7 +165,7 @@ export class EditEventComponent implements OnInit {
   }
 
   addOrganiser() {
-    const friend = this.friends.find(friend => friend.userName == this.editEventForm.controls['organisers'].value);
+    const friend = this.friends.find(friend => friend.userName == this.addOrganiserForm.controls['organisers'].value);
     this.event.organisers.push(friend);
     this.accountService.addOrganiser(this.eventId, friend.id).subscribe(() => {
       this.toastr.success("Organiser added");

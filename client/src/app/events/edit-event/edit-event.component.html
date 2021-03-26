@@ -67,7 +67,7 @@
                         <mat-form-field>
                             <p>Enter friends name</p>
                             <div class="input-and-buttons">
-                                <input type="text" [formControl]="editEventForm.controls['organisers']"
+                                <input type="text" [formControl]="addOrganiserForm.controls['organisers']"
                                 aria-label="organisers" class="form-control user-finder-input" matInput
                                 [matAutocomplete]="auto" (focus)="getFriendsOnFocus()">
                                 <button class="btn btn-primary" (click)="addOrganiser()">Add</button>
@@ -104,8 +104,7 @@
                                         <button [disabled]="photo.mainPhoto" class="btn btn-sm"
                                             [ngClass]='photo.mainPhoto ? "btn-primary" : "btn-outline-primary"'
                                             (click)="setMainPhoto(photo)">Main</button>
-                                        <button (click)="deletePhoto(photo)" class="btn btn-sm btn-danger btn-trash"><i
-                                                class="fa fa-trash"></i></button>
+                                        <button (click)="deletePhoto(photo)" class="btn btn-sm btn-danger btn-trash"><fa-icon [icon]="faTrash"></fa-icon></button>
                                     </div>
                                 </li>
                             </ul>
@@ -117,15 +116,15 @@
                         <div class="uploader-buttons">
                             <button type="button" class="btn btn-success btn-s" (click)="uploader.uploadAll()"
                                 [disabled]="!uploader.getNotUploadedItems().length">
-                                <span class="fa fa-upload"></span> Upload
+                                <fa-icon [icon]="faUpload"></fa-icon>Upload
                             </button>
                             <button type="button" class="btn btn-warning btn-s" (click)="uploader.cancelAll()"
                                 [disabled]="!uploader.isUploading">
-                                <span class="fa fa-ban"></span> Cancel
+                                <fa-icon [icon]="faBan"></fa-icon> Cancel
                             </button>
                             <button type="button" class="btn btn-danger btn-s" (click)="uploader.clearQueue()"
                                 [disabled]="!uploader.queue.length">
-                                <span class="fa fa-trash"></span> Remove
+                                <fa-icon [icon]="faTrash"></fa-icon> Remove
                             </button>
                         </div>
                     </tab>

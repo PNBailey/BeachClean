@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { EditProfileComponent } from './edit-profile/edit-profile.component';
+import { AllEventsComponent } from './events/all-events/all-events.component';
 import { CreateEventComponent } from './events/create-event/create-event.component';
 import { EditEventComponent } from './events/edit-event/edit-event.component';
 import { FriendsComponent } from './friends/friends.component';
@@ -21,6 +22,7 @@ const routes: Routes = [
   {path: 'friends/:username', component: MemberDetailComponent},
   {path: 'create-event', component: CreateEventComponent},
   {path: 'edit-event/:id', component: EditEventComponent},
+  {path: 'events', component: AllEventsComponent},
   {path: '**', component: HomeComponent, pathMatch: 'full'}
   
 
