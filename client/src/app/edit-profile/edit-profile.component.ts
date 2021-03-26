@@ -1,5 +1,6 @@
 import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { faBan, faStop, faTrash, faUpload } from '@fortawesome/free-solid-svg-icons';
 import { FileUploader } from 'ng2-file-upload';
 import { ToastrService } from 'ngx-toastr';
 import { take } from 'rxjs/operators';
@@ -20,7 +21,11 @@ export class EditProfileComponent implements OnInit {
   currentUser: User;
   uploader: FileUploader;
   baseUrl: string = "https://localhost:5001/api";
+  faBan = faBan;
+  faUpload = faUpload;
+  faTrash = faTrash;
   @HostListener('window:beforeunload', ['$event']) unloadNotification($event: any) { // This allows us to show a warning message if the user tries to close a tab (or go to google for example) and asks them if they want to leave the page as any changes made to the form will be . The hostlistener gives us access to browser events 
+  
 
     if(this.editForm.dirty) {
       $event.returnValue = true;

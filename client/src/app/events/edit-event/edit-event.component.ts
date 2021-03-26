@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { faCalendar, faCoffee, faLocationArrow, faTrash } from '@fortawesome/free-solid-svg-icons';
@@ -32,6 +32,14 @@ export class EditEventComponent implements OnInit {
   faTrash = faTrash;
   faLocationArrow = faLocationArrow;
   faCalendar = faCalendar;
+  @HostListener('window:beforeunload', ['$event']) unloadNotification($event: any) { // This allows us to show a warning message if the user tries to close a tab (or go to google for example) and asks them if they want to leave the page as any changes made to the form will be . The hostlistener gives us access to browser events 
+  
+
+    if(this.editEventForm.dirty) {
+      $event.returnValue = true;  
+    }
+
+  } 
   
   filteredOptions: Observable<Member[]>;
 

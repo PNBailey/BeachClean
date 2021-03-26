@@ -4,6 +4,9 @@
         <h2>{{event.name}}</h2>
     </div>
     <hr>
+    <div class="alert alert-info" *ngIf="editEventForm.dirty"> <!--Using the dirty form property tests whether the form has been altered by the user -->
+        You have made changes. Any unsaved changes will be lost.
+    </div>
     <div>
         <div class="container">
             <div class="card">

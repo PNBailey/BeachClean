@@ -15,15 +15,15 @@
                     <input class="Choose-file-btn" type="file" ng2FileSelect [uploader]="uploader" />
                     <button type="button" class="btn btn-success btn-s"
                         (click)="uploader.uploadAll()" [disabled]="!uploader.getNotUploadedItems().length">
-                    <span class="fa fa-upload"></span> Upload
+                        <fa-icon [icon]="faUpload"></fa-icon> Upload
                 </button>
                 <button type="button" class="btn btn-warning btn-s"
                         (click)="uploader.cancelAll()" [disabled]="!uploader.isUploading">
-                    <span class="fa fa-ban"></span> Cancel
+                        <fa-icon [icon]="faBan"></fa-icon> Cancel
                 </button>
                 <button type="button" class="btn btn-danger btn-s"
                         (click)="uploader.clearQueue()" [disabled]="!uploader.queue.length">
-                    <span class="fa fa-trash"></span> Remove
+                        <fa-icon [icon]="faTrash"></fa-icon> Remove
                 </button>
                 </div>
             </div>
