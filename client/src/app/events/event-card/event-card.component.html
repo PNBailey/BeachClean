@@ -1,13 +1,15 @@
 <div class="card card-container">
     <div class="card-img-wrapper">
-        <img src="{{existingEvent.mainPhotoUrl || '../../assets/images/Picture-icon.png'}}" alt="{{existingEvent.name}}"
+        <img class="event-photo" src="{{existingEvent.mainPhotoUrl || '../../assets/images/Picture-icon.png'}}" alt="{{existingEvent.name}}"
             alt="existingEvent.mainPhotoUrl">
     </div>
     <div class="line-container">
         <hr>
     </div>   
     <div class="card-body">
-        <p class="body-title">{{existingEvent.name}}</p>
+        <div class="title-container">
+            <h2 class="body-title">{{existingEvent.name}}</h2>
+        </div>  
         <p class="body-item">
             <fa-icon class="body-icon" [icon]="faCalendar"></fa-icon>{{existingEvent.date | date: 'dd MMMM yyyy'}}
         </p>
@@ -16,5 +18,6 @@
         </p>
         <p class="body-item">Event Organisers: {{existingEvent.organisers.length}}</p>
         <p class="body-item">Event Attendees: {{existingEvent.attendees.length}}</p>
+        <p routerLink='/friends/{{existingEvent.creator.userName}}' class="body-item creator">Created by <strong>{{existingEvent.creator.userName | titlecase }}</strong><img src="{{existingEvent.creator.photoUrl || '../../assets/images/Placeholder user image.jpg'}}" alt="{{existingEvent.creator.userName}}"></p>
     </div>
 </div>

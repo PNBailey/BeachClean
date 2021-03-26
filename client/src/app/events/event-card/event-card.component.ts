@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { beachCleanEvent } from 'src/app/models/beachCleanEvent';
 import { faCalendar, faLocationArrow, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -14,9 +15,13 @@ export class EventCardComponent implements OnInit {
   faLocationArrow = faLocationArrow;
   faCalendar = faCalendar;
 
-  constructor() { }
+  constructor(private route: Router) { }
 
   ngOnInit(): void {
   }
+
+  // goToCreatorsProfile(creatorId: Number) {
+  //   this.route.navigate(`../friends/${creatorId}`);
+  // }
 
 }

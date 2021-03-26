@@ -5,18 +5,48 @@
 
 .event-item {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
     /* max-height: 400px;
     width: 300px; */
-    margin: 25px;
+    margin: 10px;
     
 }
 
 .events-container {
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     flex-wrap: wrap;
 }
+
+.event-image {
+    height: 250px;
+    width: 250px;
+    /* overflow: hidden; */
+    margin: 0 !important
+}
+.event-image:hover {
+    transform: scale(1.1);
+    transition: transform 0.6s;
+    
+}
+
+.example-card {
+    width: 250px;
+    padding: 16px 0px;
+}
+
+.main-img-container {
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    
+}
+
+.event-btns-container {
+    display: flex;
+    justify-content: center;
+}
+
 
 
 

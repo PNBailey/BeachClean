@@ -2,7 +2,7 @@ import { Member } from "./member";
 import { Photo } from "./photo";
 
 export class beachCleanEvent {
-    creator: {};
+    creator: Member;
     name: string;
     location: string;
     mainPhotoUrl: string;
