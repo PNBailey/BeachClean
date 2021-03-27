@@ -18,6 +18,6 @@
         </p>
         <p class="body-item">Event Organisers: {{existingEvent.organisers.length}}</p>
         <p class="body-item">Event Attendees: {{existingEvent.attendees.length}}</p>
-        <p routerLink='/friends/{{existingEvent.creator.userName}}' class="body-item creator">Created by <strong>{{existingEvent.creator.userName | titlecase }}</strong><img src="{{existingEvent.creator.photoUrl || '../../assets/images/Placeholder user image.jpg'}}" alt="{{existingEvent.creator.userName}}"></p>
+        <p class="body-item creator">Created by <strong>{{existingEvent.creator.userName | titlecase }}</strong><img routerLink='/friends/{{existingEvent.creator.userName}}' src="{{existingEvent.creator.photoUrl || '../../assets/images/Placeholder user image.jpg'}}" alt="{{existingEvent.creator.userName}}"></p>
     </div>
 </div>
