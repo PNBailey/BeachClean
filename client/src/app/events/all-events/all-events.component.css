@@ -3,13 +3,41 @@
     justify-content: center;
 } */
 
+.background-img {
+    background: url("../../../assets/images/background.JPG") no-repeat center center fixed;
+    background-attachment: fixed;
+    -webkit-background-size: cover;
+-moz-background-size: cover;
+-o-background-size: cover;
+background-size: cover;
+min-height: 100vh;
+width: 100%;
+opacity: 70%;
+z-index: -1;
+position: fixed;
+top: 0px;
+left: 0px;
+}
+
+h2 {
+    color: white;
+}
+ 
+
 .event-item {
     display: flex;
-    justify-content: flex-start;
-    /* max-height: 400px;
-    width: 300px; */
+    justify-content: flex-start;   
     margin: 10px;
+    transform: scale(1.0, 1.0);
+    transition-duration: 500ms;
+    transition-timing-function: ease-out; 
     
+}
+
+.event-item:hover {
+    transform: scale(1.03, 1.03);
+    transition-duration: 500ms;
+    transition-timing-function: ease-out;
 }
 
 .events-container {
