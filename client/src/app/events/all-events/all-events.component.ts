@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { beachCleanEvent } from 'src/app/models/beachCleanEvent';
+import { eventParams } from 'src/app/models/eventParams';
+import { Pagination } from 'src/app/models/pagination';
 import { AccountService } from 'src/app/shared/account.service';
 
 @Component({
@@ -11,12 +13,26 @@ export class AllEventsComponent implements OnInit {
 
   constructor(private accountService: AccountService) { }
   events: beachCleanEvent[];
+  eventPagination: Pagination;
+  eventParams: eventParams;
 
   ngOnInit() {
-    this.accountService.getAllEvents().subscribe(events => {
-      this.events = events;
+    this.eventParams = new eventParams();
+    this.getEvents();
+  }
+
+  getEvents() {
+    this.accountService.getAllEvents().subscribe(response => {
+      this.events = response.result;
+      this.eventPagination = response.pagination;
       console.log(this.events);
     });
+  }
+
+  pageChanged(event: any) {
+    this.eventParams.pageNumber = event.page;
+    this.accountService.setEventParams(this.eventParams);
+    this.getEvents();
   }
 
 }

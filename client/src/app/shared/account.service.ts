@@ -9,6 +9,7 @@ import { UserParams } from '../models/userParams';
 import { LikesParams } from '../models/likesParams';
 import { beachCleanEvent } from '../models/beachCleanEvent';
 import { Photo } from '../models/photo';
+import { eventParams } from '../models/eventParams';
 
 
 @Injectable({
@@ -30,6 +31,7 @@ export class AccountService {
   likeParams: LikesParams;
   userLiked: Subject<Member> = new Subject();
   newLike: boolean = false;
+  eventParams: eventParams;
 
   getUserParams() {
     return this.userParams;
@@ -45,6 +47,14 @@ export class AccountService {
 
   setLikeParams(likeParams: LikesParams) {
     this.likeParams = likeParams;
+  }
+
+  getEventParams() {
+    return this.eventParams;
+  }
+
+  setEventParams(eventParams: eventParams) {
+    this.eventParams = eventParams;
   }
 
   getMember(userName: string) {
@@ -183,7 +193,7 @@ export class AccountService {
     }
 
     getAllEvents() {
-      return this.http.get<beachCleanEvent[]>(`${this.baseUrl}/events`);
+      return this.getPaginatedResult<Partial<beachCleanEvent[]>>(`${this.baseUrl}/events`, this.eventParams);
     }
     
 

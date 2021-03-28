@@ -1,40 +1,16 @@
 <div class="background-img">
-  
 </div>
-
 <div class="container">
-    <h2>Upcoming Events</h2>
-    <hr>
-    <h2>Popular Events</h2>
-    <hr>
-    <h2>All Events</h2>
-    <!-- <div class="events-container">
-        <div class="event-item" *ngFor="let event of events">
-            <mat-card class="example-card">
-                <mat-card-header>
-                  <img src="{{event.creator.photoUrl}}" mat-card-avatar class="example-header-image">
-                  <mat-card-title>{{event.name}}</mat-card-title>
-                  <mat-card-subtitle>Created by {{ event.creator.userName }}</mat-card-subtitle>
-                </mat-card-header>
-                <div class="main-img-container">
-                  <img mat-card-image class="event-image" src="{{event.mainPhotoUrl || '../../assets/images/Picture-icon.png'}}" alt="{{event.name}}">
-                </div>
-                <mat-card-content>
-                  <p>
-                   Event description will go here
-                  </p>
-                </mat-card-content>
-                <mat-card-actions class="event-btns-container">
-                  <button class="btn btn-primary" mat-button>Attend Event</button>
-                </mat-card-actions>
-              </mat-card>
-        </div>
-    </div> -->
     <div class="events-container">
       <div class="event-item" *ngFor="let event of events">
         <app-event-card [existingEvent]="event"></app-event-card>
       </div>
+      <pagination
+        [boundaryLinks]="true"
+        [totalItems]="eventPagination.totalItems"
+        [itemsPerPage]="eventPagination.itemsPerPage"
+        [(ngModel)]="eventPagination.currentPage"
+        (pageChanged)="pageChanged($event)">
+      </pagination>
     </div>
-    
-
 </div>
