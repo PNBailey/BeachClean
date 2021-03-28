@@ -192,8 +192,8 @@ export class AccountService {
       return this.http.get<beachCleanEvent>(`${this.baseUrl}/events/${id}`);
     }
 
-    getAllEvents() {
-      return this.getPaginatedResult<Partial<beachCleanEvent[]>>(`${this.baseUrl}/events`, this.eventParams);
+    getAllEvents(eventParams: eventParams) {
+      return this.getPaginatedResult<Partial<beachCleanEvent[]>>(`${this.baseUrl}/events`, eventParams);
     }
     
 

@@ -43,44 +43,16 @@ namespace api.Data
 
         public async Task<PagedList<EventDto>> GetEventsAsync(EventParams eventParams)
         {
-            var events = _context.Events.OrderBy(existingEvent => existingEvent.Organisers.Count).Include(e => e.Organisers).ThenInclude(e => e.Organiser);
-
-            // events
-            // .Include(e => e.Creator)
-            // .Include(e => e.Photos)
-            // .Include(e => e.Organisers)
-            // .ThenInclude(e => e.Organiser)
-            // .ThenInclude(o => o.Photo)
-            // .ProjectTo<EventDto>(_mapper.ConfigurationProvider);
-
-            // var userEvents = events.Select(existingEvent => existingEvent.Organisers);
-
-          
-
-            var attendees = events.Select(existingEvent => existingEvent.Attendees);
-
-            var allEvents = events.Select(existingEvent => new EventDto {
-                Name = existingEvent.Name,
-                Id = existingEvent.Id,
-                Date = existingEvent.Date,
-                Location = existingEvent.Location,
-                MainPhotoUrl = existingEvent.MainPhotoUrl,
-                Photos = _mapper.Map<ICollection<PhotoDto>>(existingEvent.Photos),
-                Creator = _mapper.Map<MemberDto>(existingEvent.Creator),
-                Organisers = _mapper.Map<ICollection<MemberDto>>(existingEvent.Organisers),
-                Attendees = _mapper.Map<ICollection<MemberDto>>(existingEvent.Attendees)
-            });
+            var events = _context.Events.OrderBy(existingEvent => existingEvent.Organisers.Count).AsQueryable()
+            .Include(e => e.Creator)
+            .Include(e => e.Photos)
+            .Include(e => e.Organisers)
+            .ThenInclude(e => e.Organiser)
+            .ThenInclude(o => o.Photo)
+            .ProjectTo<EventDto>(_mapper.ConfigurationProvider);
             
-            return await PagedList<EventDto>.CreateAsync(allEvents, eventParams.PageNumber, eventParams.PageSize);
+            return await PagedList<EventDto>.CreateAsync(events, eventParams.PageNumber, eventParams.PageSize);
 
-            // return await _context.Events
-            // .Include(e => e.Creator)
-            // .Include(e => e.Photos)
-            // .Include(e => e.Organisers)
-            // .ThenInclude(e => e.Organiser)
-            // .ThenInclude(o => o.Photo)
-            // .ProjectTo<EventDto>(_mapper.ConfigurationProvider)
-            // .ToListAsync();
         }
 
           public async Task<bool> SaveAllAsync()

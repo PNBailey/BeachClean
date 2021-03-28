@@ -22,7 +22,7 @@ export class AllEventsComponent implements OnInit {
   }
 
   getEvents() {
-    this.accountService.getAllEvents().subscribe(response => {
+    this.accountService.getAllEvents(this.eventParams).subscribe(response => {
       this.events = response.result;
       this.eventPagination = response.pagination;
       console.log(this.events);

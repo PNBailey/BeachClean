@@ -5,7 +5,7 @@
       <div class="event-item" *ngFor="let event of events">
         <app-event-card [existingEvent]="event"></app-event-card>
       </div>
-      <pagination
+      <pagination *ngIf="eventPagination"
         [boundaryLinks]="true"
         [totalItems]="eventPagination.totalItems"
         [itemsPerPage]="eventPagination.itemsPerPage"
