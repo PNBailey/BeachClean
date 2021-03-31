@@ -43,7 +43,7 @@ namespace api.Data
 
         public async Task<PagedList<EventDto>> GetEventsAsync(EventParams eventParams)
         {
-            var events = _context.Events.OrderBy(existingEvent => existingEvent.Organisers.Count).AsQueryable()
+            var events = _context.Events.OrderByDescending(existingEvent => existingEvent.Organisers.Count).AsQueryable()
             .Include(e => e.Creator)
             .Include(e => e.Photos)
             .Include(e => e.Organisers)
