@@ -53,10 +53,10 @@
                         </form>
                     </tab>
                     <tab heading="Event Organisers">
-                        <div class="organisers-container">
-                            <div class="organiser-card" *ngFor="let organiser of event.organisers">
+                        <div class="event-users-container">
+                            <div class="event-users-card" *ngFor="let organiser of event.organisers">
                                 <app-member-card [member]="organiser"></app-member-card>
-                                <div class="organiser-below-button">
+                                <div class="event-users-below-button">
                                     <button (click)="removeOrganiser(organiser.id)" class="btn btn-danger">Remove Organiser</button>
                                 </div>
                             </div>
@@ -79,10 +79,17 @@
                                 </mat-option>
                             </mat-autocomplete>
                         </mat-form-field>
-                  
-
                     </tab>
-                    <tab heading="Event Attendees"></tab>
+                    <tab heading="Event Attendees">
+                        <div class="event-users-container">
+                            <div class="event-users-card" *ngFor="let attendee of event.attendees">
+                                <app-member-card [member]="attendee"></app-member-card>
+                                <div class="event-users-below-button">
+                                    <button (click)="removeAttendee(attendee.id)" class="btn btn-danger">Remove Attendee</button>
+                                </div>
+                            </div>
+                        </div> 
+                    </tab>
                     <tab heading="Event Photos">
                         <div class="photos-container">
                             <ul *ngFor="let photo of event.photos">

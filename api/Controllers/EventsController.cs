@@ -248,14 +248,18 @@ namespace api.Controllers
 
         var existingEvent = await _eventsRepository.GetEventByIdAsync(eventId);
 
+        var existingEventTest = existingEvent.Attendees.FirstOrDefault(x => x.Attendee.UserName == attendeeUsername);
+
+        if(existingEventTest != null) return BadRequest("Already attending event");
+
         var eventUser = new EventUsers {
             AttendeeId = attendee.Id,
             AttendingEventId = eventId
         };
 
-       var existingEventTest = existingEvent.Attendees.FirstOrDefault(x => x == eventUser); 
+       // var existingEventTest = existingEvent.Attendees.FirstOrDefault(x => x == eventUser); 
 
-       if(existingEventTest != null) return BadRequest("Already attending event");
+    //    if(existingEventTest != null) return BadRequest("Already attending event");
 
        existingEvent.Attendees = existingEvent.Attendees ?? new List<EventUsers>();
 

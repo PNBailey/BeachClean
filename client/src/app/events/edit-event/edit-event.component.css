@@ -183,20 +183,20 @@ ul {
     margin-left: 10px;
 }
 
-.organisers-container {
+.event-users-container {
     display: flex;
     justify-content: flex-start;
     flex-wrap: wrap;
     margin-bottom: 5px;
 }
 
-.organiser-card {
+.event-users-card {
     height: 250px;
     width: 150px;
     margin: 20px 10px 45px 10px;
 }
 
-.organiser-below-button {
+.event-users-below-button {
     display: flex;
     justify-content: center;
     margin-top: 10px;

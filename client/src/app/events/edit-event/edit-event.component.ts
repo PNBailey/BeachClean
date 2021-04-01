@@ -182,6 +182,10 @@ export class EditEventComponent implements OnInit, OnDestroy {
       this.toastr.success("Organiser removed")
     }));
   }
+
+  removeAttendee(attendee: Member) {
+    
+  }
   
   ngOnDestroy() {
     this.subscriptions.forEach(sub => {

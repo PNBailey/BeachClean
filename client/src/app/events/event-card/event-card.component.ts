@@ -33,7 +33,7 @@ export class EventCardComponent implements OnInit, OnDestroy {
   addAttendee() {
    this.eventServiceSub = this.eventService.addAttendee(this.existingEvent.id, this.currUserUsername).subscribe(() => {
     this.toastr.success(`You are attending the event: ${this.existingEvent.name}`);
-   });
+   }, error => console.log(error));
   }
 
   ngOnDestroy() {

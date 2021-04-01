@@ -34,13 +34,13 @@ export class ErrorInterceptor implements HttpInterceptor {
               else if(typeof(error.error) === 'object') // This checks to see whether the error.error is an object. As there are various different types of 400 errors, we need to accomodate all the different types. If it is a standard 400 error with no message, then an error object will be returned as the error 
              { 
 
-              this.toastr.error(error.statusText, error.status); // If there is no error in the errors array that comes from our api, then the error can be handled by the toastr
+              this.toastr.error(error.error); // If there is no error in the errors array that comes from our api, then the error can be handled by the toastr
             } else {
-                this.toastr.error(error.statusText, error.status);
+                this.toastr.error(error.error);
               }
               break;
               case 401: 
-              this.toastr.error(error.statusText, error.status)
+              this.toastr.error(error.error)
               break;
               case 404: 
               this.router.navigateByUrl('/not-found');
