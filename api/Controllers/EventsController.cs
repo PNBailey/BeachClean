@@ -240,6 +240,31 @@ namespace api.Controllers
 
         return BadRequest("Failed to remove organiser"); 
     }
+
+    [HttpPut("add-attendee/{eventId}/{attendeeUsername}")]
+    public async Task<ActionResult> addAttendee(int eventId, string attendeeUsername) 
+    {
+        var attendee = await _userRepository.GetUserByUsernameAsync(attendeeUsername);
+
+        var existingEvent = await _eventsRepository.GetEventByIdAsync(eventId);
+
+        var eventUser = new EventUsers {
+            AttendeeId = attendee.Id,
+            AttendingEventId = eventId
+        };
+
+       var existingEventTest = existingEvent.Attendees.FirstOrDefault(x => x == eventUser); 
+
+       if(existingEventTest != null) return BadRequest("Already attending event");
+
+       existingEvent.Attendees = existingEvent.Attendees ?? new List<EventUsers>();
+
+        existingEvent.Attendees.Add(eventUser);
+
+        if(await _eventsRepository.SaveAllAsync()) return Ok();
+
+        return BadRequest("Failed to add attendee");
+    }
         
 
     }

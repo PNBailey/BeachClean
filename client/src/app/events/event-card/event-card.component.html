@@ -3,7 +3,7 @@
         <img class="event-photo" src="{{existingEvent.mainPhotoUrl || '../../assets/images/Picture-icon.png'}}" alt="{{existingEvent.name}}"
             alt="existingEvent.mainPhotoUrl">
         <div class="image-btn-container animate">
-            <button class="btn btn-primary">Attend Event</button>
+            <button (click)="addAttendee()" class="btn btn-primary">Attend Event</button>
         </div>
     </div>
     <div class="line-container">

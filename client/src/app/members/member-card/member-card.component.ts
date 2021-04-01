@@ -17,7 +17,7 @@ export class MemberCardComponent implements OnInit, OnDestroy {
   faHeart = faHeart;
   faUser = faUser;
   faLocationArrow = faLocationArrow;
-  addLikeSub: Subscription;
+  addLikeSub: Subscription = new Subscription();
 
   constructor(private accountService: AccountService, private toastrService: ToastrService, private friendService: FriendsService) { }
 
@@ -25,7 +25,7 @@ export class MemberCardComponent implements OnInit, OnDestroy {
   }
 
   likeMember(member: Member) {
-    this.friendService.addLike(member).subscribe(() => {
+    this.addLikeSub = this.friendService.addLike(member).subscribe(() => {
       this.toastrService.success(`You have liked ${member.userName}`);
       this.friendService.updateNewLike();
       this.friendService.userLiked.next();

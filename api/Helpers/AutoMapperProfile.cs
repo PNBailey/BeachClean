@@ -26,7 +26,8 @@ namespace api.Helpers
             CreateMap<MemberUpdateDto, AppUser>();
 
             CreateMap<Event, EventDto>()
-            .ForMember(dest => dest.Organisers, opt => opt.MapFrom(src => src.Organisers.Select(Organisers => Organisers.Organiser)));
+            .ForMember(dest => dest.Organisers, opt => opt.MapFrom(src => src.Organisers.Select(Organisers => Organisers.Organiser)))
+            .ForMember(dest => dest.Attendees, opt => opt.MapFrom(src => src.Attendees.Select(Attendees => Attendees.Attendee)));
 
             CreateMap<EventDto, Event>();
 

@@ -56,4 +56,8 @@ export class EventService {
         return this.http.delete(`${this.baseUrl}/removeOrganiser/${eventid}/${organiserId}`);
       }
 
+      addAttendee(eventId: Number, attendeeUsername: string) {
+        return this.http.put(`${this.baseUrl}/add-attendee/${eventId}/${attendeeUsername}`, {});
+      }
+
 }

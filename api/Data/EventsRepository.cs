@@ -35,6 +35,9 @@ namespace api.Data
             .Where(e => e.Id == eventId)
             .Include(e => e.Photos)
             .Include(e => e.Creator)
+            .Include(e => e.Attendees)
+            .ThenInclude(e => e.Attendee)
+            .ThenInclude(e => e.Photo)
             .Include(e => e.Organisers)
             .ThenInclude(e => e.Organiser)
             .ThenInclude(o => o.Photo)
@@ -46,6 +49,9 @@ namespace api.Data
             var events = _context.Events.OrderByDescending(existingEvent => existingEvent.Organisers.Count).AsQueryable()
             .Include(e => e.Creator)
             .Include(e => e.Photos)
+            .Include(e => e.Attendees)
+            .ThenInclude(e => e.Attendee)
+            .ThenInclude(e => e.Photo)
             .Include(e => e.Organisers)
             .ThenInclude(e => e.Organiser)
             .ThenInclude(o => o.Photo)
@@ -73,5 +79,6 @@ namespace api.Data
 
             return true;
         }
+
     }
 }
