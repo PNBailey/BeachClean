@@ -1,15 +1,14 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { of, ReplaySubject, scheduled, Subject } from 'rxjs';
+import { of, ReplaySubject } from 'rxjs';
 import { User } from '../models/user';
-import { map, take } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { Member } from '../models/member';
-import { PaginatedResult } from '../models/pagination';
-import { UserParams } from '../models/userParams';
-import { LikesParams } from '../models/likesParams';
+import { MemberParams } from '../models/memberParams';
 import { beachCleanEvent } from '../models/beachCleanEvent';
 import { Photo } from '../models/photo';
 import { eventParams } from '../models/eventParams';
+import { PaginationService } from './pagination.service';
 
 
 @Injectable({
@@ -17,37 +16,27 @@ import { eventParams } from '../models/eventParams';
 })
 export class AccountService {
 
-  constructor(private http: HttpClient) { 
-      this.userParams = new UserParams();
-      this.likeParams = new LikesParams();
+  constructor(private http: HttpClient, private paginationService: PaginationService) { 
+      this.memberParams = new MemberParams();
+      
 
   }
 
   currentUserSource = new ReplaySubject<User>(1);
   currentUser = this.currentUserSource.asObservable();
   baseUrl: string = "https://localhost:5001/api";
-  userParams: UserParams;
+  memberParams: MemberParams;
   memberCache = new Map();
-  likeParams: LikesParams;
-  userLiked: Subject<Member> = new Subject();
-  newLike: boolean = false;
   eventParams: eventParams;
 
-  getUserParams() {
-    return this.userParams;
+  getmemberParams() {
+    return this.memberParams;
   }
 
-  setUserParams(userParams: UserParams) {
-    this.userParams = userParams;
+  setMemberParams(memberParams: MemberParams) {
+    this.memberParams = memberParams;
   }
 
-  getLikeParams() {
-    return this.likeParams;
-  }
-
-  setLikeParams(likeParams: LikesParams) {
-    this.likeParams = likeParams;
-  }
 
   getEventParams() {
     return this.eventParams;
@@ -69,9 +58,9 @@ export class AccountService {
     return this.http.get<Member>(`${this.baseUrl}/users/${userName}`);
   }
 
-  getMembers(userParams: UserParams) {
+  getMembers(memberParams: MemberParams) {
 
-    const response = this.memberCache.get(Object.values(userParams).join('-'));
+    const response = this.memberCache.get(Object.values(memberParams).join('-'));
 
     if(response) {
       return of(response);
@@ -79,13 +68,13 @@ export class AccountService {
 
     let params = new HttpParams(); 
 
-      params = params.append('pageNumber', userParams.pageNumber.toString()); 
-      params = params.append('pageSize', userParams.pageSize.toString());
-      params = params.append('usersLocation', userParams.usersLocation);
+      params = params.append('pageNumber', memberParams.pageNumber.toString()); 
+      params = params.append('pageSize', memberParams.pageSize.toString());
+      params = params.append('usersLocation', memberParams.usersLocation);
     
     
-    return this.getPaginatedResult<Member[]>(`${this.baseUrl}/users`, userParams).pipe(map(response => {
-      this.memberCache.set(Object.values(userParams).join('-'), response);
+    return this.paginationService.getPaginatedResult<Member[]>(`${this.baseUrl}/users`, memberParams).pipe(map(response => {
+      this.memberCache.set(Object.values(memberParams).join('-'), response);
       return response;
     }));
   }
@@ -126,64 +115,9 @@ export class AccountService {
     
   }
 
-  getPaginatedResult<T>(url, params) {
-
-    const paginatedResult: PaginatedResult<T> = new PaginatedResult<T>();
-    return this.http.get<T>(url, {observe: 'response', params}).pipe(
-      map(response => {
-        paginatedResult.result = response.body; 
-        if(response.headers.get('Pagination') !== null) {
-          paginatedResult.pagination = JSON.parse(response.headers.get('Pagination'));
-        }
-        return paginatedResult;
-      }))
-    
-    }
-
-    addLike(member: Member) {
-      return this.http.post(this.baseUrl + '/likes/' + member.userName, {});
-      
-    }
-
-    updateNewLike() {
-      this.newLike = true;
-    }
-
-    getPaginatedLikes() {
-      const response = this.memberCache.get(Object.values(this.likeParams).join('-'));
-
-      if(response && this.newLike == false) {
-        return of(response);
-      }
-
-     
-
-      let params = this.getPaginationHeaders(this.likeParams.pageNumber, this.likeParams.pageSize);
-
-      params = params.append('predicate', this.likeParams.predicate);
-
-      return this.getPaginatedResult<Partial<Member[]>>(this.baseUrl + '/likes', params).pipe(map(response => {
-        this.memberCache.set(Object.values(this.likeParams).join('-'), response);
-        this.newLike = false;
-      return response;
-      }));
-    }
-
-
-    getFullLikes() {
-      return this.http.get<Member[]>(`${this.baseUrl}/likes/Full`);
-    }
-
-    private getPaginationHeaders(pageNumber: number, pageSize: number) {
-      let params = new HttpParams();  
   
-        params = params.append('pageNumber', pageNumber.toString()); 
-        params = params.append('pageSize', pageSize.toString());
-  
-        return params;
-      
-    }
 
+   
     addEvent(event: beachCleanEvent) {
      return this.http.post(this.baseUrl + '/events', event);
     }
@@ -193,7 +127,7 @@ export class AccountService {
     }
 
     getAllEvents(eventParams: eventParams) {
-      return this.getPaginatedResult<Partial<beachCleanEvent[]>>(`${this.baseUrl}/events`, eventParams);
+      return this.paginationService.getPaginatedResult<Partial<beachCleanEvent[]>>(`${this.baseUrl}/events`, eventParams);
     }
     
 
