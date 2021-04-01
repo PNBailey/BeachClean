@@ -1,7 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { BeachCleanEvent } from 'src/app/models/beachCleanEvent';
 import { faCalendar, faLocationArrow, faTrash } from '@fortawesome/free-solid-svg-icons';
-import { Router } from '@angular/router';
 
 
 @Component({
@@ -15,7 +14,7 @@ export class EventCardComponent implements OnInit {
   faLocationArrow = faLocationArrow;
   faCalendar = faCalendar;
 
-  constructor(private route: Router) { }
+  constructor() { }
 
   ngOnInit(): void {
   }

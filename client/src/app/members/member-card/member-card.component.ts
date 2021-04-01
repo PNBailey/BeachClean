@@ -1,6 +1,7 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { faEnvelope, faHeart, faLocationArrow, faUser } from '@fortawesome/free-solid-svg-icons';
 import { ToastrService } from 'ngx-toastr';
+import { Subscription } from 'rxjs';
 import { AccountService } from 'src/app/shared/account.service';
 import { FriendsService } from 'src/app/shared/friends.service';
 import { Member } from '../../models/member';
@@ -10,12 +11,13 @@ import { Member } from '../../models/member';
   templateUrl: './member-card.component.html',
   styleUrls: ['./member-card.component.css']
 })
-export class MemberCardComponent implements OnInit {
+export class MemberCardComponent implements OnInit, OnDestroy {
   @Input() member: Member;
   faEnvelope = faEnvelope;
   faHeart = faHeart;
   faUser = faUser;
   faLocationArrow = faLocationArrow;
+  addLikeSub: Subscription;
 
   constructor(private accountService: AccountService, private toastrService: ToastrService, private friendService: FriendsService) { }
 
@@ -28,6 +30,10 @@ export class MemberCardComponent implements OnInit {
       this.friendService.updateNewLike();
       this.friendService.userLiked.next();
     });
+  }
+
+  ngOnDestroy() {
+    this.addLikeSub.unsubscribe();
   }
 
 

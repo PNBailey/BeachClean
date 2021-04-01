@@ -36,11 +36,10 @@
 .card-img-wrapper > img {
     height: 230px;
     width: 230px;
-    overflow: hidden;
 }
 
 
-.image-btn-container > button {
+.image-btn-container {
     position: absolute;
     bottom: -30%;
     left: 0;
@@ -48,14 +47,17 @@
     margin-right: auto;
     margin-left: auto;
     opacity: 0;
+    display: flex;
+    justify-content: center;
 }
 
-.card-img-wrapper:hover .image-btn-container {
+.card-container:hover .image-btn-container {
     bottom: 0;
     opacity: 1;
+    margin-bottom: 10px;
 }
 
-.image-btn-container {
+.animate {
     transition: all 0.3s ease-in-out;
 }
 
