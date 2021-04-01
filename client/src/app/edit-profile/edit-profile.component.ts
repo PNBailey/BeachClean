@@ -1,13 +1,13 @@
 import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { faBan, faStop, faTrash, faUpload } from '@fortawesome/free-solid-svg-icons';
+import { faBan, faTrash, faUpload } from '@fortawesome/free-solid-svg-icons';
 import { FileUploader } from 'ng2-file-upload';
 import { ToastrService } from 'ngx-toastr';
 import { take } from 'rxjs/operators';
 import { Member } from '../models/member';
-import { Photo } from '../models/photo';
 import { User } from '../models/user';
 import { AccountService } from '../shared/account.service';
+import { MemberService } from '../shared/member.service';
 
 @Component({
   selector: 'app-edit-profile',
@@ -33,7 +33,7 @@ export class EditProfileComponent implements OnInit {
 
   } 
 
-  constructor(private accountService: AccountService, private toastrService: ToastrService) {
+  constructor(private accountService: AccountService, private toastrService: ToastrService, private memberService: MemberService) {
     
     this.accountService.currentUser.pipe(take(1)).subscribe(user => this.currentUser = user);
      }
@@ -45,14 +45,14 @@ export class EditProfileComponent implements OnInit {
   }
 
   loadMember() {
-    this.accountService.getMember(this.currentUser.userName.toLowerCase()).subscribe(member => {
+    this.memberService.getMember(this.currentUser.userName.toLowerCase()).subscribe(member => {
       this.member = member;
     });
   }
 
   updateProfile() {
     console.log(this.member);
-    this.accountService.updateMember(this.member).subscribe(() => {
+    this.memberService.updateMember(this.member).subscribe(() => {
       this.editForm.reset(this.member);
       this.toastrService.success("Profile succesfully updated");   
     });

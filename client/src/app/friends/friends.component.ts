@@ -4,9 +4,10 @@ import { LikesParams } from '../models/likesParams';
 import { Member } from '../models/member';
 import { Pagination } from '../models/pagination';
 import { User } from '../models/user';
-import { MemberParams } from '../models/MemberParams';
+import { MemberParams } from '../models/memberParams';
 import { AccountService } from '../shared/account.service';
 import { FriendsService } from '../shared/friends.service';
+import { MemberService } from '../shared/member.service';
 
 @Component({
   selector: 'app-friends',
@@ -28,11 +29,11 @@ export class FriendsComponent implements OnInit, OnDestroy {
   
 
 
-  constructor(public accountService: AccountService, private friendService: FriendsService) { }
+  constructor(public accountService: AccountService, private friendService: FriendsService, private memberService: MemberService) { }
 
   ngOnInit() {
 
-    this.memberParams = this.accountService.getmemberParams();
+    this.memberParams = this.memberService.getmemberParams();
     this.likeParams = this.friendService.getLikeParams();
     this.loadFriends();
     this.loadMembers();
@@ -42,8 +43,8 @@ export class FriendsComponent implements OnInit, OnDestroy {
   }
 
   loadMembers() {
-    this.accountService.setMemberParams(this.memberParams);
-    this.getMembersSub = this.accountService.getMembers(this.memberParams).subscribe(response => {
+    this.memberService.setMemberParams(this.memberParams);
+    this.getMembersSub = this.memberService.getMembers(this.memberParams).subscribe(response => {
       this.members = response.result;
       this.membersPagination = response.pagination;
     });
@@ -61,7 +62,7 @@ export class FriendsComponent implements OnInit, OnDestroy {
   getLocalUsers(usersLocation: string) {
 
     this.memberParams.usersLocation = usersLocation;
-    this.accountService.setMemberParams(this.memberParams);
+    this.memberService.setMemberParams(this.memberParams);
     this.loadMembers();
   }
 
@@ -78,7 +79,7 @@ export class FriendsComponent implements OnInit, OnDestroy {
 
   pageChangedMembers(event: any) {
     this.memberParams.pageNumber = event.page;
-    this.accountService.setMemberParams(this.memberParams);
+    this.memberService.setMemberParams(this.memberParams);
     this.loadMembers();
   }
 

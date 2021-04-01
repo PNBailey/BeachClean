@@ -6,12 +6,14 @@ import { FileUploader } from 'ng2-file-upload';
 import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
 import { map, startWith, take } from 'rxjs/operators';
-import { beachCleanEvent } from 'src/app/models/beachCleanEvent';
+import { BeachCleanEvent } from 'src/app/models/beachCleanEvent';
 import { LikesParams } from 'src/app/models/likesParams';
 import { Member } from 'src/app/models/member';
 import { Photo } from 'src/app/models/photo';
 import { User } from 'src/app/models/user';
 import { AccountService } from 'src/app/shared/account.service';
+import { EventService } from 'src/app/shared/event.service';
+import { FriendsService } from 'src/app/shared/friends.service';
 
 @Component({
   selector: 'app-edit-event',
@@ -26,7 +28,7 @@ export class EditEventComponent implements OnInit {
   minDate: Date;
   uploader: FileUploader;
   baseUrl: string = "https://localhost:5001/api";
-  event: beachCleanEvent;
+  event: BeachCleanEvent;
   eventId: number;
   likeParams: LikesParams;
   friends: Member[] = [];
@@ -48,11 +50,11 @@ export class EditEventComponent implements OnInit {
   
   
 
-  constructor(private accountService: AccountService, private formBuilder: FormBuilder, private route: ActivatedRoute, private toastr: ToastrService) { }
+  constructor(private accountService: AccountService, private formBuilder: FormBuilder, private route: ActivatedRoute, private toastr: ToastrService, private eventService: EventService, private friendService: FriendsService) { }
 
   ngOnInit(): void {
     this.eventId = this.route.snapshot.params['id'];
-    this.accountService.getEvent(this.eventId).subscribe(event => {
+    this.eventService.getEvent(this.eventId).subscribe(event => {
       this.event = event;
       console.log(this.event);
       this.initializeUploader();
@@ -82,7 +84,7 @@ export class EditEventComponent implements OnInit {
 
   getFriendsOnFocus() {
     if(this.friends.length == 0) {
-      this.accountService.getFullLikes().subscribe(friends => {
+      this.friendService.getFullLikes().subscribe(friends => {
         this.friends = friends;
       });
     }
@@ -104,7 +106,7 @@ export class EditEventComponent implements OnInit {
 
   editEvent() {
     this.editEventForm.patchValue({ id: this.eventId });
-    this.accountService.updateEvent(this.editEventForm.value).subscribe(() => {
+    this.eventService.updateEvent(this.editEventForm.value).subscribe(() => {
       this.toastr.success("Event Successfully Updated");
       if (this.editEventForm.controls['Date'].value != "") {
         this.event.date = this.editEventForm.controls['Date'].value;
@@ -147,14 +149,14 @@ export class EditEventComponent implements OnInit {
       currentMainPhoto.mainPhoto = false;
     }
     photo.mainPhoto = true;
-    this.accountService.setMainPhoto(this.eventId, photo).subscribe(() => {
+    this.eventService.setMainPhoto(this.eventId, photo).subscribe(() => {
       this.event.mainPhotoUrl = photo.url;
       this.toastr.success("Main Photo Set");
     });
   }
 
   deletePhoto(photo: Photo) {
-    this.accountService.deletePhoto(this.eventId, photo.id).subscribe(() => {
+    this.eventService.deletePhoto(this.eventId, photo.id).subscribe(() => {
       const photoIndex = this.event.photos.findIndex(p => p == photo);
       this.event.photos.splice(photoIndex, 1);
       if (this.event.mainPhotoUrl == photo.url) {
@@ -167,14 +169,14 @@ export class EditEventComponent implements OnInit {
   addOrganiser() {
     const friend = this.friends.find(friend => friend.userName == this.addOrganiserForm.controls['organisers'].value);
     this.event.organisers.push(friend);
-    this.accountService.addOrganiser(this.eventId, friend.id).subscribe(() => {
+    this.eventService.addOrganiser(this.eventId, friend.id).subscribe(() => {
       this.toastr.success("Organiser added");
     });
 
   }
 
   removeOrganiser(organiserId: Number) {
-    this.accountService.removeOrganiser(this.eventId, organiserId).subscribe(() => {
+    this.eventService.removeOrganiser(this.eventId, organiserId).subscribe(() => {
       this.event.organisers.splice(this.event.organisers.findIndex(organiser => organiser.id == organiserId), 1);
       this.toastr.success("Organiser removed")
     });

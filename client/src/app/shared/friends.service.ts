@@ -23,7 +23,7 @@ export class FriendsService {
 
 
     addLike(member: Member) {
-        return this.http.post(this.baseUrl + '/likes/' + member.userName, {});
+        return this.http.post(this.baseUrl + '/' + member.userName, {});
 
     }
 
@@ -48,7 +48,7 @@ export class FriendsService {
 
         params = params.append('predicate', this.likeParams.predicate);
 
-        return this.paginationService.getPaginatedResult<Partial<Member[]>>(this.baseUrl + '/likes', params).pipe(map(response => {
+        return this.paginationService.getPaginatedResult<Partial<Member[]>>(this.baseUrl, params).pipe(map(response => {
             this.memberCache.set(Object.values(this.likeParams).join('-'), response);
             this.newLike = false;
             return response;

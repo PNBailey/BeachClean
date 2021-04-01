@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { beachCleanEvent } from 'src/app/models/beachCleanEvent';
-import { eventParams } from 'src/app/models/eventParams';
+import { BeachCleanEvent } from 'src/app/models/beachCleanEvent';
+import { EventParams } from 'src/app/models/eventParams';
 import { Pagination } from 'src/app/models/pagination';
 import { AccountService } from 'src/app/shared/account.service';
+import { EventService } from 'src/app/shared/event.service';
 
 @Component({
   selector: 'app-all-events',
@@ -11,18 +12,18 @@ import { AccountService } from 'src/app/shared/account.service';
 })
 export class AllEventsComponent implements OnInit {
 
-  constructor(private accountService: AccountService) { }
-  events: beachCleanEvent[];
+  constructor(private accountService: AccountService, private eventService: EventService) { }
+  events: BeachCleanEvent[];
   eventPagination: Pagination;
-  eventParams: eventParams;
+  eventParams: EventParams;
 
   ngOnInit() {
-    this.eventParams = new eventParams();
+    this.eventParams = new EventParams();
     this.getEvents();
   }
 
   getEvents() {
-    this.accountService.getAllEvents(this.eventParams).subscribe(response => {
+    this.eventService.getAllEvents(this.eventParams).subscribe(response => {
       this.events = response.result;
       this.eventPagination = response.pagination;
       console.log(this.events);
@@ -31,7 +32,7 @@ export class AllEventsComponent implements OnInit {
 
   pageChanged(event: any) {
     this.eventParams.pageNumber = event.page;
-    this.accountService.setEventParams(this.eventParams);
+    this.eventService.setEventParams(this.eventParams);
     this.getEvents();
   }
 

@@ -5,6 +5,7 @@ import { Observable, Subscription } from 'rxjs';
 import { Member } from 'src/app/models/member';
 import { AccountService } from 'src/app/shared/account.service';
 import { FriendsService } from 'src/app/shared/friends.service';
+import { MemberService } from 'src/app/shared/member.service';
 
 @Component({
   selector: 'app-member-detail',
@@ -19,10 +20,10 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
   likedUser: Member;
   addLikeSub: Subscription;
 
-  constructor(private route: ActivatedRoute, private accountService: AccountService, private toastr: ToastrService, private friendService: FriendsService) { }
+  constructor(private route: ActivatedRoute, private accountService: AccountService, private toastr: ToastrService, private friendService: FriendsService, private memberService: MemberService) { }
 
   ngOnInit(): void {
-    this.member = this.accountService.getMember(this.route.snapshot.paramMap.get('username'));   
+    this.member = this.memberService.getMember(this.route.snapshot.paramMap.get('username'));   
   }
 
   likeMember(member: Member) {
