@@ -13,10 +13,10 @@ export class AccountService {
 
   currentUserSource = new ReplaySubject<User>(1);
   currentUser = this.currentUserSource.asObservable();
-  baseUrl: string = "https://localhost:5001/api";
+  baseUrl: string = "https://localhost:5001/api/account";
 
   register(user: any) {
-    return this.http.post(`${this.baseUrl}/account/register`, user).pipe(
+    return this.http.post(`${this.baseUrl}/register`, user).pipe(
       map((user: User) => {
         if (user) {
           localStorage.setItem('user', JSON.stringify(user));
@@ -28,7 +28,7 @@ export class AccountService {
   }
 
   login(user: any) {
-    return this.http.post(`${this.baseUrl}/account/login`, user).pipe(
+    return this.http.post(`${this.baseUrl}/login`, user).pipe(
       map((user: User) => {
         if (user) {
           localStorage.setItem('user', JSON.stringify(user));

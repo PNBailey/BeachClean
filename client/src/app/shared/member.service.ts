@@ -1,11 +1,14 @@
 import { HttpClient, HttpParams } from "@angular/common/http";
+import { Injectable } from "@angular/core";
 import { of } from "rxjs";
 import { map } from "rxjs/operators";
 import { Member } from "../models/member";
 import { MemberParams } from "../models/memberParams";
 import { PaginationService } from "./pagination.service";
 
-
+@Injectable({
+    providedIn: 'root'
+  })
 export class MemberService {
 
     constructor(private http: HttpClient, private paginationService: PaginationService) {

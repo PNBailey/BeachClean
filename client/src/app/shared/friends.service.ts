@@ -1,4 +1,5 @@
 import { HttpClient, HttpParams } from "@angular/common/http";
+import { Injectable } from "@angular/core";
 import { of, Subject } from "rxjs";
 import { map } from "rxjs/operators";
 import { LikesParams } from "../models/likesParams";
@@ -7,7 +8,9 @@ import { AccountService } from "./account.service";
 import { PaginationService } from "./pagination.service";
 
 
-
+@Injectable({
+    providedIn: 'root'
+  })
 export class FriendsService {
 
     constructor(private accountService: AccountService, private paginationService: PaginationService, private http: HttpClient) {

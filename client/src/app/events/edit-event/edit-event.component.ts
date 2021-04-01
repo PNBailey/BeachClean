@@ -1,10 +1,10 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { faBan, faCalendar, faLocationArrow, faTrash, faUpload } from '@fortawesome/free-solid-svg-icons';
 import { FileUploader } from 'ng2-file-upload';
 import { ToastrService } from 'ngx-toastr';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { map, startWith, take } from 'rxjs/operators';
 import { BeachCleanEvent } from 'src/app/models/beachCleanEvent';
 import { LikesParams } from 'src/app/models/likesParams';
@@ -20,7 +20,7 @@ import { FriendsService } from 'src/app/shared/friends.service';
   templateUrl: './edit-event.component.html',
   styleUrls: ['./edit-event.component.css']
 })
-export class EditEventComponent implements OnInit {
+export class EditEventComponent implements OnInit, OnDestroy {
 
   currentUser: User;
   editEventForm: FormGroup;
@@ -39,6 +39,7 @@ export class EditEventComponent implements OnInit {
   faBan = faBan;
   faUpload = faUpload;
   filteredOptions: Observable<Member[]>;
+  subscriptions: Subscription[] = [];
   @HostListener('window:beforeunload', ['$event']) unloadNotification($event: any) { // This allows us to show a warning message if the user tries to close a tab (or go to google for example) and asks them if they want to leave the page as any changes made to the form will be . The hostlistener gives us access to browser events 
   
 
@@ -54,7 +55,7 @@ export class EditEventComponent implements OnInit {
 
   ngOnInit(): void {
     this.eventId = this.route.snapshot.params['id'];
-    this.eventService.getEvent(this.eventId).subscribe(event => {
+    this.subscriptions.push(this.eventService.getEvent(this.eventId).subscribe(event => {
       this.event = event;
       console.log(this.event);
       this.initializeUploader();
@@ -63,7 +64,7 @@ export class EditEventComponent implements OnInit {
       if (this.event.mainPhotoUrl == null) {
         this.event.mainPhotoUrl = "../../assets/images/Picture-icon.png";
       }
-    });
+    }));
     this.accountService.currentUserSource.pipe(take(1)).subscribe(user => {
       this.currentUser = user;
     });
@@ -96,7 +97,6 @@ export class EditEventComponent implements OnInit {
       location: ['', Validators.required],
       Date: [''],
       id: [''],
-      
       // Time: ['', Validators.required],
     });
     this.addOrganiserForm = this.formBuilder.group({
@@ -106,14 +106,15 @@ export class EditEventComponent implements OnInit {
 
   editEvent() {
     this.editEventForm.patchValue({ id: this.eventId });
-    this.eventService.updateEvent(this.editEventForm.value).subscribe(() => {
+    this.subscriptions.push(this.eventService.updateEvent(this.editEventForm.value).subscribe(() => {
       this.toastr.success("Event Successfully Updated");
       if (this.editEventForm.controls['Date'].value != "") {
         this.event.date = this.editEventForm.controls['Date'].value;
       }
       this.event.location = this.editEventForm.controls['location'].value;
       this.event.name = this.editEventForm.controls['name'].value;
-    });
+      this.editEventForm.markAsPristine();
+    }));
   }
 
   initializeUploader() {
@@ -149,37 +150,43 @@ export class EditEventComponent implements OnInit {
       currentMainPhoto.mainPhoto = false;
     }
     photo.mainPhoto = true;
-    this.eventService.setMainPhoto(this.eventId, photo).subscribe(() => {
+    this.subscriptions.push(this.eventService.setMainPhoto(this.eventId, photo).subscribe(() => {
       this.event.mainPhotoUrl = photo.url;
       this.toastr.success("Main Photo Set");
-    });
+    }));
   }
 
   deletePhoto(photo: Photo) {
-    this.eventService.deletePhoto(this.eventId, photo.id).subscribe(() => {
+    this.subscriptions.push(this.eventService.deletePhoto(this.eventId, photo.id).subscribe(() => {
       const photoIndex = this.event.photos.findIndex(p => p == photo);
       this.event.photos.splice(photoIndex, 1);
       if (this.event.mainPhotoUrl == photo.url) {
         this.event.mainPhotoUrl = "../../assets/images/Picture-icon.png";
       }
       this.toastr.success("Photo deleted");
-    });
+    }));
   }
 
   addOrganiser() {
     const friend = this.friends.find(friend => friend.userName == this.addOrganiserForm.controls['organisers'].value);
     this.event.organisers.push(friend);
-    this.eventService.addOrganiser(this.eventId, friend.id).subscribe(() => {
+    this.subscriptions.push(this.eventService.addOrganiser(this.eventId, friend.id).subscribe(() => {
       this.toastr.success("Organiser added");
-    });
+    }));
 
   }
 
   removeOrganiser(organiserId: Number) {
-    this.eventService.removeOrganiser(this.eventId, organiserId).subscribe(() => {
+    this.subscriptions.push(this.eventService.removeOrganiser(this.eventId, organiserId).subscribe(() => {
       this.event.organisers.splice(this.event.organisers.findIndex(organiser => organiser.id == organiserId), 1);
       this.toastr.success("Organiser removed")
-    });
+    }));
+  }
+  
+  ngOnDestroy() {
+    this.subscriptions.forEach(sub => {
+      sub.unsubscribe();
+    })
   }
 
 }

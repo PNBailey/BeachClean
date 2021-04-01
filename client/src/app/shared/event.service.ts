@@ -1,9 +1,13 @@
 import { HttpClient } from "@angular/common/http";
+import { Injectable } from "@angular/core";
 import { BeachCleanEvent } from "../models/beachCleanEvent";
 import { EventParams } from "../models/eventParams";
 import { Photo } from "../models/photo";
 import { PaginationService } from "./pagination.service";
 
+@Injectable({
+    providedIn: 'root'
+  })
 export class EventService {
 
     constructor(private http: HttpClient, private paginationService: PaginationService) {}

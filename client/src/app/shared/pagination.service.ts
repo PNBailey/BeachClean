@@ -1,9 +1,12 @@
 import { HttpClient } from "@angular/common/http";
+import { Injectable } from "@angular/core";
 import { map } from "rxjs/operators";
 import { PaginatedResult } from "../models/pagination";
 
 
-
+@Injectable({
+    providedIn: 'root'
+  })
 export class PaginationService {
     constructor(private http: HttpClient) {}
 

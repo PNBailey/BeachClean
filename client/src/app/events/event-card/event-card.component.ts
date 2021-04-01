@@ -20,8 +20,5 @@ export class EventCardComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  // goToCreatorsProfile(creatorId: Number) {
-  //   this.route.navigate(`../friends/${creatorId}`);
-  // }
 
 }

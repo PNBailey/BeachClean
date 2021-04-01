@@ -43,9 +43,6 @@
                                     <app-date-input [formControl]="editEventForm.controls['Date']"
                                         [label]='"Event date"' [minDate]="minDate"></app-date-input>
                                 </li>
-                                <!-- <li>
-                        <app-text-input [formControl]="editEventForm.controls['organisers']" [label]='"Organisers"'></app-text-input>
-                    </li> -->
                                 <div class="buttons-container">
                                     <button [disabled]="!editEventForm.dirty"
                                         class="create-event-form-btn btn btn-success btn-block" type="submit">Update
@@ -82,16 +79,7 @@
                                 </mat-option>
                             </mat-autocomplete>
                         </mat-form-field>
-                        <!-- </form> -->
-
-                        <!-- <input
-                          type="text"
-                          [formControl]="editEventForm.controls['organisers']"
-                          label="organisers"
-                          class="form-control user-finder-input"
-                          placeholder="Type users name"
-                          (focus)="logFocus($event)"
-                          > -->
+                  
 
                     </tab>
                     <tab heading="Event Attendees"></tab>

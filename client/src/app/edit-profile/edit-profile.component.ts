@@ -54,7 +54,7 @@ export class EditProfileComponent implements OnInit {
     console.log(this.member);
     this.memberService.updateMember(this.member).subscribe(() => {
       this.editForm.reset(this.member);
-      this.toastrService.success("Profile succesfully updated");   
+      this.toastrService.success("Profile succesfully updated");  
     });
     
   }
@@ -79,6 +79,7 @@ export class EditProfileComponent implements OnInit {
         this.member.photo = photo;
         this.currentUser.photoUrl = this.member.photo.url;
         this.accountService.setCurrentUser(this.currentUser);
+        this.toastrService.success("Photo changed");
       }
     }
 
