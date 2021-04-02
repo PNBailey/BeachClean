@@ -1,5 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
+import { BehaviorSubject } from "rxjs";
+import { switchMap } from "rxjs/operators";
 import { BeachCleanEvent } from "../models/beachCleanEvent";
 import { EventParams } from "../models/eventParams";
 import { Photo } from "../models/photo";
@@ -12,16 +14,20 @@ export class EventService {
 
     constructor(private http: HttpClient, private paginationService: PaginationService) {}
 
-    eventParams: EventParams;
+    private eventParams$: BehaviorSubject<EventParams> = new BehaviorSubject(new EventParams());
     baseUrl: string = "https://localhost:5001/api/events";
 
     getEventParams() {
-        return this.eventParams;
+        return this.eventParams$;
       }
     
       setEventParams(eventParams: EventParams) {
-        this.eventParams = eventParams;
+        this.eventParams$.next(eventParams);
       }
+
+      event$ = this.eventParams$.pipe(
+        switchMap(eventParams => this.getAllEvents(eventParams))
+      );  
 
       addEvent(event: BeachCleanEvent) {
         return this.http.post(this.baseUrl + '/', event);
