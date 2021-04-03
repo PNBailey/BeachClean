@@ -1,10 +1,12 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { BehaviorSubject } from "rxjs";
+import { BehaviorSubject, Observable } from "rxjs";
 import { switchMap } from "rxjs/operators";
 import { BeachCleanEvent } from "../models/beachCleanEvent";
 import { EventParams } from "../models/eventParams";
+import { Member } from "../models/member";
 import { Photo } from "../models/photo";
+import { MemberService } from "./member.service";
 import { PaginationService } from "./pagination.service";
 
 @Injectable({
@@ -12,10 +14,12 @@ import { PaginationService } from "./pagination.service";
   })
 export class EventService {
 
-    constructor(private http: HttpClient, private paginationService: PaginationService) {}
+    constructor(private http: HttpClient, private paginationService: PaginationService, private memberService: MemberService) {}
 
-    private eventParams$: BehaviorSubject<EventParams> = new BehaviorSubject(new EventParams());
+    private eventParams$: BehaviorSubject<EventParams> = new BehaviorSubject(new EventParams()); 
     baseUrl: string = "https://localhost:5001/api/events";
+    attendeesSubject$: BehaviorSubject<string> = new BehaviorSubject("");
+    attendeeUsername: string = "";
 
     getEventParams() {
         return this.eventParams$;
@@ -63,7 +67,11 @@ export class EventService {
       }
 
       addAttendee(eventId: Number, attendeeUsername: string) {
-        return this.http.put(`${this.baseUrl}/add-attendee/${eventId}/${attendeeUsername}`, {});
+        // this.attendeeUsername = attendeeUsername;
+        // return this.http.put<Member>(`${this.baseUrl}/add-attendee/${eventId}/${attendeeUsername}`, {}).pipe(switchMap(attendeeUsername => this.memberService.getMember(attendeeUsername)));
+        return this.http.put<Member>(`${this.baseUrl}/add-attendee/${eventId}/${attendeeUsername}`, {});
       }
+
+    
 
 }

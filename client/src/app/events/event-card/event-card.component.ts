@@ -1,12 +1,13 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { BeachCleanEvent } from 'src/app/models/beachCleanEvent';
 import { faCalendar, faLocationArrow, faTrash } from '@fortawesome/free-solid-svg-icons';
-import { Member } from 'src/app/models/member';
 import { AccountService } from 'src/app/shared/account.service';
 import { take } from 'rxjs/operators';
 import { EventService } from 'src/app/shared/event.service';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
+import { MemberService } from 'src/app/shared/member.service';
+import { Member } from 'src/app/models/member';
 
 
 @Component({
@@ -21,23 +22,31 @@ export class EventCardComponent implements OnInit, OnDestroy {
   faCalendar = faCalendar;
   currUserUsername: string;
   eventServiceSub: Subscription = new Subscription();
+  subscriptions: Subscription[] = [];
+  attendee$: Observable<Member>;
 
-  constructor(private accountService: AccountService, private eventService: EventService, private toastr: ToastrService) { }
+  constructor(private accountService: AccountService, private eventService: EventService, private toastr: ToastrService, private memberService: MemberService) { }
 
   ngOnInit() {
-    this.accountService.currentUserSource.pipe(take(1)).subscribe((user) => {
+    this.subscriptions.push(this.accountService.currentUserSource.pipe(take(1)).subscribe((user) => {
       this.currUserUsername = user.userName;
-    })
+    }));
+
+
   }
 
   addAttendee() {
-   this.eventServiceSub = this.eventService.addAttendee(this.existingEvent.id, this.currUserUsername).subscribe(() => {
+   this.subscriptions.push(this.eventService.addAttendee(this.existingEvent.id, this.currUserUsername).subscribe((member) => {
+     this.existingEvent.attendees.push(member);
     this.toastr.success(`You are attending the event: ${this.existingEvent.name}`);
-   }, error => console.log(error));
+   }));
+
   }
 
   ngOnDestroy() {
-    this.eventServiceSub.unsubscribe();
+    this.subscriptions.forEach(sub => {
+      sub.unsubscribe();
+    });
   }
 
 }

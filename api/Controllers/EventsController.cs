@@ -242,7 +242,7 @@ namespace api.Controllers
     }
 
     [HttpPut("add-attendee/{eventId}/{attendeeUsername}")]
-    public async Task<ActionResult> addAttendee(int eventId, string attendeeUsername) 
+    public async Task<ActionResult<MemberDto>> addAttendee(int eventId, string attendeeUsername) 
     {
         var attendee = await _userRepository.GetUserByUsernameAsync(attendeeUsername);
 
@@ -265,7 +265,7 @@ namespace api.Controllers
 
         existingEvent.Attendees.Add(eventUser);
 
-        if(await _eventsRepository.SaveAllAsync()) return Ok();
+        if(await _eventsRepository.SaveAllAsync()) return Ok(_mapper.Map<AppUser, MemberDto>(attendee));
 
         return BadRequest("Failed to add attendee");
     }

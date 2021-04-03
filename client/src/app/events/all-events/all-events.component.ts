@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { BeachCleanEvent } from 'src/app/models/beachCleanEvent';
 import { EventParams } from 'src/app/models/eventParams';
 import { PaginatedResult } from 'src/app/models/pagination';
@@ -12,7 +12,7 @@ import { EventService } from 'src/app/shared/event.service';
 })
 export class AllEventsComponent implements OnInit {
 
-  constructor(private eventService: EventService) { }
+  constructor(private eventService: EventService) {}
   events$: Observable<PaginatedResult<BeachCleanEvent[]>>;
   eventParams: EventParams;
 
