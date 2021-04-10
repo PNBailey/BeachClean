@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { BeachCleanEvent } from 'src/app/models/beachCleanEvent';
 import { faCalendar, faLocationArrow, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { AccountService } from 'src/app/shared/account.service';
@@ -25,7 +25,7 @@ export class EventCardComponent implements OnInit, OnDestroy {
   subscriptions: Subscription[] = [];
   attendee$: Observable<Member>;
 
-  constructor(private accountService: AccountService, private eventService: EventService, private toastr: ToastrService, private memberService: MemberService) { }
+  constructor(private accountService: AccountService, private eventService: EventService, private toastr: ToastrService) { }
 
   ngOnInit() {
     this.subscriptions.push(this.accountService.currentUserSource.pipe(take(1)).subscribe((user) => {

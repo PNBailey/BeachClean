@@ -5,10 +5,10 @@ namespace api.Data
 {
     public class DataContext : DbContext
     {
-           public DataContext(DbContextOptions options)
-            : base(options)
+        public DataContext(DbContextOptions options)
+         : base(options)
         {
-            
+
         }
 
         public DbSet<AppUser> Users { get; set; }
@@ -21,32 +21,34 @@ namespace api.Data
 
         public DbSet<EventUsers> EventUsers { get; set; }
 
-        protected override void OnModelCreating(ModelBuilder builder) 
+        public DbSet<Message> Message { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder builder)
         {
-             base.OnModelCreating(builder); 
-            builder.Entity<UserLike>() 
-                .HasKey(key => new {key.SourceUserId, key.LikedUserId});
+            base.OnModelCreating(builder);
+            builder.Entity<UserLike>()
+                .HasKey(key => new { key.SourceUserId, key.LikedUserId });
 
             builder.Entity<UserLike>()
-                .HasOne(s => s.SourceUser) 
+                .HasOne(s => s.SourceUser)
                 .WithMany(l => l.LikedUsers)
                 .HasForeignKey(s => s.SourceUserId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            builder.Entity<UserLike>() 
-                .HasOne(s => s.LikedUser) 
+            builder.Entity<UserLike>()
+                .HasOne(s => s.LikedUser)
                 .WithMany(l => l.LikedByUsers)
                 .HasForeignKey(s => s.LikedUserId)
-                .OnDelete(DeleteBehavior.Cascade); 
+                .OnDelete(DeleteBehavior.Cascade);
 
-            
+
             builder.Entity<Event>()
                 .HasOne(e => e.Creator)
                 .WithMany(e => e.CreatedEvents)
                 .HasForeignKey(e => e.CreatorId);
 
             builder.Entity<UserEvents>()
-                .HasKey(key => new {key.OrganiserId, key.EventId});
+                .HasKey(key => new { key.OrganiserId, key.EventId });
 
             builder.Entity<UserEvents>()
                 .HasOne(e => e.Organiser)
@@ -61,7 +63,7 @@ namespace api.Data
                 .OnDelete(DeleteBehavior.Cascade);
 
             builder.Entity<EventUsers>()
-                .HasKey(key => new {key.AttendeeId, key.AttendingEventId});
+                .HasKey(key => new { key.AttendeeId, key.AttendingEventId });
 
             builder.Entity<EventUsers>()
                 .HasOne(e => e.Attendee)
@@ -75,10 +77,21 @@ namespace api.Data
                 .HasForeignKey(e => e.AttendingEventId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-           
+            builder.Entity<Message>()
+                .HasOne(m => m.Sender)
+                .WithMany(u => u.SentMessages)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<Message>()
+                .HasOne(m => m.Recipient)
+                .WithMany(u => u.ReceivedMessages)
+                .OnDelete(DeleteBehavior.Restrict);
+
+
+
         }
 
-      
+
 
     }
 }

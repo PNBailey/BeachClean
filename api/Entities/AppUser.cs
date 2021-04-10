@@ -41,6 +41,10 @@ namespace api.Entities
 
         public ICollection<EventUsers> AttendingEvents { get; set; }
 
+        public ICollection<Message> SentMessages { get; set; }
+
+        public ICollection<Message> ReceivedMessages { get; set; }
+
 
 
 

@@ -32,11 +32,11 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
     });
   }
 
-  checkedUserLike(member: Member) {
-    this.friendService.getFullLikes().subscribe((members) => {
-      this.likedUser = members.find(x => x.id == member.id);
-    });
-  }
+  // checkedUserLike(member: Member) {
+  //   this.friendService.getFullLikes().subscribe((members) => {
+  //     this.likedUser = members.find(x => x.id == member.id);
+  //   });
+  // }
 
   ngOnDestroy() {
     this.addLikeSub.unsubscribe();

@@ -19,7 +19,7 @@ export class MemberCardComponent implements OnInit, OnDestroy {
   faLocationArrow = faLocationArrow;
   addLikeSub: Subscription = new Subscription();
 
-  constructor(private accountService: AccountService, private toastrService: ToastrService, private friendService: FriendsService) { }
+  constructor(private toastrService: ToastrService, private friendService: FriendsService) { }
 
   ngOnInit() {
   }

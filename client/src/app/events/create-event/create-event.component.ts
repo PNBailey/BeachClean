@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { FileUploader } from 'ng2-file-upload';
 import { ToastrService } from 'ngx-toastr';
-import { delay, take } from 'rxjs/operators';
+import { take } from 'rxjs/operators';
 import { User } from 'src/app/models/user';
 import { AccountService } from 'src/app/shared/account.service';
 import { EventService } from 'src/app/shared/event.service';
