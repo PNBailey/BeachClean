@@ -21,7 +21,7 @@ namespace api.Data
 
         public DbSet<EventUsers> EventUsers { get; set; }
 
-        public DbSet<Message> Message { get; set; }
+        public DbSet<Message> Messages { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
