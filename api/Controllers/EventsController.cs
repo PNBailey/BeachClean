@@ -27,44 +27,44 @@ namespace api.Controllers
 
         }
 
-        // [HttpPost]
-        // public async Task<ActionResult<int>> CreateEvent(EventDto newEvent)
-        // {
+        [HttpPost]
+        public async Task<ActionResult<int>> CreateEvent(EventDto newEvent)
+        {
 
-        //     var currUser = await _userRepository.GetUserByUsernameAsync(User.GetUsername());
+            var currUser = await _userRepository.GetUserByUsernameAsync(User.GetUsername());
 
-        //     var events = await _eventsRepository.GetEventsAsync();
+            var events = await _eventsRepository.GetAllEvents();
 
-        //     var matchingDates = events.Where(e => e.Date == newEvent.Date);
+            var matchingDates = events.Where(e => e.Date == newEvent.Date);
 
-        //     var matchingEvents = matchingDates.Where(e => e.Name == newEvent.Name);
+            var matchingEvents = matchingDates.Where(e => e.Name == newEvent.Name);
 
-        //     if (matchingEvents.Count() > 0)
-        //     {
-        //         return BadRequest("Event already exists!");
-        //     }
+            if (matchingEvents.Count() > 0)
+            {
+                return BadRequest("Event already exists!");
+            }
 
-        //     // if(newEvent.MainPhoto != null) {
-        //     //     var mainEventPhoto = new Photo {
-        //     //     Url = newEvent.MainPhoto.url
-        //     // };
-        //     // }
+            // if(newEvent.MainPhoto != null) {
+            //     var mainEventPhoto = new Photo {
+            //     Url = newEvent.MainPhoto.url
+            // };
+            // }
             
-        // //    var newEventDate = newEvent.Date.ToShortDateString();
+        //    var newEventDate = newEvent.Date.ToShortDateString();
            
-        //     var createdEvent = new Event
-        //     {
-        //         Name = newEvent.Name,
-        //         Date = newEvent.Date,
-        //         Location = newEvent.Location,
-        //         Creator = currUser,
-        //         CreatorId = currUser.Id
+            var createdEvent = new Event
+            {
+                Name = newEvent.Name,
+                Date = newEvent.Date,
+                Location = newEvent.Location,
+                Creator = currUser,
+                CreatorId = currUser.Id
 
-        //     };
+            };
 
-        //    return await _eventsRepository.CreateEvent(createdEvent);
+           return await _eventsRepository.CreateEvent(createdEvent);
 
-        // }
+        }
 
         [HttpGet("{id}", Name = "GetEvent")]
 
@@ -80,7 +80,7 @@ namespace api.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<EventDto>>> GetAllEvents([FromQuery] EventParams eventParams)
         {
-            var events = await _eventsRepository.GetEventsAsync(eventParams);
+            var events = await _eventsRepository.GetPaginatedEventsAsync(eventParams);
 
             Response.AddPaginationHeader(events.CurrentPage, eventParams.PageSize, events.TotalCount, events.TotalPages);
 

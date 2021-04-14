@@ -10,7 +10,9 @@ namespace api.Interfaces
     {
         Task<int> CreateEvent(Event newEvent);
 
-        Task<PagedList<EventDto>> GetEventsAsync(EventParams eventParams);
+        Task<PagedList<EventDto>> GetPaginatedEventsAsync(EventParams eventParams);
+
+        Task<List<EventDto>> GetAllEvents();
 
         Task<Event> GetEventByIdAsync(int eventId);
 

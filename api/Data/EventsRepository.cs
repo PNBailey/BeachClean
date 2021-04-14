@@ -44,7 +44,7 @@ namespace api.Data
             .FirstOrDefaultAsync();
         }
 
-        public async Task<PagedList<EventDto>> GetEventsAsync(EventParams eventParams)
+        public async Task<PagedList<EventDto>> GetPaginatedEventsAsync(EventParams eventParams)
         {
             var events = _context.Events.OrderByDescending(existingEvent => existingEvent.Organisers.Count).AsQueryable()
             .Include(e => e.Creator)
@@ -59,6 +59,15 @@ namespace api.Data
             
             return await PagedList<EventDto>.CreateAsync(events, eventParams.PageNumber, eventParams.PageSize);
 
+        }
+
+        public async Task<List<EventDto>> GetAllEvents() 
+        {
+            var events = await _context.Events.
+            ProjectTo<EventDto>(_mapper.ConfigurationProvider)
+            .ToListAsync();
+
+            return events;
         }
 
           public async Task<bool> SaveAllAsync()

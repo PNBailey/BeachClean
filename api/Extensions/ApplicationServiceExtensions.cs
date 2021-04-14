@@ -27,6 +27,8 @@ namespace api.Extensions
 
             services.AddScoped<IPhotoService, PhotoService>();
 
+            services.AddScoped<IMessagesRepository, MessageRepository>();
+
             services.AddAutoMapper(typeof(AutoMapperProfile).Assembly);
 
 
