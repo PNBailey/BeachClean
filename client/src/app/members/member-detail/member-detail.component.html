@@ -6,19 +6,19 @@
             <div class="card-body">
                 <div>
                     <strong>Name: </strong>
-                    <p><i class="fa fa-user"></i>{{member.name}} (user name: {{member.userName}})</p>
+                    <p><fa-icon class="body-icon" [icon]="faUser"></fa-icon>{{member.name}} (user name: {{member.userName}})</p>
                 </div>
                 <div>
                     <strong>Location: </strong>
-                        <p><i class="fa fa-location-arrow"></i>{{member.location}}</p>
+                        <p><fa-icon class="body-icon" [icon]="faLocationArrow"></fa-icon>{{member.location}}</p>
                 </div>
                 <div>
                     <strong>Occupation: </strong>
-                    <p><i class="fa fa-briefcase"></i>{{member.occupation}}</p>
+                    <p><fa-icon class="body-icon" [icon]="faBriefcase"></fa-icon>{{member.occupation}}</p>
                 </div>
                 <div>
                     <strong>Events Attended: </strong>
-                    <p><i class="fa fa-calendar"></i>0</p>
+                    <p><fa-icon class="body-icon" [icon]="faUsers"></fa-icon>0</p>
                 </div>
                 <div>
                     <strong>Last Active: </strong>
@@ -39,7 +39,13 @@
     </div>
     <div class="col-8">
         <tabset class="member-tabset">
-            <tab heading="Friends" id="tab1">Friends member cards will go here</tab>
+            <tab heading="Friends" id="tab1">
+                <div *ngIf="(likedUsers | async) as friends" class="friends-container">
+                    <div class="event-users-card" *ngFor="let friend of friends">
+                        <app-member-card [member]="friend"></app-member-card>
+                    </div>
+                </div> 
+            </tab>
             <tab heading="Past Events">Past event cards will go here</tab>
             <tab heading="Upcoming Events">Upcoming events cards will go here</tab>
         </tabset>

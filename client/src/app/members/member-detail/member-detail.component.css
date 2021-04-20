@@ -11,6 +11,13 @@ p {
     margin-top: 5px;
 }
 
-i {
+.body-icon {
     margin-right: 8px;
+}
+
+.friends-container {
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    margin-bottom: 5px;
 }

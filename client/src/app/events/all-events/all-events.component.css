@@ -45,6 +45,11 @@ h2 {
     flex-wrap: wrap;
 }
 
+.pagination-container {
+    display: flex;
+    justify-content: center;
+}
+
 .event-image {
     height: 250px;
     width: 250px;
