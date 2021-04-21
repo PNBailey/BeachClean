@@ -21,3 +21,15 @@ p {
     flex-wrap: wrap;
     margin-bottom: 5px;
 }
+
+.member-detail-friends-card {
+    margin: 10px;
+    height: 20%;
+    width: 20%;
+}
+
+.pagination-container {
+    display: flex;
+    justify-content: center;
+    
+}

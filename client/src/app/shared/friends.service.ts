@@ -22,6 +22,7 @@ export class FriendsService {
     newLike: boolean = false;
     likeParams: LikesParams;
     userLiked: Subject<Member> = new Subject();
+    
 
 
 

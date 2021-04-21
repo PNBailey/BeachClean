@@ -1,4 +1,4 @@
-<div *ngIf="(member | async) as member" class="row member-detail-container">
+<div *ngIf="(memberObs$ | async) as member" class="row member-detail-container">
     <div class="col-4">
         <div class="card">
             <img src="{{member.photoUrl || '../../assets/images/Placeholder user image.jpg'}}" alt="{{member.userName}}"
@@ -40,11 +40,20 @@
     <div class="col-8">
         <tabset class="member-tabset">
             <tab heading="Friends" id="tab1">
-                <div *ngIf="(likedUsers | async) as friends" class="friends-container">
-                    <div class="event-users-card" *ngFor="let friend of friends">
+                <div *ngIf="(friendsObs$ | async) as friendsObs" class="friends-container">
+                    <div class="member-detail-friends-card" *ngFor="let friend of friendsObs.result">
                         <app-member-card [member]="friend"></app-member-card>
                     </div>
                 </div> 
+                <div class="pagination-container">
+                <pagination
+              [boundaryLinks]="true"
+              [totalItems]="friendsPagination.totalItems"
+              [itemsPerPage]="friendsPagination.itemsPerPage"
+              [(ngModel)]="friendsPagination.currentPage"
+              (pageChanged)="pageChanged($event)">
+              </pagination>
+                </div>
             </tab>
             <tab heading="Past Events">Past event cards will go here</tab>
             <tab heading="Upcoming Events">Upcoming events cards will go here</tab>
