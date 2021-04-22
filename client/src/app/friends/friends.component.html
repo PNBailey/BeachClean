@@ -1,16 +1,16 @@
 <tabset class="member-tabset">
     <tab heading="Friends" id="tab1">
-        <div class="row d-flex justify-content-center members-container">
-            <div *ngFor="let friend of friends" class="col-2 members">
+        <div *ngIf="friendsSub$ | async as friendsSub$" class="row d-flex justify-content-center members-container">
+            <div *ngFor="let friend of friendsSub$.result" class="col-2 members">
                 <app-member-card [member]="friend"></app-member-card>
             </div>
         </div>
-        <div class="d-flex justify-content-center" *ngIf="friendsPagination">
+        <div class="d-flex justify-content-center" *ngIf="friendsSub$ | async as friendsSub$">
             <pagination
               [boundaryLinks]="true"
-              [totalItems]="friendsPagination.totalItems"
-              [itemsPerPage]="friendsPagination.itemsPerPage"
-              [(ngModel)]="friendsPagination.currentPage"
+              [totalItems]="friendsSub$.pagination.totalItems"
+              [itemsPerPage]="friendsSub$.pagination.itemsPerPage"
+              [(ngModel)]="friendsSub$.pagination.currentPage"
               (pageChanged)="pageChangedFriends($event)">
               </pagination>
         </div>

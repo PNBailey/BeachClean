@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { of, Subject } from "rxjs";
-import { map } from "rxjs/operators";
+import { BehaviorSubject, of, Subject } from "rxjs";
+import { map, switchMap } from "rxjs/operators";
 import { LikesParams } from "../models/likesParams";
 import { Member } from "../models/member";
 import { AccountService } from "./account.service";
@@ -14,17 +14,17 @@ import { PaginationService } from "./pagination.service";
 export class FriendsService {
 
     constructor(private accountService: AccountService, private paginationService: PaginationService, private http: HttpClient) {
-        this.likeParams = new LikesParams();
+       
      }
 
+    private friendsObs$: BehaviorSubject<LikesParams> = new BehaviorSubject(new LikesParams()); 
     baseUrl: string = "https://localhost:5001/api/likes";
     memberCache = new Map();
     newLike: boolean = false;
-    likeParams: LikesParams;
     userLiked: Subject<Member> = new Subject();
-    
 
 
+    friends$ = this.friendsObs$.pipe(switchMap(likesParams => this.getPaginatedLikes(likesParams)));
 
     addLike(member: Member) {
         return this.http.post(this.baseUrl + '/' + member.userName, {});
@@ -40,20 +40,20 @@ export class FriendsService {
         return this.http.get<Member[]>(`${this.baseUrl}/Full`);
     }
 
-    getPaginatedLikes() {
-        const response = this.memberCache.get(Object.values(this.likeParams).join('-'));
+    getPaginatedLikes(likeParams: LikesParams) {
+        const response = this.memberCache.get(Object.values(likeParams).join('-'));
 
         if (response && this.newLike == false) {
             return of(response);
         }
 
 
-        let params = this.getPaginationHeaders(this.likeParams.pageNumber, this.likeParams.pageSize);
+        let params = this.getPaginationHeaders(likeParams.pageNumber, likeParams.pageSize);
 
-        params = params.append('predicate', this.likeParams.predicate);
+        params = params.append('predicate', likeParams.predicate);
 
         return this.paginationService.getPaginatedResult<Partial<Member[]>>(this.baseUrl, params).pipe(map(response => {
-            this.memberCache.set(Object.values(this.likeParams).join('-'), response);
+            this.memberCache.set(Object.values(likeParams).join('-'), response);
             this.newLike = false;
             return response;
         }));
@@ -61,11 +61,11 @@ export class FriendsService {
 
     
   getLikeParams() {
-    return this.likeParams;
+    return this.friendsObs$;
   }
 
   setLikeParams(likeParams: LikesParams) {
-    this.likeParams = likeParams;
+    this.friendsObs$.next(likeParams);
   }
 
     private getPaginationHeaders(pageNumber: number, pageSize: number) {

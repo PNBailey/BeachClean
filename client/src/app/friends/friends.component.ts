@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 import { LikesParams } from '../models/likesParams';
 import { Member } from '../models/member';
-import { Pagination } from '../models/pagination';
+import { PaginatedResult, Pagination } from '../models/pagination';
 import { User } from '../models/user';
 import { MemberParams } from '../models/memberParams';
 import { AccountService } from '../shared/account.service';
@@ -17,24 +17,22 @@ import { MemberService } from '../shared/member.service';
 export class FriendsComponent implements OnInit, OnDestroy {
 
   members: Member[];
-  friends: Member[];
-  friendsPagination: Pagination;
   membersPagination: Pagination;
   memberParams: MemberParams;
   likeParams: LikesParams;
   user: User;
   userLikedSub: Subscription;
   getMembersSub: Subscription;
-  loadFriendsSub: Subscription;
+  friendsSub$: Observable<PaginatedResult<Member[]>>;
   
 
 
   constructor(public accountService: AccountService, private friendService: FriendsService, private memberService: MemberService) { }
 
   ngOnInit() {
-
+    this.friendsSub$ = this.friendService.friends$;
     this.memberParams = this.memberService.getmemberParams();
-    this.likeParams = this.friendService.getLikeParams();
+    this.likeParams = new LikesParams();
     this.loadFriends();
     this.loadMembers();
     this.userLikedSub = this.friendService.userLiked.subscribe(() => {
@@ -52,11 +50,7 @@ export class FriendsComponent implements OnInit, OnDestroy {
 
   loadFriends() {
     this.friendService.setLikeParams(this.likeParams);
-   this.loadFriendsSub = this.friendService.getPaginatedLikes().subscribe(response => {
-      this.friends = response.result;
-      this.friendsPagination = response.pagination;
     
-    });
   }
 
   getLocalUsers(usersLocation: string) {
@@ -86,6 +80,5 @@ export class FriendsComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.userLikedSub.unsubscribe();
     this.getMembersSub.unsubscribe();
-    this.loadFriendsSub.unsubscribe();
   }
 }

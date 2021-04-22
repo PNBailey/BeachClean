@@ -45,12 +45,12 @@
                         <app-member-card [member]="friend"></app-member-card>
                     </div>
                 </div> 
-                <div class="pagination-container">
+                <div class="pagination-container"*ngIf="friendsObs$ | async as friendsObs$">
                 <pagination
               [boundaryLinks]="true"
-              [totalItems]="friendsPagination.totalItems"
-              [itemsPerPage]="friendsPagination.itemsPerPage"
-              [(ngModel)]="friendsPagination.currentPage"
+              [totalItems]="friendsObs$.pagination.totalItems"
+              [itemsPerPage]="friendsObs$.pagination.itemsPerPage"
+              [(ngModel)]="friendsObs$.pagination.currentPage"
               (pageChanged)="pageChanged($event)">
               </pagination>
                 </div>

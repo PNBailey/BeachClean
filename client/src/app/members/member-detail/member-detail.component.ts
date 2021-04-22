@@ -19,22 +19,21 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
 
   memberObs$: Observable<Member>;
   friendsObs$: Observable<PaginatedResult<Member[]>>;
-  // userLiked: boolean = false;
   likedUser: Member;
   addLikeSub = new Subscription();
   faLocationArrow = faLocationArrow;
   faUser = faUser;
   faBriefcase = faBriefcase;
   faUsers = faUsers;
-  friendsPagination: Pagination;
   likeParams: LikesParams;
 
   constructor(private route: ActivatedRoute, private accountService: AccountService, private toastr: ToastrService, private friendService: FriendsService, private memberService: MemberService) { }
 
   ngOnInit(): void {
-    this.likeParams = this.friendService.getLikeParams();
+    this.likeParams = new LikesParams();
     this.memberObs$ = this.memberService.getMember(this.route.snapshot.paramMap.get('username')); 
-    this.friendsObs$ = this.friendService.getPaginatedLikes();
+    this.friendsObs$ = this.friendService.friends$;
+    this.friendService.setLikeParams(this.likeParams);
     
   }
 
@@ -44,17 +43,13 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
     });
   }
 
-  // checkedUserLike(member: Member) {
-  //   this.friendService.getFullLikes().subscribe((members) => {
-  //     this.likedUser = members.find(x => x.id == member.id);
-  //   });
-  // }
 
   ngOnDestroy() {
     this.addLikeSub.unsubscribe();
   }
 
   pageChanged(event: any) {
+    this.likeParams = new LikesParams();
     this.likeParams.pageNumber = event.pageNumber;
     this.friendService.setLikeParams(this.likeParams);
   }
