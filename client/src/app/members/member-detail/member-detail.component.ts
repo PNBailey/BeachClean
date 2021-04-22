@@ -38,9 +38,7 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
   }
 
   likeMember(member: Member) {
-  this.addLikeSub = this.friendService.addLike(member).subscribe(() => {
-      this.toastr.success("Member liked");
-    });
+  this.addLikeSub = this.friendService.addLike(member).subscribe();
   }
 
 

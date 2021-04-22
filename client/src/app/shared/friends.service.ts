@@ -1,7 +1,8 @@
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
+import { ToastrService } from "ngx-toastr";
 import { BehaviorSubject, of, Subject } from "rxjs";
-import { map, switchMap } from "rxjs/operators";
+import { map, switchMap, tap } from "rxjs/operators";
 import { LikesParams } from "../models/likesParams";
 import { Member } from "../models/member";
 import { AccountService } from "./account.service";
@@ -13,7 +14,7 @@ import { PaginationService } from "./pagination.service";
   })
 export class FriendsService {
 
-    constructor(private accountService: AccountService, private paginationService: PaginationService, private http: HttpClient) {
+    constructor(private accountService: AccountService, private paginationService: PaginationService, private http: HttpClient, private toastr: ToastrService) {
        
      }
 
@@ -27,7 +28,10 @@ export class FriendsService {
     friends$ = this.friendsObs$.pipe(switchMap(likesParams => this.getPaginatedLikes(likesParams)));
 
     addLike(member: Member) {
-        return this.http.post(this.baseUrl + '/' + member.userName, {});
+        return this.http.post(this.baseUrl + '/' + member.userName, {}).pipe(tap(() => {
+            this.toastr.success(`You have liked ${member.userName}`);
+        }));
+
 
     }
 
