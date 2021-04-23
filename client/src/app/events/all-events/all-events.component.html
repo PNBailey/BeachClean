@@ -10,7 +10,7 @@
     [boundaryLinks]="true"
     [totalItems]="eventPagination.totalItems"
     [itemsPerPage]="eventPagination.itemsPerPage"
-    [(ngModel)]="eventPagination.currentPage"
+    [(ngModel)]="eventParams.pageNumber"
     (pageChanged)="pageChanged($event)">
   </pagination>
 </div>

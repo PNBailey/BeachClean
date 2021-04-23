@@ -11,14 +11,14 @@ import { PaginationService } from "./pagination.service";
 
 @Injectable({
     providedIn: 'root'
-  })
+})
 export class FriendsService {
 
     constructor(private accountService: AccountService, private paginationService: PaginationService, private http: HttpClient, private toastr: ToastrService) {
-       
-     }
 
-    private friendsObs$: BehaviorSubject<LikesParams> = new BehaviorSubject(new LikesParams()); 
+    }
+
+    private friendsObs$: BehaviorSubject<LikesParams> = new BehaviorSubject(new LikesParams());
     baseUrl: string = "https://localhost:5001/api/likes";
     memberCache = new Map();
     newLike: boolean = false;
@@ -28,11 +28,11 @@ export class FriendsService {
     friends$ = this.friendsObs$.pipe(switchMap(likesParams => this.getPaginatedLikes(likesParams)));
 
     addLike(member: Member) {
-        return this.http.post(this.baseUrl + '/' + member.userName, {}).pipe(tap(() => {
+        this.http.post(this.baseUrl + '/' + member.userName, {}).pipe(tap(() => {
+            this.updateNewLike();
+            this.userLiked.next();
             this.toastr.success(`You have liked ${member.userName}`);
-        }));
-
-
+        })).subscribe();
     }
 
     updateNewLike() {
@@ -63,14 +63,14 @@ export class FriendsService {
         }));
     }
 
-    
-  getLikeParams() {
-    return this.friendsObs$;
-  }
 
-  setLikeParams(likeParams: LikesParams) {
-    this.friendsObs$.next(likeParams);
-  }
+    getLikeParams() {
+        return this.friendsObs$;
+    }
+
+    setLikeParams(likeParams: LikesParams) {
+        this.friendsObs$.next(likeParams);
+    }
 
     private getPaginationHeaders(pageNumber: number, pageSize: number) {
         let params = new HttpParams();

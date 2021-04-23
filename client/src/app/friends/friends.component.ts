@@ -22,16 +22,18 @@ export class FriendsComponent implements OnInit, OnDestroy {
   likeParams: LikesParams;
   user: User;
   userLikedSub: Subscription;
-  getMembersSub: Subscription;
-  friendsSub$: Observable<PaginatedResult<Member[]>>;
+  membersObs$: Observable<PaginatedResult<Member[]>>;
+  friendsObs$: Observable<PaginatedResult<Member[]>>;
+  memberCurrentPage = 1;
   
 
 
   constructor(public accountService: AccountService, private friendService: FriendsService, private memberService: MemberService) { }
 
   ngOnInit() {
-    this.friendsSub$ = this.friendService.friends$;
-    this.memberParams = this.memberService.getmemberParams();
+    this.friendsObs$ = this.friendService.friends$;
+    this.membersObs$ = this.memberService.members$;
+    this.memberParams = new MemberParams();
     this.likeParams = new LikesParams();
     this.loadFriends();
     this.loadMembers();
@@ -42,10 +44,6 @@ export class FriendsComponent implements OnInit, OnDestroy {
 
   loadMembers() {
     this.memberService.setMemberParams(this.memberParams);
-    this.getMembersSub = this.memberService.getMembers(this.memberParams).subscribe(response => {
-      this.members = response.result;
-      this.membersPagination = response.pagination;
-    });
   }
 
   loadFriends() {
@@ -57,7 +55,7 @@ export class FriendsComponent implements OnInit, OnDestroy {
 
     this.memberParams.usersLocation = usersLocation;
     this.memberService.setMemberParams(this.memberParams);
-    this.loadMembers();
+
   }
 
   getAllUsers() {
@@ -68,17 +66,15 @@ export class FriendsComponent implements OnInit, OnDestroy {
   pageChangedFriends(event: any) {
     this.likeParams.pageNumber = event.page;
     this.friendService.setLikeParams(this.likeParams);
-    this.loadFriends();
+  
   }
 
   pageChangedMembers(event: any) {
     this.memberParams.pageNumber = event.page;
     this.memberService.setMemberParams(this.memberParams);
-    this.loadMembers();
   }
 
   ngOnDestroy() {
     this.userLikedSub.unsubscribe();
-    this.getMembersSub.unsubscribe();
   }
 }

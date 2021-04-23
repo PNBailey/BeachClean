@@ -15,12 +15,11 @@ import { MemberService } from 'src/app/shared/member.service';
   templateUrl: './member-detail.component.html',
   styleUrls: ['./member-detail.component.css']
 })
-export class MemberDetailComponent implements OnInit, OnDestroy {
+export class MemberDetailComponent implements OnInit {
 
   memberObs$: Observable<Member>;
   friendsObs$: Observable<PaginatedResult<Member[]>>;
   likedUser: Member;
-  addLikeSub = new Subscription();
   faLocationArrow = faLocationArrow;
   faUser = faUser;
   faBriefcase = faBriefcase;
@@ -38,13 +37,10 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
   }
 
   likeMember(member: Member) {
-  this.addLikeSub = this.friendService.addLike(member).subscribe();
+  this.friendService.addLike(member);
   }
 
 
-  ngOnDestroy() {
-    this.addLikeSub.unsubscribe();
-  }
 
   pageChanged(event: any) {
     this.likeParams = new LikesParams();

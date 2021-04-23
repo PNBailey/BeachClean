@@ -1,37 +1,39 @@
 <tabset class="member-tabset">
     <tab heading="Friends" id="tab1">
-        <div *ngIf="friendsSub$ | async as friendsSub$" class="row d-flex justify-content-center members-container">
-            <div *ngFor="let friend of friendsSub$.result" class="col-2 members">
+        <div *ngIf="friendsObs$ | async as friendsObs$" class="row d-flex justify-content-center members-container">
+            <div *ngFor="let friend of friendsObs$.result" class="col-2 members">
                 <app-member-card [member]="friend"></app-member-card>
             </div>
         </div>
-        <div class="d-flex justify-content-center" *ngIf="friendsSub$ | async as friendsSub$">
+        <div class="d-flex justify-content-center" *ngIf="friendsObs$ | async as friendsObs$">
             <pagination
               [boundaryLinks]="true"
-              [totalItems]="friendsSub$.pagination.totalItems"
-              [itemsPerPage]="friendsSub$.pagination.itemsPerPage"
-              [(ngModel)]="friendsSub$.pagination.currentPage"
+              [totalItems]="friendsObs$.pagination.totalItems"
+              [itemsPerPage]="friendsObs$.pagination.itemsPerPage"
+              [(ngModel)]="likeParams.pageNumber"
               (pageChanged)="pageChangedFriends($event)">
               </pagination>
         </div>
     </tab>
     <tab heading="Other Members">
-        <div class="row d-flex justify-content-center members-container">
-            <div *ngFor="let member of members" class="col-2 members">
-                <app-member-card [member]="member"></app-member-card>
+        <div *ngIf="membersObs$ | async as paginatedResult">
+            <div class="row d-flex justify-content-center members-container">
+                <div *ngFor="let member of paginatedResult.result" class="col-2 members">
+                    <app-member-card [member]="member"></app-member-card>
+                </div>
             </div>
-        </div>
-        <div class="d-flex justify-content-center" *ngIf="membersPagination">
-            <pagination
-              [boundaryLinks]="true"
-              [totalItems]="membersPagination.totalItems"
-              [itemsPerPage]="membersPagination.itemsPerPage"
-              [(ngModel)]="membersPagination.currentPage"
-              (pageChanged)="pageChangedMembers($event)">
-              </pagination>
-            <div class="location-btns" *ngIf="(accountService.currentUser | async) as user">
-                <button class="btn-primary" (click)="getLocalUsers(user.location)">{{ user.location }} users</button>
-                <button class="btn-primary" (click)="getAllUsers()">All users</button>
+            <div class="d-flex justify-content-center">
+                <pagination
+                  [boundaryLinks]="true"
+                  [totalItems]="paginatedResult.pagination.totalItems"
+                  [itemsPerPage]="paginatedResult.pagination.itemsPerPage"
+                  [(ngModel)]="memberParams.pageNumber"
+                  (pageChanged)="pageChangedMembers($event)">
+                  </pagination>
+                <div class="location-btns" *ngIf="(accountService.currentUser | async) as user">
+                    <button class="btn-primary" (click)="getLocalUsers(user.location)">{{ user.location }} users</button>
+                    <button class="btn-primary" (click)="getAllUsers()">All users</button>
+                </div>
             </div>
         </div>
     </tab>

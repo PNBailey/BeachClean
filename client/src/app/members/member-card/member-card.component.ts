@@ -11,13 +11,12 @@ import { Member } from '../../models/member';
   templateUrl: './member-card.component.html',
   styleUrls: ['./member-card.component.css']
 })
-export class MemberCardComponent implements OnInit, OnDestroy {
+export class MemberCardComponent implements OnInit {
   @Input() member: Member;
   faEnvelope = faEnvelope;
   faHeart = faHeart;
   faUser = faUser;
   faLocationArrow = faLocationArrow;
-  addLikeSub: Subscription = new Subscription();
 
   constructor(private friendService: FriendsService) { }
 
@@ -25,15 +24,9 @@ export class MemberCardComponent implements OnInit, OnDestroy {
   }
 
   likeMember(member: Member) {
-    this.addLikeSub = this.friendService.addLike(member).subscribe(() => {
-      this.friendService.updateNewLike();
-      this.friendService.userLiked.next();
-    });
+    this.friendService.addLike(member);
   }
 
-  ngOnDestroy() {
-    this.addLikeSub.unsubscribe();
-  }
 
 
 

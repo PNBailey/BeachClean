@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { of } from "rxjs";
-import { map } from "rxjs/operators";
+import { BehaviorSubject, of, Subject } from "rxjs";
+import { filter, map, switchMap, take, takeUntil } from "rxjs/operators";
 import { Member } from "../models/member";
 import { MemberParams } from "../models/memberParams";
 import { PaginationService } from "./pagination.service";
@@ -12,20 +12,20 @@ import { PaginationService } from "./pagination.service";
 export class MemberService {
 
     constructor(private http: HttpClient, private paginationService: PaginationService) {
-        this.memberParams = new MemberParams();
     }
 
     memberParams: MemberParams;
     memberCache = new Map();
     baseUrl: string = "https://localhost:5001/api/users";
+    membersObs$: BehaviorSubject<MemberParams> = new BehaviorSubject(new MemberParams());
 
 
-    getmemberParams() {
-        return this.memberParams;
-      }
+    members$ = this.membersObs$.pipe(switchMap(memberParams => this.getMembers(memberParams)));
+
+
     
       setMemberParams(memberParams: MemberParams) {
-        this.memberParams = memberParams;
+        this.membersObs$.next(memberParams);
       }
 
       getMember(userName: string) {
@@ -45,6 +45,7 @@ export class MemberService {
         const response = this.memberCache.get(Object.values(memberParams).join('-'));
     
         if(response) {
+          console.log(response);
           return of(response);
         }
     
