@@ -20,7 +20,7 @@ export class CreateEventComponent implements OnInit {
   currentUser: User;
   
 
-  constructor(private formBuilder: FormBuilder, private accountService: AccountService, private route: Router, private toastr: ToastrService, private eventService: EventService) { }
+  constructor(private formBuilder: FormBuilder, private accountService: AccountService, private route: Router, private eventService: EventService) { }
 
   ngOnInit() {
     this.accountService.currentUserSource.pipe(take(1)).subscribe(user => {
@@ -54,10 +54,7 @@ export class CreateEventComponent implements OnInit {
   }
 
   createEvent() {
-    this.eventService.addEvent(this.createEventForm.value).subscribe(eventId => {
-      this.route.navigate(['../edit-event/', eventId]);
-      this.toastr.success("Event created");
-    } );
+    this.eventService.addEvent(this.createEventForm.value);
   }
 
 

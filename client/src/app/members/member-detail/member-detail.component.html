@@ -30,7 +30,7 @@
                 </div>
                 <div class="card-footer">
                     <div class="btn-group d-flex justify-content-center">
-                        <button (click)="likeMember(member)" [ngClass]="likedUser ? 'btn btn-primary' : 'btn btn-success'">Like</button>
+                        <button (click)="likeMember(member)">Like</button>
                         <button class="btn btn-success">Message</button>
                     </div>
                 </div>
@@ -50,7 +50,7 @@
               [boundaryLinks]="true"
               [totalItems]="friendsObs$.pagination.totalItems"
               [itemsPerPage]="friendsObs$.pagination.itemsPerPage"
-              [(ngModel)]="friendsObs$.pagination.currentPage"
+              [(ngModel)]="likeParams.pageNumber"
               (pageChanged)="pageChanged($event)">
               </pagination>
                 </div>

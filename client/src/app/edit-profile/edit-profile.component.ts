@@ -3,6 +3,7 @@ import { NgForm } from '@angular/forms';
 import { faBan, faTrash, faUpload } from '@fortawesome/free-solid-svg-icons';
 import { FileUploader } from 'ng2-file-upload';
 import { ToastrService } from 'ngx-toastr';
+import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { Member } from '../models/member';
 import { User } from '../models/user';
@@ -17,7 +18,7 @@ import { MemberService } from '../shared/member.service';
 export class EditProfileComponent implements OnInit {
 
   @ViewChild('editForm') editForm: NgForm;
-  member: Member;
+  getMemberObs$: Observable<Member>;
   currentUser: User;
   uploader: FileUploader;
   baseUrl: string = "https://localhost:5001/api";
@@ -45,17 +46,12 @@ export class EditProfileComponent implements OnInit {
   }
 
   loadMember() {
-    this.memberService.getMember(this.currentUser.userName.toLowerCase()).subscribe(member => {
-      this.member = member;
-    });
+    this.getMemberObs$ = this.memberService.getMember(this.currentUser.userName.toLowerCase());
   }
 
-  updateProfile() {
-    console.log(this.member);
-    this.memberService.updateMember(this.member).subscribe(() => {
-      this.editForm.reset(this.member);
-      this.toastrService.success("Profile succesfully updated");  
-    });
+  updateProfile(member: Member) {
+    this.memberService.updateMember(member);
+    this.editForm.reset(member);
     
   }
 
@@ -76,8 +72,7 @@ export class EditProfileComponent implements OnInit {
     this.uploader.onSuccessItem = (item, response, status, headers) => {
       if (response) {
         const photo = JSON.parse(response); // This gets the photo from the JSON data that is retrieved from the response 
-        this.member.photo = photo;
-        this.currentUser.photoUrl = this.member.photo.url;
+        this.currentUser.photoUrl = photo.url;
         this.accountService.setCurrentUser(this.currentUser);
         this.toastrService.success("Photo changed");
       }

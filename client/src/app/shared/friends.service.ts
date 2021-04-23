@@ -45,6 +45,7 @@ export class FriendsService {
     }
 
     getPaginatedLikes(likeParams: LikesParams) {
+        console.log(likeParams);
         const response = this.memberCache.get(Object.values(likeParams).join('-'));
 
         if (response && this.newLike == false) {
@@ -55,6 +56,8 @@ export class FriendsService {
         let params = this.getPaginationHeaders(likeParams.pageNumber, likeParams.pageSize);
 
         params = params.append('predicate', likeParams.predicate);
+
+        params = params.append('userName', likeParams.userName);
 
         return this.paginationService.getPaginatedResult<Partial<Member[]>>(this.baseUrl, params).pipe(map(response => {
             this.memberCache.set(Object.values(likeParams).join('-'), response);

@@ -57,7 +57,6 @@ export class EditEventComponent implements OnInit, OnDestroy {
     this.eventId = this.route.snapshot.params['id'];
     this.subscriptions.push(this.eventService.getEvent(this.eventId).subscribe(event => {
       this.event = event;
-      console.log(this.event);
       this.initializeUploader();
       this.editEventForm.patchValue({ name: event.name });
       this.editEventForm.patchValue({ location: event.location });

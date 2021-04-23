@@ -1,7 +1,8 @@
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
+import { ToastrService } from "ngx-toastr";
 import { BehaviorSubject, of, Subject } from "rxjs";
-import { filter, map, switchMap, take, takeUntil } from "rxjs/operators";
+import { filter, map, switchMap, take, takeUntil, tap } from "rxjs/operators";
 import { Member } from "../models/member";
 import { MemberParams } from "../models/memberParams";
 import { PaginationService } from "./pagination.service";
@@ -11,7 +12,7 @@ import { PaginationService } from "./pagination.service";
   })
 export class MemberService {
 
-    constructor(private http: HttpClient, private paginationService: PaginationService) {
+    constructor(private http: HttpClient, private paginationService: PaginationService, private toastr: ToastrService) {
     }
 
     memberParams: MemberParams;
@@ -64,6 +65,8 @@ export class MemberService {
 
       
   updateMember(member: Member) {
-    return this.http.put(`${this.baseUrl}/`, member);
+    return this.http.put(`${this.baseUrl}/`, member).pipe(tap(() => {
+      this.toastr.success("Profile succesfully updated"); 
+    })).subscribe();
   }
 }

@@ -7,6 +7,7 @@ using api.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using api.Helpers;
+using System;
 
 namespace api.Controllers
 {
@@ -70,7 +71,13 @@ namespace api.Controllers
         {
             // return await _likesRepository.GetUserLikes(predicate, User.GetUserId()); // The action result doesn't work so well with an interface like IEnumerable so we use the below instead
 
-            likesParams.UserId = User.GetUserId();
+            if(likesParams.UserName != "undefined") 
+            {
+               var user = await _userRepository.GetUserByUsernameAsync(likesParams.UserName);
+               likesParams.UserId = user.Id;
+            } else {
+                likesParams.UserId = User.GetUserId();
+            }
 
             var users = await _likesRepository.GetUserLikes(likesParams);
 

@@ -2,7 +2,7 @@
     <h2>Edit Profile</h2>
 </div>
 <hr>
-<div *ngIf="member">
+<div *ngIf="getMemberObs$ | async as member">
     <div class="alert alert-info" *ngIf="editForm.dirty"> <!--Using the dirty form property tests whether the form has been altered by the user -->
         You have made changes. Any unsaved changes will be lost.
     </div>
@@ -27,7 +27,7 @@
                 </button>
                 </div>
             </div>
-            <form #editForm="ngForm" id="editForm" (ngSubmit)="updateProfile()">
+            <form #editForm="ngForm" id="editForm" (ngSubmit)="updateProfile(member)">
                 <ul class="form-container">
                     <li>
                         <label>Name</label>

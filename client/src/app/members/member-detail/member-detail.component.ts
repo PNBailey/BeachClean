@@ -19,31 +19,27 @@ export class MemberDetailComponent implements OnInit {
 
   memberObs$: Observable<Member>;
   friendsObs$: Observable<PaginatedResult<Member[]>>;
-  likedUser: Member;
   faLocationArrow = faLocationArrow;
   faUser = faUser;
   faBriefcase = faBriefcase;
   faUsers = faUsers;
   likeParams: LikesParams;
 
-  constructor(private route: ActivatedRoute, private accountService: AccountService, private toastr: ToastrService, private friendService: FriendsService, private memberService: MemberService) { }
+  constructor(private route: ActivatedRoute, private friendService: FriendsService, private memberService: MemberService) { }
 
   ngOnInit(): void {
     this.likeParams = new LikesParams();
+    this.likeParams.userName = this.route.snapshot.paramMap.get('username');
     this.memberObs$ = this.memberService.getMember(this.route.snapshot.paramMap.get('username')); 
     this.friendsObs$ = this.friendService.friends$;
-    this.friendService.setLikeParams(this.likeParams);
-    
+    this.friendService.setLikeParams(this.likeParams);  
   }
 
   likeMember(member: Member) {
   this.friendService.addLike(member);
   }
 
-
-
   pageChanged(event: any) {
-    this.likeParams = new LikesParams();
     this.likeParams.pageNumber = event.pageNumber;
     this.friendService.setLikeParams(this.likeParams);
   }

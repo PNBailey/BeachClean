@@ -1,7 +1,9 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
+import { Router } from "@angular/router";
+import { ToastrService } from "ngx-toastr";
 import { BehaviorSubject, Observable } from "rxjs";
-import { switchMap } from "rxjs/operators";
+import { switchMap, tap } from "rxjs/operators";
 import { BeachCleanEvent } from "../models/beachCleanEvent";
 import { EventParams } from "../models/eventParams";
 import { Member } from "../models/member";
@@ -14,7 +16,7 @@ import { PaginationService } from "./pagination.service";
   })
 export class EventService {
 
-    constructor(private http: HttpClient, private paginationService: PaginationService, private memberService: MemberService) {}
+    constructor(private http: HttpClient, private paginationService: PaginationService, private memberService: MemberService, private route: Router, private toastr: ToastrService) {}
 
     private eventParams$: BehaviorSubject<EventParams> = new BehaviorSubject(new EventParams()); 
     baseUrl: string = "https://localhost:5001/api/events";
@@ -34,7 +36,10 @@ export class EventService {
       );  
 
       addEvent(event: BeachCleanEvent) {
-        return this.http.post(this.baseUrl + '/', event);
+        this.http.post(this.baseUrl + '/', event).pipe(tap(eventId => {
+          this.route.navigate(['../edit-event/', eventId]);
+          this.toastr.success("Event created");
+        })).subscribe();
       }
     
       getEvent(id: Number) {

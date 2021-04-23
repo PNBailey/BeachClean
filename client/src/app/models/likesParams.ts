@@ -1,5 +1,6 @@
 export class LikesParams {
-    predicate: string = "liked";
+    userName?: string;
+    predicate = "liked";
     pageNumber = 1;
     pageSize = 5;
 }
