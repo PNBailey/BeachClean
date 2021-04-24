@@ -72,10 +72,16 @@ export class EventService {
       }
 
       addAttendee(eventId: Number, attendeeUsername: string) {
-        // this.attendeeUsername = attendeeUsername;
-        // return this.http.put<Member>(`${this.baseUrl}/add-attendee/${eventId}/${attendeeUsername}`, {}).pipe(switchMap(attendeeUsername => this.memberService.getMember(attendeeUsername)));
         return this.http.put<Member>(`${this.baseUrl}/add-attendee/${eventId}/${attendeeUsername}`, {});
       }
+
+      removeAttendee(eventId: Number, attendeeUsername: string) {
+        return this.http.delete(`${this.baseUrl}/removeAttendee/${eventId}/${attendeeUsername}`).pipe(tap(() => {
+          this.toastr.success("Attendee Removed");
+        })).subscribe();
+      }
+
+
 
     
 

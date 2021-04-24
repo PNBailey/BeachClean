@@ -40,20 +40,22 @@
     <div class="col-8">
         <tabset class="member-tabset">
             <tab heading="Friends" id="tab1">
-                <div *ngIf="(friendsObs$ | async) as friendsObs" class="friends-container">
-                    <div class="member-detail-friends-card" *ngFor="let friend of friendsObs.result">
-                        <app-member-card [member]="friend"></app-member-card>
+                <div *ngIf="(friendsObs$ | async) as friendsObs">
+                    <div  class="friends-container">
+                        <div class="member-detail-friends-card" *ngFor="let friend of friendsObs.result">
+                            <app-member-card [member]="friend"></app-member-card>
+                        </div>
+                    </div> 
+                    <div class="pagination-container"*ngIf="friendsObs.result.length > 0"> 
+                    <pagination
+                  [boundaryLinks]="true"
+                  [totalItems]="friendsObs.pagination.totalItems"
+                  [itemsPerPage]="friendsObs.pagination.itemsPerPage"
+                  [(ngModel)]="likeParams.pageNumber"
+                  (pageChanged)="pageChanged($event)">
+                  </pagination>
                     </div>
                 </div> 
-                <div class="pagination-container"*ngIf="friendsObs$ | async as friendsObs$">
-                <pagination
-              [boundaryLinks]="true"
-              [totalItems]="friendsObs$.pagination.totalItems"
-              [itemsPerPage]="friendsObs$.pagination.itemsPerPage"
-              [(ngModel)]="likeParams.pageNumber"
-              (pageChanged)="pageChanged($event)">
-              </pagination>
-                </div>
             </tab>
             <tab heading="Past Events">Past event cards will go here</tab>
             <tab heading="Upcoming Events">Upcoming events cards will go here</tab>

@@ -89,5 +89,12 @@ namespace api.Data
             return true;
         }
 
+        public async Task removeAttendee(int attendeeId, int eventId)
+        {
+            var eventUser = await _context.EventUsers.FindAsync(attendeeId, eventId);
+
+            _context.EventUsers.Remove(eventUser);
+        }
+
     }
 }

@@ -269,6 +269,26 @@ namespace api.Controllers
 
         return BadRequest("Failed to add attendee");
     }
+
+    [HttpDelete("removeAttendee/{eventId}/{attendeeUsername}")]
+    public async Task<ActionResult<bool>> removeAttendee(int eventId, string attendeeUsername)
+    {
+        var attendee = await _userRepository.GetUserByUsernameAsync(attendeeUsername);
+
+        var existingEvent = await _eventsRepository.GetEventByIdAsync(eventId);
+
+        if(existingEvent == null) return BadRequest("Event no longer exists");
+
+        if(attendee == null) return Ok("Attendee no longer exists");
+
+        await _eventsRepository.removeAttendee(attendee.Id, eventId);
+
+        if(await _eventsRepository.SaveAllAsync()) return Ok();
+
+        return BadRequest("Failed to remove attendee"); 
+
+
+    }
         
 
     }

@@ -22,6 +22,8 @@ namespace api.Interfaces
 
         Task<bool> removeOrganiser(int organiserId,  int eventId);
 
+        Task removeAttendee(int attendeeId,  int eventId);
+
         
     }
 }
