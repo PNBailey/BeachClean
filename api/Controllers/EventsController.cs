@@ -49,9 +49,9 @@ namespace api.Controllers
             //     Url = newEvent.MainPhoto.url
             // };
             // }
-            
-        //    var newEventDate = newEvent.Date.ToShortDateString();
-           
+
+            //    var newEventDate = newEvent.Date.ToShortDateString();
+
             var createdEvent = new Event
             {
                 Name = newEvent.Name,
@@ -62,7 +62,7 @@ namespace api.Controllers
 
             };
 
-           return await _eventsRepository.CreateEvent(createdEvent);
+            return await _eventsRepository.CreateEvent(createdEvent);
 
         }
 
@@ -103,7 +103,8 @@ namespace api.Controllers
 
             };
 
-            if(existingEvent.Photos.Count == 0) {
+            if (existingEvent.Photos.Count == 0)
+            {
                 photo.MainPhoto = true;
                 existingEvent.MainPhotoUrl = photo.Url;
             }
@@ -121,11 +122,11 @@ namespace api.Controllers
 
         [HttpPut]
 
-        public async Task<ActionResult> updateEvent (eventUpdateDto updatedEvent) 
+        public async Task<ActionResult> updateEvent(eventUpdateDto updatedEvent)
         {
             var existingEvent = await _eventsRepository.GetEventByIdAsync(updatedEvent.Id);
 
-            if(updatedEvent.Date == null)
+            if (updatedEvent.Date == null)
             {
                 updatedEvent.Date = existingEvent.Date;
             }
@@ -134,7 +135,7 @@ namespace api.Controllers
 
             _eventsRepository.updateEvent(existingEvent);
 
-            if(await _eventsRepository.SaveAllAsync()) return NoContent();
+            if (await _eventsRepository.SaveAllAsync()) return NoContent();
 
             return BadRequest("Unable to update event");
 
@@ -142,7 +143,7 @@ namespace api.Controllers
         }
 
         [HttpPut("set-main-photo/{eventId}")]
-        
+
         public async Task<ActionResult> setMainPhoto(int eventId, PhotoDto photo)
         {
             // 1. get existing event
@@ -152,144 +153,146 @@ namespace api.Controllers
             existingEvent.MainPhotoUrl = photo.url;
 
             //3. get the main photo
-             var currMainPhoto = existingEvent.Photos.FirstOrDefault(p => p.MainPhoto);
+            var currMainPhoto = existingEvent.Photos.FirstOrDefault(p => p.MainPhoto);
 
-             //4. set currMainPhoto to false
-             if(currMainPhoto != null) currMainPhoto.MainPhoto = false;
+            //4. set currMainPhoto to false
+            if (currMainPhoto != null) currMainPhoto.MainPhoto = false;
 
-             // 5. get new main photo
-             var newMainPhoto = existingEvent.Photos.FirstOrDefault(p => p.Url == photo.url);
+            // 5. get new main photo
+            var newMainPhoto = existingEvent.Photos.FirstOrDefault(p => p.Url == photo.url);
 
-            if(newMainPhoto.MainPhoto) return BadRequest("This is already your main photo");
+            if (newMainPhoto.MainPhoto) return BadRequest("This is already your main photo");
 
-             //6. set new main photo to main photo
-             newMainPhoto.MainPhoto = true;
+            //6. set new main photo to main photo
+            newMainPhoto.MainPhoto = true;
 
-             //7. update event usng repo method 
-             if(await _eventsRepository.SaveAllAsync()) return NoContent();
+            //7. update event usng repo method 
+            if (await _eventsRepository.SaveAllAsync()) return NoContent();
 
-             return BadRequest("Unable to update main photo on server");
+            return BadRequest("Unable to update main photo on server");
         }
 
-    [HttpDelete("deletePhoto/{eventId}/{photoId}")]
-    public async Task<ActionResult> deletePhoto(int eventId, int photoId)  
-    
-    {
-        //get existg event
-        
-        var existingEvent = await _eventsRepository.GetEventByIdAsync(eventId);
+        [HttpDelete("deletePhoto/{eventId}/{photoId}")]
+        public async Task<ActionResult> deletePhoto(int eventId, int photoId)
 
-        //1. get public id of photo
+        {
+            //get existing event
 
-        var photoToDelete = existingEvent.Photos.FirstOrDefault(p => p.Id == photoId);
+            var existingEvent = await _eventsRepository.GetEventByIdAsync(eventId);
 
-        // delete from main photo on event if it is the main photo
+            //1. get public id of photo
 
-        if(existingEvent.MainPhotoUrl == photoToDelete.Url) existingEvent.MainPhotoUrl = null;
+            var photoToDelete = existingEvent.Photos.FirstOrDefault(p => p.Id == photoId);
 
-        // delete from cloudinary 
+            // delete from main photo on event if it is the main photo
 
-        if(photoToDelete == null) return BadRequest("Photo already deleted");
-        
-        await _photoService.DeletePhotoAsync(photoToDelete.publicId);
+            if (existingEvent.MainPhotoUrl == photoToDelete.Url) existingEvent.MainPhotoUrl = null;
 
-        // delete from event
+            // delete from cloudinary 
 
-        existingEvent.Photos.Remove(photoToDelete);
+            if (photoToDelete == null) return BadRequest("Photo already deleted");
 
-        // update event
+            await _photoService.DeletePhotoAsync(photoToDelete.publicId);
 
-        if(await _eventsRepository.SaveAllAsync()) return NoContent();
+            // delete from event
 
-        return BadRequest("Unable to delete photo");
+            existingEvent.Photos.Remove(photoToDelete);
 
-    }
+            // update event
 
-    [HttpPut("add-organiser/{eventId}/{organiserId}")]
-    public async Task<ActionResult> addOrganiser(int eventId, int organiserId)    
-    {
-        var existingEvent = await _eventsRepository.GetEventByIdAsync(eventId);
+            if (await _eventsRepository.SaveAllAsync()) return NoContent();
 
-        var organiser = await _userRepository.GetUserByIdAsync(organiserId);
+            return BadRequest("Unable to delete photo");
 
-        var userEvent = new UserEvents {
-            OrganiserId = organiserId,
-            EventId = eventId
-        };
+        }
 
-        existingEvent.Organisers = existingEvent.Organisers ?? new List<UserEvents>();
+        [HttpPut("add-organiser/{eventId}/{organiserId}")]
+        public async Task<ActionResult> addOrganiser(int eventId, int organiserId)
+        {
+            var existingEvent = await _eventsRepository.GetEventByIdAsync(eventId);
 
-        existingEvent.Organisers.Add(userEvent);
+            var organiser = await _userRepository.GetUserByIdAsync(organiserId);
 
-        if(await _eventsRepository.SaveAllAsync()) return Ok();
+            var userEvent = new UserEvents
+            {
+                OrganiserId = organiserId,
+                EventId = eventId
+            };
 
-        return BadRequest("Failed to add organiser");
+            existingEvent.Organisers = existingEvent.Organisers ?? new List<UserEvents>();
 
-    }
+            existingEvent.Organisers.Add(userEvent);
 
-    [HttpDelete("removeOrganiser/{eventId}/{organiserid}")]
-    public async Task<ActionResult> removeOrganiser(int eventId, int organiserId) 
-    {
-        var existingEvent = await _eventsRepository.GetEventByIdAsync(eventId);
+            if (await _eventsRepository.SaveAllAsync()) return Ok();
 
-        var organiser = await _userRepository.GetUserByIdAsync(organiserId);
+            return BadRequest("Failed to add organiser");
 
-        await _eventsRepository.removeOrganiser(organiserId, eventId);
+        }
 
-         if(await _eventsRepository.SaveAllAsync()) return Ok();
+        [HttpDelete("removeOrganiser/{eventId}/{organiserid}")]
+        public async Task<ActionResult> removeOrganiser(int eventId, int organiserId)
+        {
+            var existingEvent = await _eventsRepository.GetEventByIdAsync(eventId);
 
-        return BadRequest("Failed to remove organiser"); 
-    }
+            var organiser = await _userRepository.GetUserByIdAsync(organiserId);
 
-    [HttpPut("add-attendee/{eventId}/{attendeeUsername}")]
-    public async Task<ActionResult<MemberDto>> addAttendee(int eventId, string attendeeUsername) 
-    {
-        var attendee = await _userRepository.GetUserByUsernameAsync(attendeeUsername);
+            await _eventsRepository.removeOrganiser(organiserId, eventId);
 
-        var existingEvent = await _eventsRepository.GetEventByIdAsync(eventId);
+            if (await _eventsRepository.SaveAllAsync()) return Ok();
 
-        var existingEventTest = existingEvent.Attendees.FirstOrDefault(x => x.Attendee.UserName == attendeeUsername);
+            return BadRequest("Failed to remove organiser");
+        }
 
-        if(existingEventTest != null) return BadRequest("Already attending event");
+        [HttpPut("add-attendee/{eventId}/{attendeeUsername}")]
+        public async Task<ActionResult<MemberDto>> addAttendee(int eventId, string attendeeUsername)
+        {
+            var attendee = await _userRepository.GetUserByUsernameAsync(attendeeUsername);
 
-        var eventUser = new EventUsers {
-            AttendeeId = attendee.Id,
-            AttendingEventId = eventId
-        };
+            var existingEvent = await _eventsRepository.GetEventByIdAsync(eventId);
 
-       // var existingEventTest = existingEvent.Attendees.FirstOrDefault(x => x == eventUser); 
+            var existingEventTest = existingEvent.Attendees.FirstOrDefault(x => x.Attendee.UserName == attendeeUsername);
 
-    //    if(existingEventTest != null) return BadRequest("Already attending event");
+            if (existingEventTest != null) return BadRequest("Already attending event");
 
-       existingEvent.Attendees = existingEvent.Attendees ?? new List<EventUsers>();
+            var eventUser = new EventUsers
+            {
+                AttendeeId = attendee.Id,
+                AttendingEventId = eventId
+            };
 
-        existingEvent.Attendees.Add(eventUser);
+            // var existingEventTest = existingEvent.Attendees.FirstOrDefault(x => x == eventUser); 
 
-        if(await _eventsRepository.SaveAllAsync()) return Ok(_mapper.Map<AppUser, MemberDto>(attendee));
+            //    if(existingEventTest != null) return BadRequest("Already attending event");
 
-        return BadRequest("Failed to add attendee");
-    }
+            existingEvent.Attendees = existingEvent.Attendees ?? new List<EventUsers>();
 
-    [HttpDelete("removeAttendee/{eventId}/{attendeeUsername}")]
-    public async Task<ActionResult<bool>> removeAttendee(int eventId, string attendeeUsername)
-    {
-        var attendee = await _userRepository.GetUserByUsernameAsync(attendeeUsername);
+            existingEvent.Attendees.Add(eventUser);
 
-        var existingEvent = await _eventsRepository.GetEventByIdAsync(eventId);
+            if (await _eventsRepository.SaveAllAsync()) return Ok(_mapper.Map<AppUser, MemberDto>(attendee));
 
-        if(existingEvent == null) return BadRequest("Event no longer exists");
+            return BadRequest("Failed to add attendee");
+        }
 
-        if(attendee == null) return Ok("Attendee no longer exists");
+        [HttpDelete("removeAttendee/{eventId}/{attendeeUsername}")]
+        public async Task<ActionResult<bool>> removeAttendee(int eventId, string attendeeUsername)
+        {
+            var attendee = await _userRepository.GetUserByUsernameAsync(attendeeUsername);
 
-        await _eventsRepository.removeAttendee(attendee.Id, eventId);
+            var existingEvent = await _eventsRepository.GetEventByIdAsync(eventId);
 
-        if(await _eventsRepository.SaveAllAsync()) return Ok();
+            if (existingEvent == null) return BadRequest("Event no longer exists");
 
-        return BadRequest("Failed to remove attendee"); 
+            if (attendee == null) return Ok("Attendee no longer exists");
+
+            await _eventsRepository.removeAttendee(attendee.Id, eventId);
+
+            if (await _eventsRepository.SaveAllAsync()) return Ok();
+
+            return BadRequest("Failed to remove attendee");
 
 
-    }
-        
+        }
+
 
     }
 }

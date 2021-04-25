@@ -1,130 +1,228 @@
-
 <div *ngIf="uploader">
-    <div class="title-container">
-        <h2>{{event.name}}</h2>
-    </div>
-    <hr>
-    <div class="alert alert-info" *ngIf="editEventForm.dirty"> <!--Using the dirty form property tests whether the form has been altered by the user -->
-        You have made changes. Any unsaved changes will be lost.
-    </div>
-    <div>
-        <div class="container">
-            <div class="card">
-                <img class="card-img-top img-thumbnail"
-                    src="{{event.mainPhotoUrl || '../../assets/images/Picture-icon.png'}}" alt="{{event.name}}">
-                <div class="card-body">
-                    <p class="body-title">{{event.name}}</p>
-                    <p class="body-item"><fa-icon class="body-icon" [icon]="faCalendar"></fa-icon>{{event.date | date: 'dd MMMM yyyy'}}</p>
-                    <p class="body-item"><fa-icon class="body-icon" [icon]="faLocationArrow"></fa-icon>{{event.location}}</p>
-                    <p class="body-item">Event Organisers: {{event.organisers.length}}</p>
-                    <p class="body-item">Event Attendees: {{event.attendees.length}}</p>
-                </div>
-            </div>
-            <div *ngIf="currentUser === null" class="redirection-container">
-                You must log in to create an event! Redirecting to log in page...
-            </div>
-            <div class="col-8">
-                <tabset class="member-tabset">
-                    <tab heading="Event Details" id="tab1">
-                        <form *ngIf="currentUser != null" [formGroup]="editEventForm" (ngSubmit)="editEvent()"
-                            autocomplete="off">
-                            <ul class="form-container">
-                                <li class="top-input">
-                                    <app-text-input [formControl]="editEventForm.controls['name']"
-                                        [label]='"Event name"'>
-                                    </app-text-input>
-                                </li>
-                                <li>
-                                    <app-text-input [formControl]="editEventForm.controls['location']"
-                                        [label]='"Location"'>
-                                    </app-text-input>
-                                </li>
-                                <li>
-                                    <app-date-input [formControl]="editEventForm.controls['Date']"
-                                        [label]='"Event date"' [minDate]="minDate"></app-date-input>
-                                </li>
-                                <div class="buttons-container">
-                                    <button [disabled]="!editEventForm.dirty"
-                                        class="create-event-form-btn btn btn-success btn-block" type="submit">Update
-                                        Event</button>
-                                    <button class="btn btn-warning" [routerLink]="['../']">Cancel</button>
-                                </div>
-                            </ul>
-                        </form>
-                    </tab>
-                    <tab heading="Event Organisers">
-                        <div class="event-users-container">
-                            <div class="event-users-card" *ngFor="let organiser of event.organisers">
-                                <app-member-card [member]="organiser"></app-member-card>
-                                <div class="event-users-below-button">
-                                    <button (click)="removeOrganiser(organiser.id)" class="btn btn-danger">Remove Organiser</button>
-                                </div>
-                            </div>
-                        </div>                
-                        <mat-form-field>
-                            <p>Enter friends name</p>
-                            <div class="input-and-buttons">
-                                <input type="text" [formControl]="addOrganiserForm.controls['organisers']"
-                                aria-label="organisers" class="form-control user-finder-input" matInput
-                                [matAutocomplete]="auto" (focus)="getFriendsOnFocus()">
-                                <button class="btn btn-primary" (click)="addOrganiser()">Add</button>
-                            </div>
-                            <mat-autocomplete class="friends-list-drop-down-container" #auto="matAutocomplete">
-                                <mat-option class="friends-list-drop-down-item row" 
-                                    *ngFor="let friend of filteredOptions | async" [value]="friend.userName">
-                                    <img class="friend-list-image"
-                                        src="{{friend.photoUrl || '../../assets/images/Placeholder user image.jpg'}}"
-                                        alt="{{friend.photoUrl}}">
-                                    {{friend.userName}}
-                                </mat-option>
-                            </mat-autocomplete>
-                        </mat-form-field>
-                    </tab>
-                    <tab heading="Event Attendees">
-                        <div class="event-users-container">
-                            <div class="event-users-card" *ngFor="let attendee of event.attendees">
-                                <app-member-card [member]="attendee"></app-member-card>
-                                <div class="event-users-below-button">
-                                    <button (click)="removeAttendee(attendee.id)" class="btn btn-danger">Remove Attendee</button>
-                                </div>
-                            </div>
-                        </div> 
-                    </tab>
-                    <tab heading="Event Photos">
-                        <div class="photos-container">
-                            <ul *ngFor="let photo of event.photos">
-                                <li class="photo-list-item">
-                                    <img class="img-thumbnail img-small" src="{{photo.url}}" alt="image not found">
-                                    <div class="photo-btn-container">
-                                        <button [disabled]="photo.mainPhoto" class="btn btn-sm"
-                                            [ngClass]='photo.mainPhoto ? "btn-primary" : "btn-outline-primary"'
-                                            (click)="setMainPhoto(photo)">Main</button>
-                                        <button (click)="deletePhoto(photo)" class="btn btn-sm btn-danger btn-trash"><fa-icon [icon]="faTrash"></fa-icon></button>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="file-select-btns">
-                            <input type="file" ng2FileSelect [uploader]="uploader" multiple />
-                            <input class="Choose-file-btn" type="file" ng2FileSelect [uploader]="uploader" />
-                        </div>
-                        <div class="uploader-buttons">
-                            <button type="button" class="btn btn-success btn-s" (click)="uploader.uploadAll()"
-                                [disabled]="!uploader.getNotUploadedItems().length">
-                                <fa-icon [icon]="faUpload"></fa-icon>Upload
-                            </button>
-                            <button type="button" class="btn btn-warning btn-s" (click)="uploader.cancelAll()"
-                                [disabled]="!uploader.isUploading">
-                                <fa-icon [icon]="faBan"></fa-icon> Cancel
-                            </button>
-                            <button type="button" class="btn btn-danger btn-s" (click)="uploader.clearQueue()"
-                                [disabled]="!uploader.queue.length">
-                                <fa-icon [icon]="faTrash"></fa-icon> Remove
-                            </button>
-                        </div>
-                    </tab>
-                </tabset>
-            </div>
-
+  <div class="title-container">
+    <h2>{{ event.name }}</h2>
+  </div>
+  <hr />
+  <div class="alert alert-info" *ngIf="editEventForm.dirty">
+    <!--Using the dirty form property tests whether the form has been altered by the user -->
+    You have made changes. Any unsaved changes will be lost.
+  </div>
+  <div>
+    <div class="container">
+      <div class="card">
+        <img
+          class="card-img-top img-thumbnail"
+          src="{{
+            event.mainPhotoUrl || '../../assets/images/Picture-icon.png'
+          }}"
+          alt="{{ event.name }}"
+        />
+        <div class="card-body">
+          <p class="body-title">{{ event.name }}</p>
+          <p class="body-item">
+            <fa-icon class="body-icon" [icon]="faCalendar"></fa-icon
+            >{{ event.date | date: "dd MMMM yyyy" }}
+          </p>
+          <p class="body-item">
+            <fa-icon class="body-icon" [icon]="faLocationArrow"></fa-icon
+            >{{ event.location }}
+          </p>
+          <p class="body-item">
+            Event Organisers: {{ event.organisers.length }}
+          </p>
+          <p class="body-item">Event Attendees: {{ event.attendees.length }}</p>
         </div>
+      </div>
+      <div *ngIf="currentUser === null" class="redirection-container">
+        You must log in to create an event! Redirecting to log in page...
+      </div>
+      <div class="col-8">
+        <tabset class="member-tabset">
+          <tab heading="Event Details" id="tab1">
+            <form
+              *ngIf="currentUser != null"
+              [formGroup]="editEventForm"
+              (ngSubmit)="editEvent()"
+              autocomplete="off"
+            >
+              <ul class="form-container">
+                <li class="top-input">
+                  <app-text-input
+                    [formControl]="editEventForm.controls['name']"
+                    [label]="'Event name'"
+                  >
+                  </app-text-input>
+                </li>
+                <li>
+                  <app-text-input
+                    [formControl]="editEventForm.controls['location']"
+                    [label]="'Location'"
+                  >
+                  </app-text-input>
+                </li>
+                <li>
+                  <app-date-input
+                    [formControl]="editEventForm.controls['Date']"
+                    [label]="'Event date'"
+                    [minDate]="minDate"
+                  ></app-date-input>
+                </li>
+                <div class="buttons-container">
+                  <button
+                    [disabled]="!editEventForm.dirty"
+                    class="create-event-form-btn btn btn-success btn-block"
+                    type="submit"
+                  >
+                    Update Event
+                  </button>
+                  <button class="btn btn-warning" [routerLink]="['../']">
+                    Cancel
+                  </button>
+                </div>
+              </ul>
+            </form>
+          </tab>
+          <tab heading="Event Organisers">
+            <div class="event-users-container">
+              <div
+                class="event-users-card"
+                *ngFor="let organiser of event.organisers"
+              >
+                <app-member-card [member]="organiser"></app-member-card>
+                <div class="event-users-below-button">
+                  <button
+                    (click)="removeOrganiser(organiser.id)"
+                    class="btn btn-danger"
+                  >
+                    Remove Organiser
+                  </button>
+                </div>
+              </div>
+            </div>
+            <mat-form-field>
+              <p>Enter friends name</p>
+              <div class="input-and-buttons">
+                <input
+                  type="text"
+                  [formControl]="addOrganiserForm.controls['organisers']"
+                  aria-label="organisers"
+                  class="form-control user-finder-input"
+                  matInput
+                  [matAutocomplete]="auto"
+                  (focus)="getFriendsOnFocus()"
+                />
+                <button class="btn btn-primary" (click)="addOrganiser()">
+                  Add
+                </button>
+              </div>
+              <mat-autocomplete
+                class="friends-list-drop-down-container"
+                #auto="matAutocomplete"
+              >
+                <mat-option
+                  class="friends-list-drop-down-item row"
+                  *ngFor="let friend of filteredOptions | async"
+                  [value]="friend.userName"
+                >
+                  <img
+                    class="friend-list-image"
+                    src="{{
+                      friend.photoUrl ||
+                        '../../assets/images/Placeholder user image.jpg'
+                    }}"
+                    alt="{{ friend.photoUrl }}"
+                  />
+                  {{ friend.userName }}
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+          </tab>
+          <tab heading="Event Attendees">
+            <div class="event-users-container">
+              <div
+                class="event-users-card"
+                *ngFor="let attendee of event.attendees"
+              >
+                <app-member-card [member]="attendee"></app-member-card>
+                <div class="event-users-below-button">
+                  <button
+                    (click)="removeAttendee(attendee)"
+                    class="btn btn-danger"
+                  >
+                    Remove Attendee
+                  </button>
+                </div>
+              </div>
+            </div>
+          </tab>
+          <tab heading="Event Photos">
+            <div class="photos-container">
+              <ul *ngFor="let photo of event.photos">
+                <li class="photo-list-item">
+                  <img
+                    class="img-thumbnail img-small"
+                    src="{{ photo.url }}"
+                    alt="image not found"
+                  />
+                  <div class="photo-btn-container">
+                    <button
+                      [disabled]="photo.mainPhoto"
+                      class="btn btn-sm"
+                      [ngClass]="
+                        photo.mainPhoto ? 'btn-primary' : 'btn-outline-primary'
+                      "
+                      (click)="setMainPhoto(photo)"
+                    >
+                      Main
+                    </button>
+                    <button
+                      (click)="deletePhoto(photo)"
+                      class="btn btn-sm btn-danger btn-trash"
+                    >
+                      <fa-icon [icon]="faTrash"></fa-icon>
+                    </button>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="file-select-btns">
+              <input type="file" ng2FileSelect [uploader]="uploader" multiple />
+              <input
+                class="Choose-file-btn"
+                type="file"
+                ng2FileSelect
+                [uploader]="uploader"
+              />
+            </div>
+            <div class="uploader-buttons">
+              <button
+                type="button"
+                class="btn btn-success btn-s"
+                (click)="uploader.uploadAll()"
+                [disabled]="!uploader.getNotUploadedItems().length"
+              >
+                <fa-icon [icon]="faUpload"></fa-icon>Upload
+              </button>
+              <button
+                type="button"
+                class="btn btn-warning btn-s"
+                (click)="uploader.cancelAll()"
+                [disabled]="!uploader.isUploading"
+              >
+                <fa-icon [icon]="faBan"></fa-icon> Cancel
+              </button>
+              <button
+                type="button"
+                class="btn btn-danger btn-s"
+                (click)="uploader.clearQueue()"
+                [disabled]="!uploader.queue.length"
+              >
+                <fa-icon [icon]="faTrash"></fa-icon> Remove
+              </button>
+            </div>
+          </tab>
+        </tabset>
+      </div>
     </div>
+  </div>
+</div>

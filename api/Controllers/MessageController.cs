@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using api.DTOs;
 using api.Entities;
@@ -20,6 +21,7 @@ namespace api.Controllers
             _messagesRepository = messagesRepository;
         }
 
+        [HttpPost]
         public async Task<ActionResult<MessageDto>> CreateMessage(CreateMessageDto createMessageDto)
         {
             var currentUsername = User.GetUsername();
@@ -44,6 +46,14 @@ namespace api.Controllers
 
             return BadRequest("Failed to send message");
 
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<MessageDto>>> GetMessageThread(string username)
+        {
+            var messages = await _messagesRepository.GetMessageThread(User.GetUsername(), username);
+
+            return Ok(messages);
         }
     }
 }

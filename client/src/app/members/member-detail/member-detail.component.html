@@ -59,6 +59,10 @@
             </tab>
             <tab heading="Past Events">Past event cards will go here</tab>
             <tab heading="Upcoming Events">Upcoming events cards will go here</tab>
+            <tab heading="Messages">
+                <input type="text" [(ngModel)]="message">
+                <button (click)="sendMessage(member.userName)" class="btn-primary"></button>
+            </tab>
         </tabset>
     </div>
 </div>

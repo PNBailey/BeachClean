@@ -1,16 +1,18 @@
-<div class="background-img">
-</div>
+<div class="background-img"></div>
 <div *ngIf="events$ | async as events$" class="container">
-    <div class="events-container">
-      <div class="event-item" *ngFor="let event of events$.result">
-        <app-event-card [existingEvent]="event"></app-event-card>
-      </div>
+  <div class="events-container">
+    <div class="event-item" *ngFor="let event of events$.result">
+      <app-event-card [existingEvent]="event"></app-event-card>
     </div>
-    <pagination class="pagination-container" *ngIf="events$.pagination as eventPagination"
+  </div>
+  <pagination
+    class="pagination-container"
+    *ngIf="events$.pagination as eventPagination"
     [boundaryLinks]="true"
     [totalItems]="eventPagination.totalItems"
     [itemsPerPage]="eventPagination.itemsPerPage"
     [(ngModel)]="eventParams.pageNumber"
-    (pageChanged)="pageChanged($event)">
+    (pageChanged)="pageChanged($event)"
+  >
   </pagination>
 </div>

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -60,9 +61,34 @@ namespace api.Data
         }
         
         
-        public Task<IEnumerable<MessageDto>> GetMessageThread(string currentUsername, string recipientUsername)
+        public async Task<IEnumerable<MessageDto>> GetMessageThread(string currentUsername, string recipientUsername)
         {
-            throw new System.NotImplementedException();
+            var messageThread = await _context.Messages
+            .Include(m => m.Sender).ThenInclude(s => s.Photo)
+            .Include(m => m.Recipient).ThenInclude(r => r.Photo)
+            .Where(m => m.Recipient.UserName == currentUsername
+            && m.RecipientDeleted == false
+            && m.Sender.UserName == recipientUsername
+            || m.Sender.UserName == currentUsername
+            && m.SenderDeleted == false
+            && m.Recipient.UserName == recipientUsername)
+            .OrderBy(m => m.MessageSent)
+            .ToListAsync();
+
+            var unreadMessages = messageThread.Where(m => m.DateRead == null && m.Recipient.UserName == currentUsername);
+
+            if(unreadMessages.Any())
+            {
+                foreach(var message in unreadMessages)
+                {
+                    message.DateRead = DateTime.Now;
+                }
+
+                await _context.SaveChangesAsync();
+            }
+
+            return _mapper.Map<IEnumerable<MessageDto>>(unreadMessages);
+
         }
 
         public async Task<bool> SaveAllAsync()

@@ -9,6 +9,7 @@ import { PaginatedResult, Pagination } from 'src/app/models/pagination';
 import { AccountService } from 'src/app/shared/account.service';
 import { FriendsService } from 'src/app/shared/friends.service';
 import { MemberService } from 'src/app/shared/member.service';
+import { MessageService } from 'src/app/shared/message.service';
 
 @Component({
   selector: 'app-member-detail',
@@ -24,8 +25,9 @@ export class MemberDetailComponent implements OnInit {
   faBriefcase = faBriefcase;
   faUsers = faUsers;
   likeParams: LikesParams;
+  message = "";
 
-  constructor(private route: ActivatedRoute, private friendService: FriendsService, private memberService: MemberService) { }
+  constructor(private route: ActivatedRoute, private friendService: FriendsService, private memberService: MemberService, private messageService: MessageService) { }
 
   ngOnInit(): void {
     this.likeParams = new LikesParams();
@@ -42,6 +44,10 @@ export class MemberDetailComponent implements OnInit {
   pageChanged(event: any) {
     this.likeParams.pageNumber = event.pageNumber;
     this.friendService.setLikeParams(this.likeParams);
+  }
+
+  sendMessage(recipientUsername: string) {
+    this.messageService.createMessage(recipientUsername, this.message);
   }
 
 }

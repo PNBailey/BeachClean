@@ -10,7 +10,8 @@ namespace api.Helpers
 {
     public class AutoMapperProfile : Profile
     {
-        public AutoMapperProfile() {
+        public AutoMapperProfile()
+        {
             CreateMap<AppUser, MemberDto>();
 
             CreateMap<MemberDto, AppUser>();
@@ -39,7 +40,9 @@ namespace api.Helpers
 
             CreateMap<eventUpdateDto, Event>()
                         .ForAllMembers(o => o.Condition((src, dest, value) => value != null));
-            
+
+            CreateMap<Message, MessageDto>();
+
         }
     }
 }
