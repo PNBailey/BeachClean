@@ -45,7 +45,6 @@ export class FriendsService {
     }
 
     getPaginatedLikes(likeParams: LikesParams) {
-        console.log(likeParams);
         const response = this.memberCache.get(Object.values(likeParams).join('-'));
 
         if (response && this.newLike == false) {

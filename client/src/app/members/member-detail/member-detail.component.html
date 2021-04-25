@@ -62,11 +62,10 @@
             <tab heading="Messages">
                 <input type="text" [(ngModel)]="message">
                 <button (click)="sendMessage(member.userName)" class="btn-primary"></button>
-                <button (click)="getMessageThread(member.userName)"></button>
-                <div class="messages-container" >
+                <div class="messages-container">
                     <ul>
-                        <li>
-
+                        <li *ngFor="let message of messageObs$ | async">
+                            {{message.content}}
                         </li>
                     </ul>
                 </div>

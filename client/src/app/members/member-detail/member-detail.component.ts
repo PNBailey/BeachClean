@@ -5,6 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Observable, Subscription } from 'rxjs';
 import { LikesParams } from 'src/app/models/likesParams';
 import { Member } from 'src/app/models/member';
+import { Message } from 'src/app/models/message';
 import { PaginatedResult, Pagination } from 'src/app/models/pagination';
 import { AccountService } from 'src/app/shared/account.service';
 import { FriendsService } from 'src/app/shared/friends.service';
@@ -20,12 +21,14 @@ export class MemberDetailComponent implements OnInit {
 
   memberObs$: Observable<Member>;
   friendsObs$: Observable<PaginatedResult<Member[]>>;
+  messageObs$: Observable<Message[]>;
   faLocationArrow = faLocationArrow;
   faUser = faUser;
   faBriefcase = faBriefcase;
   faUsers = faUsers;
   likeParams: LikesParams;
   message = "";
+
 
   constructor(private route: ActivatedRoute, private friendService: FriendsService, private memberService: MemberService, private messageService: MessageService) { }
 
@@ -34,7 +37,8 @@ export class MemberDetailComponent implements OnInit {
     this.likeParams.userName = this.route.snapshot.paramMap.get('username');
     this.memberObs$ = this.memberService.getMember(this.route.snapshot.paramMap.get('username')); 
     this.friendsObs$ = this.friendService.friends$;
-    this.friendService.setLikeParams(this.likeParams);  
+    this.friendService.setLikeParams(this.likeParams);
+    this.messageObs$ = this.getMessageThread(this.likeParams.userName);  
     
   }
 
@@ -51,8 +55,8 @@ export class MemberDetailComponent implements OnInit {
     this.messageService.createMessage(recipientUsername, this.message);
   }
 
-  getMessageThread(recipientUsername: string) {
-    this.messageService.getMessageThread(recipientUsername).subscribe(messages => console.log(messages));
+  getMessageThread(recipientUsername: string): Observable<Message[]> {
+    return this.messageService.getMessageThread(recipientUsername);
   }
 
 }

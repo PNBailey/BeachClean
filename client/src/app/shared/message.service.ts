@@ -1,6 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { ToastrService } from "ngx-toastr";
+import { Message } from "../models/message";
 
 @Injectable({
     providedIn: 'root'
@@ -15,6 +16,6 @@ export class MessageService {
     }
 
     getMessageThread(recipientUsername: string) {
-        return this.http.get(`${this.baseUrl}/thread/${recipientUsername}`);
+        return this.http.get<Message[]>(`${this.baseUrl}/thread/${recipientUsername}`);
     }
 }
