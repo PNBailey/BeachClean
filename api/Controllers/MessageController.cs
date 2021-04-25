@@ -48,10 +48,10 @@ namespace api.Controllers
 
         }
 
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<MessageDto>>> GetMessageThread(string username)
+        [HttpGet("thread/{recipientUsername}")]
+        public async Task<ActionResult<IEnumerable<MessageDto>>> GetMessageThread(string recipientUsername)
         {
-            var messages = await _messagesRepository.GetMessageThread(User.GetUsername(), username);
+            var messages = await _messagesRepository.GetMessageThread(User.GetUsername(), recipientUsername);
 
             return Ok(messages);
         }

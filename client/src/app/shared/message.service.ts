@@ -12,6 +12,9 @@ export class MessageService {
     
     createMessage(recipientUsername: string, content: string) {
         this.http.post(`${this.baseUrl}`, {recipientUsername, content}).subscribe(() => this.toastr.success("Message sent"));
-        console.log(content);
+    }
+
+    getMessageThread(recipientUsername: string) {
+        return this.http.get(`${this.baseUrl}/thread/${recipientUsername}`);
     }
 }

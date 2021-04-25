@@ -62,6 +62,14 @@
             <tab heading="Messages">
                 <input type="text" [(ngModel)]="message">
                 <button (click)="sendMessage(member.userName)" class="btn-primary"></button>
+                <button (click)="getMessageThread(member.userName)"></button>
+                <div class="messages-container" >
+                    <ul>
+                        <li>
+
+                        </li>
+                    </ul>
+                </div>
             </tab>
         </tabset>
     </div>

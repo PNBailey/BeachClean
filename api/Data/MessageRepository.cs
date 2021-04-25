@@ -87,7 +87,7 @@ namespace api.Data
                 await _context.SaveChangesAsync();
             }
 
-            return _mapper.Map<IEnumerable<MessageDto>>(unreadMessages);
+            return _mapper.Map<IEnumerable<MessageDto>>(messageThread);
 
         }
 

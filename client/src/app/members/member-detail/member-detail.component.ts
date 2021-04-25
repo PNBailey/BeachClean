@@ -35,6 +35,7 @@ export class MemberDetailComponent implements OnInit {
     this.memberObs$ = this.memberService.getMember(this.route.snapshot.paramMap.get('username')); 
     this.friendsObs$ = this.friendService.friends$;
     this.friendService.setLikeParams(this.likeParams);  
+    
   }
 
   likeMember(member: Member) {
@@ -48,6 +49,10 @@ export class MemberDetailComponent implements OnInit {
 
   sendMessage(recipientUsername: string) {
     this.messageService.createMessage(recipientUsername, this.message);
+  }
+
+  getMessageThread(recipientUsername: string) {
+    this.messageService.getMessageThread(recipientUsername).subscribe(messages => console.log(messages));
   }
 
 }
