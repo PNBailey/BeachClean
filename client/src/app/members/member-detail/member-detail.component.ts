@@ -1,13 +1,11 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { faBriefcase, faLocationArrow, faUser, faUsers } from '@fortawesome/free-solid-svg-icons';
-import { ToastrService } from 'ngx-toastr';
-import { Observable, Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
 import { LikesParams } from 'src/app/models/likesParams';
 import { Member } from 'src/app/models/member';
 import { Message } from 'src/app/models/message';
-import { PaginatedResult, Pagination } from 'src/app/models/pagination';
-import { AccountService } from 'src/app/shared/account.service';
+import { PaginatedResult } from 'src/app/models/pagination';
 import { FriendsService } from 'src/app/shared/friends.service';
 import { MemberService } from 'src/app/shared/member.service';
 import { MessageService } from 'src/app/shared/message.service';
@@ -30,7 +28,7 @@ export class MemberDetailComponent implements OnInit {
   message = "";
 
 
-  constructor(private route: ActivatedRoute, private friendService: FriendsService, private memberService: MemberService, private messageService: MessageService) { }
+  constructor(private route: ActivatedRoute, private friendService: FriendsService, private memberService: MemberService, public messageService: MessageService) { }
 
   ngOnInit(): void {
     this.likeParams = new LikesParams();
@@ -38,7 +36,7 @@ export class MemberDetailComponent implements OnInit {
     this.memberObs$ = this.memberService.getMember(this.route.snapshot.paramMap.get('username')); 
     this.friendsObs$ = this.friendService.friends$;
     this.friendService.setLikeParams(this.likeParams);
-    this.messageObs$ = this.getMessageThread(this.likeParams.userName);  
+    this.getMessageThread(this.likeParams.userName);  
     
   }
 
@@ -55,8 +53,8 @@ export class MemberDetailComponent implements OnInit {
     this.messageService.createMessage(recipientUsername, this.message);
   }
 
-  getMessageThread(recipientUsername: string): Observable<Message[]> {
-    return this.messageService.getMessageThread(recipientUsername);
+  getMessageThread(recipientUsername: string) {
+    this.messageService.getMessageThread(recipientUsername);
   }
 
 }

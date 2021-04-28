@@ -60,15 +60,15 @@
             <tab heading="Past Events">Past event cards will go here</tab>
             <tab heading="Upcoming Events">Upcoming events cards will go here</tab>
             <tab heading="Messages">
-                <input type="text" [(ngModel)]="message">
-                <button (click)="sendMessage(member.userName)" class="btn-primary"></button>
                 <div class="messages-container">
                     <ul>
-                        <li *ngFor="let message of messageObs$ | async">
+                        <li *ngFor="let message of messageService.messages">
                             {{message.content}}
                         </li>
                     </ul>
                 </div>
+                <input type="text" [(ngModel)]="message" placeholder="Send message to {{member.userName}}">
+                <button (click)="sendMessage(member.userName)" class="btn-primary">Send</button>
             </tab>
         </tabset>
     </div>

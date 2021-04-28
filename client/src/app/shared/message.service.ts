@@ -7,15 +7,18 @@ import { Message } from "../models/message";
     providedIn: 'root'
   })
 export class MessageService {
-    baseUrl = "https://localhost:5001/api/message"
+    baseUrl = "https://localhost:5001/api/message";
+    messages: Message[] = [];
 
     constructor(private http: HttpClient, private toastr: ToastrService) {}
-    
+
     createMessage(recipientUsername: string, content: string) {
-        this.http.post(`${this.baseUrl}`, {recipientUsername, content}).subscribe(() => this.toastr.success("Message sent"));
-    }
+        this.http.post<Message>(`${this.baseUrl}`, {recipientUsername, content}).subscribe((message: Message) => {
+            this.messages.push(message);
+            this.toastr.success("Message sent");
+        })};
 
     getMessageThread(recipientUsername: string) {
-        return this.http.get<Message[]>(`${this.baseUrl}/thread/${recipientUsername}`);
+        this.http.get<Message[]>(`${this.baseUrl}/thread/${recipientUsername}`).subscribe(messages => this.messages = messages);
     }
 }

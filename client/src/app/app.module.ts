@@ -37,7 +37,8 @@ import {MatCardModule} from '@angular/material/card';
 import { CommonModule } from '@angular/common';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { AllEventsComponent } from './events/all-events/all-events.component';
-import { EventCardComponent } from './events/event-card/event-card.component'; 
+import { EventCardComponent } from './events/event-card/event-card.component';
+import { MemberMessagesComponent } from './members/member-messages/member-messages.component'; 
 
 
  
@@ -60,7 +61,8 @@ import { EventCardComponent } from './events/event-card/event-card.component';
     DateInputComponent,
     EditEventComponent,
     AllEventsComponent,
-    EventCardComponent
+    EventCardComponent,
+    MemberMessagesComponent
     
   ],
   imports: [
