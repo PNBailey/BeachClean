@@ -25,7 +25,7 @@ export class MemberDetailComponent implements OnInit {
   faBriefcase = faBriefcase;
   faUsers = faUsers;
   likeParams: LikesParams;
-  message = "";
+  // message = "";
 
 
   constructor(private route: ActivatedRoute, private friendService: FriendsService, private memberService: MemberService, public messageService: MessageService) { }
@@ -49,9 +49,9 @@ export class MemberDetailComponent implements OnInit {
     this.friendService.setLikeParams(this.likeParams);
   }
 
-  sendMessage(recipientUsername: string) {
-    this.messageService.createMessage(recipientUsername, this.message);
-  }
+  // sendMessage(recipientUsername: string) {
+  //   this.messageService.createMessage(recipientUsername, this.message);
+  // }
 
   getMessageThread(recipientUsername: string) {
     this.messageService.getMessageThread(recipientUsername);
