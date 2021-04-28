@@ -1,0 +1,20 @@
+.member-message-img {
+    height: 3%;
+    width: 3%;
+    border-radius: 10px;
+    margin: 12px;
+}
+
+.messages-container > ul {
+    list-style: none;
+    padding: 0;
+}
+
+.message-container {
+    display: flex;
+    align-items: center;
+}
+
+.member-message {
+    margin: 0;
+}

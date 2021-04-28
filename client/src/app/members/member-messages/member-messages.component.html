@@ -1,7 +1,7 @@
 <p *ngIf="messages.length == 0">No messages between you and {{memberUsername}}</p>
 <div *ngIf="messages.length > 0" class="messages-container">
     <ul>
-        <li *ngFor="let message of messages" class="message.container">
+        <li *ngFor="let message of messages" class="message-container">
             <img class="member-message-img" src="{{message.senderPhotoUrl ||  '../../assets/images/Placeholder user image.jpg'}}" alt="member image">
             <p class="member-message">{{message.content}}</p>
         </li>
