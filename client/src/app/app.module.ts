@@ -30,7 +30,6 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { DateInputComponent } from './date-input/date-input.component';
 import { EditEventComponent } from './events/edit-event/edit-event.component';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
-import {MatButtonModule} from '@angular/material/button';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import {MatCardModule} from '@angular/material/card';
@@ -66,6 +65,7 @@ import { MemberMessagesComponent } from './members/member-messages/member-messag
     
   ],
   imports: [
+    CommonModule,
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
@@ -85,7 +85,6 @@ import { MemberMessagesComponent } from './members/member-messages/member-messag
     MatAutocompleteModule,
     MatFormFieldModule,
     MatInputModule,
-    CommonModule,
     FontAwesomeModule,
     MatCardModule
     

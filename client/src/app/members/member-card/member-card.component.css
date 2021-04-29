@@ -26,6 +26,7 @@
     opacity: 0;
 }
 
+
 .card-img-wrapper:hover .member-icons {
     bottom: 0;
     opacity: 1;

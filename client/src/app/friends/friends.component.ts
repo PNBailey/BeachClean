@@ -24,7 +24,7 @@ export class FriendsComponent implements OnInit, OnDestroy {
   userLikedSub: Subscription;
   membersObs$: Observable<PaginatedResult<Member[]>>;
   friendsObs$: Observable<PaginatedResult<Member[]>>;
-  memberCurrentPage = 1;
+ 
   
 
 

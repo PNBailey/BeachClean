@@ -1,19 +1,20 @@
 
     <p *ngIf="messages.length == 0">No messages between you and {{memberUsername}}</p>
-    <div *ngIf="messages.length > 0" class="messages-container">
-        <ul>
-            <li *ngFor="let message of messages">
-                <div class="message-container">
-                    <img class="member-message-img" src="{{message.senderPhotoUrl ||  '../../assets/images/Placeholder user image.jpg'}}" alt="member image">
-                    <p class="member-message">{{message.content}}</p>
-                </div>    
-                <p class="message-sent-time">{{message.messageSent | timeago}}</p>            
-                <hr class="line">
+    <div class="messages-container">
+        <ul *ngIf="messages.length > 0" >
+            <li class="message-list-item" *ngFor="let message of messages">
+                    <div [ngClass]="message.senderUsername == memberUsername ? 'message-container-left' : 'message-container-right'">
+                        <img class="member-message-img" src="{{message.senderPhotoUrl ||  '../../assets/images/Placeholder user image.jpg'}}" alt="member image">
+                        <p class="member-message">{{message.content}}</p>
+                    </div>           
+               
+                <p [ngClass]="message.senderUsername == memberUsername ? 'message-sent-time-left ' : 'message-sent-time-right'">{{message.messageSent | timeago}}</p>     
+                    <hr class="line">
             </li>
-            <hr>
         </ul>
-        <input type="text" [(ngModel)]="messageContent" placeholder="Send message to {{memberUsername}}">
-        <button (click)="sendMessage()" class="btn-primary">Send</button>
+       
     </div>
+    <input type="text" [(ngModel)]="messageContent" placeholder="Send message to {{memberUsername}}">
+    <button (click)="sendMessage()" class="btn-primary send-btn">Send</button>
 
 

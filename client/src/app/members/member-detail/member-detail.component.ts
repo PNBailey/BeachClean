@@ -32,6 +32,7 @@ export class MemberDetailComponent implements OnInit {
   ngOnInit(): void {
     this.memberObs$ = this.memberService.getMember(this.route.snapshot.paramMap.get('username')); 
     this.likeParams = new LikesParams();
+    this.likeParams.pageSize = 4;
     this.likeParams.userName = this.route.snapshot.paramMap.get('username');
     this.friendsObs$ = this.friendService.friends$;
     this.friendService.setLikeParams(this.likeParams);
@@ -44,7 +45,8 @@ export class MemberDetailComponent implements OnInit {
   }
 
   pageChanged(event: any) {
-    this.likeParams.pageNumber = event.pageNumber;
+    this.likeParams.pageNumber = event.page;
+    console.log(event.page);
     this.friendService.setLikeParams(this.likeParams);
   }
 

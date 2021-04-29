@@ -19,6 +19,7 @@ export class MemberMessagesComponent implements OnInit {
 
   sendMessage() {
     this.messageService.createMessage(this.memberUsername, this.messageContent);
+    this.messageContent = "";
   }
 
 }

@@ -10,10 +10,39 @@
     padding: 0;
 }
 
-.message-container {
+.messages-container {
+    width: 350px;
+    display: flex;
+    /* justify-content: flex-end; */
+}
+
+
+.message-container-left {
     display: flex;
     align-items: center;
     
+}
+
+.message-container-right {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    
+    
+}
+
+
+
+.message-sent-time-left {
+    color: rgba(128, 128, 128, 0.459);
+    margin: 0;
+}
+
+.message-sent-time-right {
+    display: flex;
+    justify-content: flex-end;
+    color: rgba(128, 128, 128, 0.459);
+    margin: 0;
 }
 
 .member-message {
@@ -25,7 +54,14 @@
     margin: 0px;
 }
 
-.message-sent-time {
-    color: rgba(128, 128, 128, 0.459);
-    margin: 0;
+
+
+.send-btn {
+    margin-left: 7px;
+    border-radius: 4px;
+}
+
+.break {
+    flex-basis: 100%;
+    height: 0;
 }
