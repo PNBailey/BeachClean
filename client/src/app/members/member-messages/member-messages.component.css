@@ -2,7 +2,7 @@
     height: 3%;
     width: 3%;
     border-radius: 10px;
-    margin: 12px;
+    margin: 12px 12px 12px 0;
 }
 
 .messages-container > ul {
@@ -13,8 +13,19 @@
 .message-container {
     display: flex;
     align-items: center;
+    
 }
 
 .member-message {
+    margin: 0;
+}
+
+.line {
+    color: black;
+    margin: 0px;
+}
+
+.message-sent-time {
+    color: rgba(128, 128, 128, 0.459);
     margin: 0;
 }

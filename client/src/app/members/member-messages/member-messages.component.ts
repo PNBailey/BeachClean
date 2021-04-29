@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { Message } from 'src/app/models/message';
 import { MessageService } from 'src/app/shared/message.service';
 

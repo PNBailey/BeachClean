@@ -1,4 +1,4 @@
-<div *ngIf="(memberObs$ | async) as member" class="row member-detail-container">
+<div *ngIf="memberObs$ | async as member" class="row member-detail-container">
     <div class="col-4">
         <div class="card">
             <img src="{{member.photoUrl || '../../assets/images/Placeholder user image.jpg'}}" alt="{{member.userName}}"
@@ -60,7 +60,7 @@
             <tab heading="Past Events">Past event cards will go here</tab>
             <tab heading="Upcoming Events">Upcoming events cards will go here</tab>
             <tab heading="Messages">
-                <app-member-messages [messages]="messageService.messages"></app-member-messages>
+                <app-member-messages [memberUsername]="member.userName" [messages]="messageService.messages"></app-member-messages>
             </tab>
         </tabset>
     </div>

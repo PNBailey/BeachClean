@@ -25,15 +25,14 @@ export class MemberDetailComponent implements OnInit {
   faBriefcase = faBriefcase;
   faUsers = faUsers;
   likeParams: LikesParams;
-  // message = "";
 
 
   constructor(private route: ActivatedRoute, private friendService: FriendsService, private memberService: MemberService, public messageService: MessageService) { }
 
   ngOnInit(): void {
+    this.memberObs$ = this.memberService.getMember(this.route.snapshot.paramMap.get('username')); 
     this.likeParams = new LikesParams();
     this.likeParams.userName = this.route.snapshot.paramMap.get('username');
-    this.memberObs$ = this.memberService.getMember(this.route.snapshot.paramMap.get('username')); 
     this.friendsObs$ = this.friendService.friends$;
     this.friendService.setLikeParams(this.likeParams);
     this.getMessageThread(this.likeParams.userName);  
@@ -48,10 +47,6 @@ export class MemberDetailComponent implements OnInit {
     this.likeParams.pageNumber = event.pageNumber;
     this.friendService.setLikeParams(this.likeParams);
   }
-
-  // sendMessage(recipientUsername: string) {
-  //   this.messageService.createMessage(recipientUsername, this.message);
-  // }
 
   getMessageThread(recipientUsername: string) {
     this.messageService.getMessageThread(recipientUsername);
