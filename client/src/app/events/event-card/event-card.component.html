@@ -1,26 +1,55 @@
 <div class="card card-container">
-    <div class="card-img-wrapper">
-        <img class="event-photo" src="{{existingEvent.mainPhotoUrl || '../../assets/images/Picture-icon.png'}}" alt="{{existingEvent.name}}"
-            alt="existingEvent.mainPhotoUrl">
-        <div class="image-btn-container animate">
-            <button (click)="addAttendee()" class="btn btn-primary">Attend Event</button>
-        </div>
+        <fa-icon *ngIf="existingEvent.isAttending" class="attending-icon fa-lg" [icon]="faCheck"></fa-icon>
+  <div class="card-img-wrapper">
+    <img
+      class="event-photo"
+      src="{{
+        existingEvent.mainPhotoUrl || '../../assets/images/Picture-icon.png'
+      }}"
+      alt="{{ existingEvent.name }}"
+      alt="existingEvent.mainPhotoUrl"
+    />
+    <div class="image-btn-container animate">
+      <button *ngIf="!existingEvent.isAttending" (click)="addAttendee()" class="btn btn-primary">
+        Attend Event
+      </button>
+      <button *ngIf="existingEvent.isAttending" (click)="unattend()" class="btn btn-danger">
+        Unattend
+      </button>
     </div>
-    <div class="line-container">
-        <hr>
-    </div>   
-    <div class="card-body">
-        <div class="title-container">
-            <h2 class="body-title">{{existingEvent.name}}</h2>
-        </div>  
-        <p class="body-item">
-            <fa-icon class="body-icon" [icon]="faCalendar"></fa-icon>{{existingEvent.date | date: 'dd MMMM yyyy'}}
-        </p>
-        <p class="body-item">
-            <fa-icon class="body-icon" [icon]="faLocationArrow"></fa-icon>{{existingEvent.location}}
-        </p>
-        <p class="body-item">Event Organisers: {{existingEvent.organisers.length}}</p>
-        <p class="body-item">Event Attendees: {{existingEvent.attendees.length}}</p>
-        <p class="body-item creator">Created by <strong>{{existingEvent.creator.userName | titlecase }}</strong><img routerLink='/friends/{{existingEvent.creator.userName}}' src="{{existingEvent.creator.photoUrl || '../../assets/images/Placeholder user image.jpg'}}" alt="{{existingEvent.creator.userName}}"></p>
+  </div>
+  <div class="line-container">
+    <hr />
+  </div>
+  <div class="card-body">
+    <div class="title-container">
+      <h2 class="body-title">{{ existingEvent.name }}</h2>
     </div>
+    <p class="body-item">
+      <fa-icon class="body-icon" [icon]="faCalendar"></fa-icon
+      >{{ existingEvent.date | date: "dd MMMM yyyy" }}
+    </p>
+    <p class="body-item">
+      <fa-icon class="body-icon" [icon]="faLocationArrow"></fa-icon
+      >{{ existingEvent.location }}
+    </p>
+    <p class="body-item">
+      Event Organisers: {{ existingEvent.organisers.length }}
+    </p>
+    <p class="body-item">
+      Event Attendees: {{ existingEvent.attendees.length }}
+    </p>
+    <p class="body-item creator">
+      Created by
+      <strong>{{ existingEvent.creator.userName | titlecase }}</strong
+      ><img
+        routerLink="/friends/{{ existingEvent.creator.userName }}"
+        src="{{
+          existingEvent.creator.photoUrl ||
+            '../../assets/images/Placeholder user image.jpg'
+        }}"
+        alt="{{ existingEvent.creator.userName }}"
+      />
+    </p>
+  </div>
 </div>

@@ -1,4 +1,4 @@
-import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
+import { AfterContentInit, AfterViewInit, Component, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import {
@@ -20,6 +20,7 @@ import { User } from 'src/app/models/user';
 import { AccountService } from 'src/app/shared/account.service';
 import { EventService } from 'src/app/shared/event.service';
 import { FriendsService } from 'src/app/shared/friends.service';
+import {} from 'googlemaps';
 
 @Component({
   selector: 'app-edit-event',
@@ -55,6 +56,7 @@ export class EditEventComponent implements OnInit, OnDestroy {
     }
   }
 
+
   constructor(
     private accountService: AccountService,
     private formBuilder: FormBuilder,
@@ -88,7 +90,11 @@ export class EditEventComponent implements OnInit, OnDestroy {
       startWith(''),
       map((value) => this._filter(value))
     );
+    
+    
   }
+
+  
 
   private _filter(value: string) {
     const filterValue = value.toLowerCase();
@@ -155,6 +161,7 @@ export class EditEventComponent implements OnInit, OnDestroy {
         this.toastr.success('Photo added');
       }
     };
+   
   }
 
   setMainPhoto(photo: Photo) {

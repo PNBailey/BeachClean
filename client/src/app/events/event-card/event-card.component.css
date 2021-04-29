@@ -36,6 +36,7 @@
 .card-img-wrapper > img {
     height: 230px;
     width: 230px;
+    z-index: 1;
 }
 
 
@@ -120,4 +121,13 @@ hr {
     cursor: pointer;
     display: flex;
     align-content: center;
+}
+
+.attending-icon {
+    color: rgb(5, 170, 5);
+    position: absolute;
+    top: 8px;
+    left: 200px;
+    z-index: 99;
+    
 }

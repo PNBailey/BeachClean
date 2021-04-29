@@ -3,12 +3,12 @@
     <div class="messages-container">
         <ul *ngIf="messages.length > 0" >
             <li class="message-list-item" *ngFor="let message of messages">
-                    <div [ngClass]="message.senderUsername == memberUsername ? 'message-container-left' : 'message-container-right'">
+                    <div [ngClass]="message.senderUsername == memberUsername ? 'message-container-right' : 'message-container-left'">
                         <img class="member-message-img" src="{{message.senderPhotoUrl ||  '../../assets/images/Placeholder user image.jpg'}}" alt="member image">
                         <p class="member-message">{{message.content}}</p>
                     </div>           
                
-                <p [ngClass]="message.senderUsername == memberUsername ? 'message-sent-time-left ' : 'message-sent-time-right'">{{message.messageSent | timeago}}</p>     
+                <p [ngClass]="message.senderUsername == memberUsername ? 'message-sent-time-right ' : 'message-sent-time-left'">{{message.messageSent | timeago}}</p>     
                     <hr class="line">
             </li>
         </ul>

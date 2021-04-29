@@ -11,6 +11,7 @@ export class BeachCleanEvent {
     photos: Photo[];
     organisers: Member[];
     attendees: Member[];
+    isAttending?: boolean = false;
 
     
 

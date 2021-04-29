@@ -19,6 +19,7 @@
     list-style-type: none;
     margin: 0px;
     line-height: 20px;
+    align-items: center;
 }
 
 
@@ -63,9 +64,6 @@ img {
     margin-right: 9px;
     border-radius: 15px;
  
-}
-.regular-nav-item {
-    padding-top: 5px;
 }
 
 
