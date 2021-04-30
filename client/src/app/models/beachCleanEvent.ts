@@ -7,7 +7,7 @@ export class BeachCleanEvent {
     id: Number;
     location: string;
     mainPhotoUrl: string;
-    date: Date;
+    date: Date = new Date();
     photos: Photo[];
     organisers: Member[];
     attendees: Member[];

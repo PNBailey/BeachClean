@@ -51,7 +51,7 @@ export class EventService {
       }
 
       getOrganisedEvents(username: string) {
-        return this.http.get(`${this.baseUrl}/organisedEvents/${username}`);
+        return this.http.get<BeachCleanEvent[]>(`${this.baseUrl}/organisedEvents/${username}`);
       }
     
     

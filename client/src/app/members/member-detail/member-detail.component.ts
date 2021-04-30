@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { faBriefcase, faLocationArrow, faUser, faUsers } from '@fortawesome/free-solid-svg-icons';
 import { Observable } from 'rxjs';
+import { BeachCleanEvent } from 'src/app/models/beachCleanEvent';
 import { LikesParams } from 'src/app/models/likesParams';
 import { Member } from 'src/app/models/member';
 import { Message } from 'src/app/models/message';
@@ -21,6 +22,7 @@ export class MemberDetailComponent implements OnInit {
   memberObs$: Observable<Member>;
   friendsObs$: Observable<PaginatedResult<Member[]>>;
   messageObs$: Observable<Message[]>;
+  pastEvents: BeachCleanEvent[] = [];
   faLocationArrow = faLocationArrow;
   faUser = faUser;
   faBriefcase = faBriefcase;
@@ -31,15 +33,21 @@ export class MemberDetailComponent implements OnInit {
   constructor(private route: ActivatedRoute, private friendService: FriendsService, private memberService: MemberService, public messageService: MessageService, private eventService: EventService) { }
 
   ngOnInit(): void {
-    this.memberObs$ = this.memberService.getMember(this.route.snapshot.paramMap.get('username')); 
     this.likeParams = new LikesParams();
-    this.likeParams.pageSize = 4;
     this.likeParams.userName = this.route.snapshot.paramMap.get('username');
+    this.likeParams.pageSize = 4;
+    this.memberObs$ = this.memberService.getMember(this.likeParams.userName); 
     this.friendsObs$ = this.friendService.friends$;
     this.friendService.setLikeParams(this.likeParams);
     this.getMessageThread(this.likeParams.userName);  
-    this.memberService.getMember(this.route.snapshot.paramMap.get('username')).subscribe(member => console.log(member)); 
-    this.eventService.getOrganisedEvents("paul").subscribe(events => console.log(events));
+    this.memberService.getMember(this.likeParams.userName).subscribe(member => console.log(member)); 
+    this.eventService.getOrganisedEvents(this.likeParams.userName).subscribe(events => {
+      const todaysDate = new Date();
+      // Converting event dates back to official date formats which allow me to allo me to compare the dates
+      events.forEach(e => e.date = new Date(e.date));
+      this.pastEvents = events.filter(existingEvent => existingEvent.date < todaysDate)
+      
+    });
     
   }
 

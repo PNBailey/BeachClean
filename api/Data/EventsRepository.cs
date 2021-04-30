@@ -79,9 +79,9 @@ namespace api.Data
 
             var query = _context.UserEvents.AsQueryable();
 
-            query.Where(events => events.OrganiserId == user.Id);
+            var existingEvents = query.Where(events => events.OrganiserId == user.Id);
 
-            var events = query.Select(existingEvent => new EventDto{
+            var events = existingEvents.Select(existingEvent => new EventDto{
                 Name = existingEvent.Event.Name,
                 Id = existingEvent.EventId,
                 Date = existingEvent.Event.Date,
