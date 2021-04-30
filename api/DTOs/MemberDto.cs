@@ -22,6 +22,9 @@ namespace api.DTOs
             
             public string Location { get; set; } 
 
+            public ICollection<EventDto> OrganisedEvents { get; set; }
+
+            public ICollection<EventDto> AttendingEvents { get; set; }
             public string EmailAddress { get; set; }
             
             public string Occupation { get; set; }

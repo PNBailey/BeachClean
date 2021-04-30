@@ -97,10 +97,12 @@ export class EditEventComponent implements OnInit, OnDestroy {
   
 
   private _filter(value: string) {
-    const filterValue = value.toLowerCase();
-    return this.friends.filter((friend) =>
-      friend.userName.toLowerCase().includes(filterValue)
-    );
+    if(value) {
+      const filterValue = value.toLowerCase();
+      return this.friends.filter((friend) =>
+        friend.userName.toLowerCase().includes(filterValue)
+      );
+    }
   }
 
   getFriendsOnFocus() {
@@ -200,6 +202,7 @@ export class EditEventComponent implements OnInit, OnDestroy {
     this.subscriptions.push(
       this.eventService.addOrganiser(this.eventId, friend.id).subscribe(() => {
         this.toastr.success('Organiser added');
+        this.addOrganiserForm.reset();
       })
     );
   }

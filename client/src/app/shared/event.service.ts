@@ -49,6 +49,10 @@ export class EventService {
       getAllEvents(eventParams: EventParams) {
         return this.paginationService.getPaginatedResult<Partial<BeachCleanEvent[]>>(`${this.baseUrl}/`, eventParams);
       }
+
+      getOrganisedEvents(username: string) {
+        return this.http.get(`${this.baseUrl}/organisedEvents/${username}`);
+      }
     
     
       updateEvent(updatedEvent: BeachCleanEvent) {

@@ -6,6 +6,7 @@ import { LikesParams } from 'src/app/models/likesParams';
 import { Member } from 'src/app/models/member';
 import { Message } from 'src/app/models/message';
 import { PaginatedResult } from 'src/app/models/pagination';
+import { EventService } from 'src/app/shared/event.service';
 import { FriendsService } from 'src/app/shared/friends.service';
 import { MemberService } from 'src/app/shared/member.service';
 import { MessageService } from 'src/app/shared/message.service';
@@ -27,7 +28,7 @@ export class MemberDetailComponent implements OnInit {
   likeParams: LikesParams;
 
 
-  constructor(private route: ActivatedRoute, private friendService: FriendsService, private memberService: MemberService, public messageService: MessageService) { }
+  constructor(private route: ActivatedRoute, private friendService: FriendsService, private memberService: MemberService, public messageService: MessageService, private eventService: EventService) { }
 
   ngOnInit(): void {
     this.memberObs$ = this.memberService.getMember(this.route.snapshot.paramMap.get('username')); 
@@ -37,6 +38,8 @@ export class MemberDetailComponent implements OnInit {
     this.friendsObs$ = this.friendService.friends$;
     this.friendService.setLikeParams(this.likeParams);
     this.getMessageThread(this.likeParams.userName);  
+    this.memberService.getMember(this.route.snapshot.paramMap.get('username')).subscribe(member => console.log(member)); 
+    this.eventService.getOrganisedEvents("paul").subscribe(events => console.log(events));
     
   }
 
@@ -46,7 +49,6 @@ export class MemberDetailComponent implements OnInit {
 
   pageChanged(event: any) {
     this.likeParams.pageNumber = event.page;
-    console.log(event.page);
     this.friendService.setLikeParams(this.likeParams);
   }
 

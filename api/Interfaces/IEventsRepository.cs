@@ -16,6 +16,8 @@ namespace api.Interfaces
 
         Task<Event> GetEventByIdAsync(int eventId);
 
+        Task<List<EventDto>> GetUserOrganisedEvents(string username);
+
         Task<bool> SaveAllAsync();
 
         void updateEvent(Event updatedEvent);

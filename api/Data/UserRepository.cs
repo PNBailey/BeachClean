@@ -26,11 +26,16 @@ namespace api.Data
             return await _context.Users
             .Where(user => user.UserName == username)
             .Include(user => user.Photo)
+            .Include(user => user.AttendingEvents)
+            .ThenInclude(attendingEvents => attendingEvents.AttendingEvent)
+            .Include(user => user.OrganisedEvents)
+            .ThenInclude(organisedEvents => organisedEvents.Event)
             .ProjectTo<MemberDto>(_mapper.ConfigurationProvider)                
             .SingleOrDefaultAsync();
 
         }
 
+       
         public async Task<PagedList<MemberDto>> GetMembersAsync(UserParams userParams)
         {
             var query = _context.Users.AsQueryable();

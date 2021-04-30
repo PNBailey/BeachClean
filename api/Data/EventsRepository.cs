@@ -15,8 +15,11 @@ namespace api.Data
     {
         private readonly DataContext _context;
         private readonly IMapper _mapper;
-        public EventsRepository(DataContext context, IMapper mapper)
+        private readonly IUserRepository _userRepository;
+        public EventsRepository(DataContext context, IMapper mapper, IUserRepository userRepository)
+
         {
+            _userRepository = userRepository;
             _mapper = mapper;
             _context = context;
         }
@@ -56,12 +59,12 @@ namespace api.Data
             .ThenInclude(e => e.Organiser)
             .ThenInclude(o => o.Photo)
             .ProjectTo<EventDto>(_mapper.ConfigurationProvider);
-            
+
             return await PagedList<EventDto>.CreateAsync(events, eventParams.PageNumber, eventParams.PageSize);
 
         }
 
-        public async Task<List<EventDto>> GetAllEvents() 
+        public async Task<List<EventDto>> GetAllEvents()
         {
             var events = await _context.Events.
             ProjectTo<EventDto>(_mapper.ConfigurationProvider)
@@ -70,7 +73,34 @@ namespace api.Data
             return events;
         }
 
-          public async Task<bool> SaveAllAsync()
+        public async Task<List<EventDto>> GetUserOrganisedEvents(string username)
+        {
+            var user = await _userRepository.GetUserByUsernameAsync(username);
+
+            var query = _context.UserEvents.AsQueryable();
+
+            query.Where(events => events.OrganiserId == user.Id);
+
+            var events = query.Select(existingEvent => new EventDto{
+                Name = existingEvent.Event.Name,
+                Id = existingEvent.EventId,
+                Date = existingEvent.Event.Date,
+                Location = existingEvent.Event.Location,
+                MainPhotoUrl = existingEvent.Event.MainPhotoUrl,
+                Creator = _mapper.Map<MemberDto>(existingEvent.Event.Creator),
+                Organisers = _mapper.Map<ICollection<MemberDto>>(existingEvent.Event.Organisers),
+                Attendees = _mapper.Map<ICollection<MemberDto>>(existingEvent.Event.Attendees)
+            }).ToListAsync();
+
+            return await events;
+
+          
+
+            
+
+        }
+
+        public async Task<bool> SaveAllAsync()
         {
             return await _context.SaveChangesAsync() > 0;
         }

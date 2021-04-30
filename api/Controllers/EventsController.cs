@@ -44,14 +44,6 @@ namespace api.Controllers
                 return BadRequest("Event already exists!");
             }
 
-            // if(newEvent.MainPhoto != null) {
-            //     var mainEventPhoto = new Photo {
-            //     Url = newEvent.MainPhoto.url
-            // };
-            // }
-
-            //    var newEventDate = newEvent.Date.ToShortDateString();
-
             var createdEvent = new Event
             {
                 Name = newEvent.Name,
@@ -85,6 +77,15 @@ namespace api.Controllers
             Response.AddPaginationHeader(events.CurrentPage, eventParams.PageSize, events.TotalCount, events.TotalPages);
 
             return Ok(events);
+        }
+
+        [HttpGet("organisedEvents/{username}")]
+
+        public async Task<ActionResult<IEnumerable<EventDto>>> GetUserOrganisedEvents(string username)
+        {
+            var events = await _eventsRepository.GetUserOrganisedEvents(username);
+
+            return events;
         }
 
         [HttpPost("add-photo/{id}")]
