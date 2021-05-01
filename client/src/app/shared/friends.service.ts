@@ -1,5 +1,5 @@
 import { HttpClient, HttpParams } from "@angular/common/http";
-import { Injectable } from "@angular/core";
+import { Injectable, ɵclearResolutionOfComponentResourcesQueue } from "@angular/core";
 import { ToastrService } from "ngx-toastr";
 import { BehaviorSubject, of, Subject } from "rxjs";
 import { map, switchMap, tap } from "rxjs/operators";
@@ -49,6 +49,7 @@ export class FriendsService {
 
         if (response && this.newLike == false) {
             return of(response);
+            
         }
 
 

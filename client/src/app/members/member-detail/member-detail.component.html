@@ -1,4 +1,4 @@
-<div *ngIf="memberObs$ | async as member" class="row member-detail-container">
+<div *ngIf="obs.memberObs$ | async as member" class="row member-detail-container">
     <div class="col-4">
         <div class="card">
             <img src="{{member.photoUrl || '../../assets/images/Placeholder user image.jpg'}}" alt="{{member.userName}}"
@@ -6,19 +6,19 @@
             <div class="card-body">
                 <div>
                     <strong>Name: </strong>
-                    <p><fa-icon class="body-icon" [icon]="faUser"></fa-icon>{{member.name}} (user name: {{member.userName}})</p>
+                    <p><fa-icon class="body-icon" [icon]="icons.faUser"></fa-icon>{{member.name}} (user name: {{member.userName}})</p>
                 </div>
                 <div>
                     <strong>Location: </strong>
-                        <p><fa-icon class="body-icon" [icon]="faLocationArrow"></fa-icon>{{member.location}}</p>
+                        <p><fa-icon class="body-icon" [icon]="icons.faLocationArrow"></fa-icon>{{member.location}}</p>
                 </div>
                 <div>
                     <strong>Occupation: </strong>
-                    <p><fa-icon class="body-icon" [icon]="faBriefcase"></fa-icon>{{member.occupation}}</p>
+                    <p><fa-icon class="body-icon" [icon]="icons.faBriefcase"></fa-icon>{{member.occupation}}</p>
                 </div>
                 <div>
                     <strong>Events Attended: </strong>
-                    <p><fa-icon class="body-icon" [icon]="faUsers"></fa-icon>0</p>
+                    <p><fa-icon class="body-icon" [icon]="icons.faUsers"></fa-icon>0</p>
                 </div>
                 <div>
                     <strong>Last Active: </strong>
@@ -40,7 +40,7 @@
     <div class="col-8">
         <tabset class="member-tabset">
             <tab heading="Friends" id="tab1">
-                <div *ngIf="(friendsObs$ | async) as friendsObs">
+                <div *ngIf="(obs.friendsObs$ | async) as friendsObs">
                     <div  class="friends-container">
                         <div class="member-detail-friends-card" *ngFor="let friend of friendsObs.result">
                             <app-member-card [member]="friend"></app-member-card>
@@ -60,7 +60,7 @@
             <tab heading="Past Events">
                 <div *ngIf="pastEvents.length > 0" class="past-events-container">
                     <div *ngFor="let event of pastEvents">
-                        <app-event-card [existingEvent]="event"></app-event-card>
+                        <app-event-card class="past-events-card" [existingEvent]="event"></app-event-card>
                     </div>
                 </div>
             </tab>

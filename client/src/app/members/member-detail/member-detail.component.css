@@ -34,3 +34,13 @@ p {
     justify-content: center;
     
 }
+
+.past-events-container {
+    display: flex;
+}
+
+.past-events-card {
+    margin: 10px;
+    width: 50px;
+    height: 100px;
+}
