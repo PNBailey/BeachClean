@@ -54,6 +54,16 @@ namespace api.Controllers
 
             };
 
+             var userEvent = new UserEvents
+            {
+                OrganiserId = currUser.Id,
+                EventId = createdEvent.Id
+            };
+
+            createdEvent.Organisers = new List<UserEvents>();
+
+            createdEvent.Organisers.Add(userEvent);
+
             return await _eventsRepository.CreateEvent(createdEvent);
 
         }
@@ -74,16 +84,18 @@ namespace api.Controllers
         {
             var events = await _eventsRepository.GetPaginatedEventsAsync(eventParams);
 
+            // var user = await _userRepository.GetUserByUsernameAsync(eventParams.username);
+
             Response.AddPaginationHeader(events.CurrentPage, eventParams.PageSize, events.TotalCount, events.TotalPages);
 
             return Ok(events);
         }
 
-        [HttpGet("organisedEvents/{username}")]
+        [HttpGet("userEvents/{username}")]
 
-        public async Task<ActionResult<IEnumerable<EventDto>>> GetUserOrganisedEvents(string username)
+        public async Task<ActionResult<IEnumerable<EventDto>>> GetUserOrganisedEvents([FromQuery] EventParams eventParams)
         {
-            var events = await _eventsRepository.GetUserOrganisedEvents(username);
+            var events = await _eventsRepository.GetUserOrganisedEvents(eventParams);
 
             return events;
         }

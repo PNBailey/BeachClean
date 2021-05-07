@@ -52,16 +52,25 @@
                   [totalItems]="friendsObs.pagination.totalItems"
                   [itemsPerPage]="friendsObs.pagination.itemsPerPage"
                   [(ngModel)]="likeParams.pageNumber"
-                  (pageChanged)="pageChanged($event)">
+                  (pageChanged)="pageChangedFriends($event)">
                   </pagination>
                     </div>
                 </div> 
             </tab>
             <tab heading="Past Events">
-                <div *ngIf="pastEvents.length > 0" class="past-events-container">
-                    <div *ngFor="let event of pastEvents">
-                        <app-event-card class="past-events-card" [existingEvent]="event"></app-event-card>
+                <div *ngIf="(obs.eventObs$ | async) as eventObs" class="past-events-container">
+                    <div *ngFor="let event of eventObs.result | pastEventPipe" class="past-events-card" >
+                        <app-event-card [existingEvent]="event"></app-event-card>
                     </div>
+                    <div class="pagination-container"*ngIf="eventObs.result.length > 0"> 
+                        <pagination
+                      [boundaryLinks]="true"
+                      [totalItems]="eventObs.pagination.totalItems"
+                      [itemsPerPage]="eventObs.pagination.itemsPerPage"
+                      [(ngModel)]="eventParams.pageNumber"
+                      (pageChanged)="pageChangedEvents($event)">
+                      </pagination>
+                        </div>
                 </div>
             </tab>
             <tab heading="Upcoming Events">Upcoming events cards will go here</tab>

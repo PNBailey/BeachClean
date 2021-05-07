@@ -3,7 +3,7 @@ import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
 import { BehaviorSubject, Observable } from "rxjs";
-import { switchMap, tap } from "rxjs/operators";
+import { switchMap, switchMapTo, tap } from "rxjs/operators";
 import { BeachCleanEvent } from "../models/beachCleanEvent";
 import { EventParams } from "../models/eventParams";
 import { Member } from "../models/member";
@@ -18,22 +18,24 @@ export class EventService {
 
     constructor(private http: HttpClient, private paginationService: PaginationService, private memberService: MemberService, private route: Router, private toastr: ToastrService) {}
 
-    private eventParams$: BehaviorSubject<EventParams> = new BehaviorSubject(new EventParams()); 
+    private allEventsParams$: BehaviorSubject<EventParams> = new BehaviorSubject(new EventParams()); 
+    private userEvent$: BehaviorSubject<EventParams> = new BehaviorSubject(new EventParams()); 
     baseUrl: string = "https://localhost:5001/api/events";
     attendeesSubject$: BehaviorSubject<string> = new BehaviorSubject("");
     attendeeUsername: string = "";
 
     getEventParams() {
-        return this.eventParams$;
+        return this.allEventsParams$;
       }
     
-      setEventParams(eventParams: EventParams) {
-        this.eventParams$.next(eventParams);
+      setAllEventParams(eventParams: EventParams) {
+        this.allEventsParams$.next(eventParams);
       }
 
-      event$ = this.eventParams$.pipe(
+      allEvents$ = this.allEventsParams$.pipe(
         switchMap(eventParams => this.getAllEvents(eventParams))
       );  
+
 
       addEvent(event: BeachCleanEvent) {
         this.http.post(this.baseUrl + '/', event).pipe(tap(eventId => {
@@ -50,9 +52,10 @@ export class EventService {
         return this.paginationService.getPaginatedResult<Partial<BeachCleanEvent[]>>(`${this.baseUrl}/`, eventParams);
       }
 
-      getOrganisedEvents(username: string) {
-        return this.http.get<BeachCleanEvent[]>(`${this.baseUrl}/organisedEvents/${username}`);
+      getUserEvents(eventParams: EventParams) {
+        return this.paginationService.getPaginatedResult<Partial<BeachCleanEvent[]>>(`${this.baseUrl}/userEvents/${eventParams.username}`, eventParams);
       }
+      
     
     
       updateEvent(updatedEvent: BeachCleanEvent) {

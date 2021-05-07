@@ -17,16 +17,16 @@ export class AllEventsComponent implements OnInit {
 
   ngOnInit() {
     this.eventParams = new EventParams(); // The event params are created
-    this.events$ = this.eventService.event$; // The event$ observable from the service is assigned to a local variable
+    this.events$ = this.eventService.allEvents$; // The event$ observable from the service is assigned to a local variable
     this.getEvents();
   }
 
   getEvents() {
-    this.eventService.setEventParams(this.eventParams); // This method is called with the eventParams above. The setEventParams triggers a behavior subject observable. The switchmap on the service then takes the value passed into the behavior subject, switches the observable to the getAllEvents observable and passes in the value
+    this.eventService.setAllEventParams(this.eventParams); // This method is called with the eventParams above. The setAllEventParams triggers a behavior subject observable. The switchmap on the service then takes the value passed into the behavior subject, switches the observable to the getAllEvents observable and passes in the value
   }
 
   pageChanged(event: any) {
     this.eventParams.pageNumber = event.page;
-    this.eventService.setEventParams(this.eventParams);
+    this.eventService.setAllEventParams(this.eventParams);
   }
 }

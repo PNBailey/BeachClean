@@ -42,7 +42,7 @@ namespace api.Helpers
             CreateMap<UserEvents, EventDto>();
             
 
-            CreateMap<UserEvents, MemberDto>();
+            // CreateMap<UserEvents, MemberDto>();
 
             CreateMap<eventUpdateDto, Event>()
                         .ForAllMembers(o => o.Condition((src, dest, value) => value != null));

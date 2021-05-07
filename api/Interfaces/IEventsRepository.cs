@@ -16,7 +16,9 @@ namespace api.Interfaces
 
         Task<Event> GetEventByIdAsync(int eventId);
 
-        Task<List<EventDto>> GetUserOrganisedEvents(string username);
+        Task<PagedList<EventDto>> GetUserOrganisedEvents(EventParams eventParams);
+
+        Task<PagedList<EventDto>> GetUserAttendedEvents(EventParams eventParams);
 
         Task<bool> SaveAllAsync();
 
@@ -25,6 +27,7 @@ namespace api.Interfaces
         Task<bool> removeOrganiser(int organiserId,  int eventId);
 
         Task removeAttendee(int attendeeId,  int eventId);
+
 
         
     }

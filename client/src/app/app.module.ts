@@ -37,7 +37,8 @@ import { CommonModule } from '@angular/common';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { AllEventsComponent } from './events/all-events/all-events.component';
 import { EventCardComponent } from './events/event-card/event-card.component';
-import { MemberMessagesComponent } from './members/member-messages/member-messages.component'; 
+import { MemberMessagesComponent } from './members/member-messages/member-messages.component';
+import { PastEventPipe } from './shared/pipes/pastevent.pipe'; 
 
 
  
@@ -61,7 +62,8 @@ import { MemberMessagesComponent } from './members/member-messages/member-messag
     EditEventComponent,
     AllEventsComponent,
     EventCardComponent,
-    MemberMessagesComponent
+    MemberMessagesComponent,
+    PastEventPipe
     
   ],
   imports: [
