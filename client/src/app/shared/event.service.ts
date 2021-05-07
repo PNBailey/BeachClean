@@ -82,9 +82,7 @@ export class EventService {
       }
 
       removeAttendee(eventId: Number, attendeeUsername: string) {
-       this.http.delete(`${this.baseUrl}/removeAttendee/${eventId}/${attendeeUsername}`).pipe(tap(() => {
-          this.toastr.success("Attendee Removed");
-        })).subscribe();
+       return this.http.delete(`${this.baseUrl}/removeAttendee/${eventId}/${attendeeUsername}`);
       }
 
 

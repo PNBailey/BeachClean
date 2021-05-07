@@ -226,8 +226,11 @@ export class EditEventComponent implements OnInit, OnDestroy {
   }
 
   removeAttendee(attendee: Member) {
-    this.eventService.removeAttendee(this.eventId, attendee.userName);
-    this.event.attendees.splice(this.event.attendees.indexOf(attendee), 1);
+    this.eventService.removeAttendee(this.eventId, attendee.userName).subscribe(() => {
+      this.toastr.success("Attendee removed");
+      this.event.attendees.splice(this.event.attendees.indexOf(attendee), 1);
+    });
+    
   }
 
   ngOnDestroy() {

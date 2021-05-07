@@ -52,7 +52,6 @@ export class MemberDetailComponent implements OnInit {
     private memberService: MemberService,
     public messageService: MessageService,
     private eventService: EventService,
-    private http: HttpClient
   ) {}
 
   ngOnInit(): void {

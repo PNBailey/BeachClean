@@ -3,7 +3,6 @@ import { BeachCleanEvent } from 'src/app/models/beachCleanEvent';
 import {
   faCalendar,
   faCheck,
-  faCheckCircle,
   faLocationArrow,
   faTrash,
 } from '@fortawesome/free-solid-svg-icons';
@@ -37,18 +36,16 @@ export class EventCardComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    
     this.subscriptions.push(
       this.accountService.currentUserSource.pipe(take(1)).subscribe((user) => {
         this.currUserUsername = user.userName;
-        this.existingEvent.attendees.forEach(attendee => {
-          if(attendee.userName == this.currUserUsername) {
+        this.existingEvent.attendees.forEach((attendee) => {
+          if (attendee.userName == this.currUserUsername) {
             this.existingEvent.isAttending = true;
-          };
+          }
         });
       })
     );
-   
   }
 
   addAttendee() {
@@ -70,8 +67,23 @@ export class EventCardComponent implements OnInit, OnDestroy {
       sub.unsubscribe();
     });
   }
-  
-  unattend() {
 
+  unattend() {
+    this.subscriptions.push(
+      this.eventService
+        .removeAttendee(this.existingEvent.id, this.currUserUsername)
+        .subscribe(() => {
+          this.toastr.success('No longer attending event');
+          this.existingEvent.attendees.splice(
+            this.existingEvent.attendees.indexOf(
+              this.existingEvent.attendees.find(
+                (attendee) => attendee.userName == this.currUserUsername
+              )
+            ),
+            1
+          );
+          this.existingEvent.isAttending = false;
+        })
+    );
   }
 }

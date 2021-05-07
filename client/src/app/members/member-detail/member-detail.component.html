@@ -58,12 +58,15 @@
                 </div> 
             </tab>
             <tab heading="Past Events">
-                <div *ngIf="(obs.eventObs$ | async) as eventObs" class="past-events-container">
-                    <div *ngFor="let event of eventObs.result | pastEventPipe" class="past-events-card" >
-                        <app-event-card [existingEvent]="event"></app-event-card>
+                <div *ngIf="(obs.eventObs$ | async) as eventObs">
+                    <div  class="past-events-container">
+                        <div *ngFor="let event of eventObs.result | pastEventPipe" class="past-events-card" >
+                            <app-event-card [existingEvent]="event"></app-event-card>
+                        </div>
                     </div>
-                    <div class="pagination-container"*ngIf="eventObs.result.length > 0"> 
+                    <div class="pagination-container"> 
                         <pagination
+                        *ngIf="eventObs.result.length > 0"
                       [boundaryLinks]="true"
                       [totalItems]="eventObs.pagination.totalItems"
                       [itemsPerPage]="eventObs.pagination.itemsPerPage"
@@ -72,6 +75,7 @@
                       </pagination>
                         </div>
                 </div>
+                
             </tab>
             <tab heading="Upcoming Events">Upcoming events cards will go here</tab>
             <tab heading="Messages">
