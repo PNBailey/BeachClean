@@ -16,9 +16,7 @@ namespace api.Interfaces
 
         Task<Event> GetEventByIdAsync(int eventId);
 
-        Task<PagedList<EventDto>> GetUserOrganisedEvents(EventParams eventParams);
-
-        Task<PagedList<EventDto>> GetUserAttendedEvents(EventParams eventParams);
+        Task<PagedList<EventDto>> GetUserEvents(EventParams eventParams);
 
         Task<bool> SaveAllAsync();
 

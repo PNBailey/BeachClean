@@ -1,6 +1,6 @@
 export class EventParams {
     username?: string;
-    // predicate?: string;
+    predicate?: string;
     pageNumber = 1;
     pageSize = 4;
 }

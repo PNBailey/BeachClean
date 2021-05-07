@@ -51,6 +51,39 @@ namespace api.Data
         public async Task<PagedList<EventDto>> GetPaginatedEventsAsync(EventParams eventParams)
         {
             var user = await _userRepository.GetUserByUsernameAsync(eventParams.username);
+            var events = _context.Events.AsQueryable();
+
+            if(eventParams.predicate == "userEvents") {
+            
+            events = events.Where(e => e.Attendees.Any(attendees => attendees.Attendee.Id == user.Id) || e.Organisers.Any(organisers => organisers.Organiser.Id == user.Id));
+            
+            }
+
+            events.Include(e => e.Creator)
+            .Include(e => e.Attendees)
+            .ThenInclude(e => e.Attendee)
+            .Include(e => e.Organisers)
+            .ThenInclude(e => e.Organiser);
+
+            var userEvents = events.ProjectTo<EventDto>(_mapper.ConfigurationProvider);
+            
+            return await PagedList<EventDto>.CreateAsync(userEvents, eventParams.PageNumber, eventParams.PageSize);
+            
+
+        }
+
+        public async Task<List<EventDto>> GetAllEvents()
+        {
+            var events = await _context.Events.
+            ProjectTo<EventDto>(_mapper.ConfigurationProvider)
+            .ToListAsync();
+
+            return events;
+        }
+
+        public async Task<PagedList<EventDto>> GetUserEvents(EventParams eventParams)
+        {
+            var user = await _userRepository.GetUserByUsernameAsync(eventParams.username);
 
             var events = _context.Events
             .AsQueryable()
@@ -64,78 +97,7 @@ namespace api.Data
 
             return await PagedList<EventDto>.CreateAsync(events, eventParams.PageNumber, eventParams.PageSize);
 
-        }
 
-    // public async Task<PagedList<EventDto>> GetPaginatedEventsAsync(EventParams eventParams)
-    //     {
-    //         var user = await _userRepository.GetUserByUsernameAsync(eventParams.username); 
-
-    //         var events = _context.Events
-    //         .AsQueryable()
-    //         .Include(e => e.Creator)
-    //         .Where(e => e.Attendees.Any(attendees => attendees.Attendee.Id == user.Id))
-    //         .ProjectTo<EventDto>(_mapper.ConfigurationProvider);
-
-    //         return await PagedList<EventDto>.CreateAsync(events, eventParams.PageNumber, eventParams.PageSize);
-
-    //     }
-
-        
-
-        public async Task<List<EventDto>> GetAllEvents()
-        {
-            var events = await _context.Events.
-            ProjectTo<EventDto>(_mapper.ConfigurationProvider)
-            .ToListAsync();
-
-            return events;
-        }
-
-        public async Task<PagedList<EventDto>> GetUserOrganisedEvents(EventParams eventParams)
-        {
-            var user = await _userRepository.GetUserByUsernameAsync(eventParams.username);
-
-            var organisedEventsquery = _context.UserEvents.AsQueryable();
-
-            var organisedEvents = organisedEventsquery.Where(events => events.OrganiserId == user.Id);
-
-            var organisedEventsList = organisedEvents.Select(organisedEvent => new EventDto
-            {
-                Name = organisedEvent.Event.Name,
-                Id = organisedEvent.EventId,
-                Date = organisedEvent.Event.Date,
-                Location = organisedEvent.Event.Location,
-                MainPhotoUrl = organisedEvent.Event.MainPhotoUrl,
-                Creator = _mapper.Map<MemberDto>(organisedEvent.Event.Creator),
-                Organisers = _mapper.Map<ICollection<MemberDto>>(organisedEvent.Organiser)
-            });
-
-            return await PagedList<EventDto>.CreateAsync(organisedEventsList, eventParams.PageNumber, eventParams.PageSize);
-
-
-        }
-
-        public async Task<PagedList<EventDto>> GetUserAttendedEvents(EventParams eventParams)
-        {
-            var user = await _userRepository.GetUserByUsernameAsync(eventParams.username);
-
-            var AttendedEventsquery = _context.EventUsers.AsQueryable();
-
-            var AttendedEvents = AttendedEventsquery.Where(events => events.AttendeeId == user.Id);
-
-            var AttendedEventsList = AttendedEvents.Select(AttendedEvent => new EventDto
-            {
-                Name = AttendedEvent.AttendingEvent.Name,
-                Id = AttendedEvent.AttendingEventId,
-                Date = AttendedEvent.AttendingEvent.Date,
-                Location = AttendedEvent.AttendingEvent.Location,
-                MainPhotoUrl = AttendedEvent.AttendingEvent.MainPhotoUrl,
-                Creator = _mapper.Map<MemberDto>(AttendedEvent.AttendingEvent.Creator),
-                Organisers = _mapper.Map<ICollection<MemberDto>>(AttendedEvent.AttendingEvent.Organisers),
-                Attendees = _mapper.Map<ICollection<MemberDto>>(AttendedEvent.AttendingEvent.Attendees)
-            });
-
-            return await PagedList<EventDto>.CreateAsync(AttendedEventsList, eventParams.PageNumber, eventParams.PageSize);
         }
 
 

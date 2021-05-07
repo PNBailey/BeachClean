@@ -93,9 +93,9 @@ namespace api.Controllers
 
         [HttpGet("userEvents/{username}")]
 
-        public async Task<ActionResult<IEnumerable<EventDto>>> GetUserOrganisedEvents([FromQuery] EventParams eventParams)
+        public async Task<ActionResult<IEnumerable<EventDto>>> GetUserEvents([FromQuery] EventParams eventParams)
         {
-            var events = await _eventsRepository.GetUserOrganisedEvents(eventParams);
+            var events = await _eventsRepository.GetUserEvents(eventParams);
 
             return events;
         }

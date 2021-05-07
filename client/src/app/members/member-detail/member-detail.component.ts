@@ -40,11 +40,9 @@ export class MemberDetailComponent implements OnInit {
     faUsers: faUsers,
   };
 
+  likeParams: LikesParams;
+  eventParams: EventParams;
   
-    likeParams: LikesParams;
-    eventParams: EventParams;
-  
-
   pastEvents: BeachCleanEvent[] = [];
   eventsSub: Subscription;
 
@@ -61,9 +59,7 @@ export class MemberDetailComponent implements OnInit {
     this.initializeMemberDetail();
     this.route.params.subscribe((params: Params) => {
       this.memberChanged(params);
-    });
-    
-    
+    });  
   }
 
   initializeMemberDetail() {
@@ -80,9 +76,10 @@ export class MemberDetailComponent implements OnInit {
     this.getMessageThread(this.likeParams.userName);
     this.eventParams.pageSize = 3;
     this.eventParams.username = this.likeParams.userName;
+    this.eventParams.predicate = "userEvents";
     this.obs.eventObs$ = this.eventService.allEvents$;
     this.eventService.setAllEventParams(this.eventParams);
-    // this.eventService.getUserEvents(this.eventParams).subscribe(userevents => console.log(userevents));
+
   }
 
   likeMember(member: Member) {

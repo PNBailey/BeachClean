@@ -19,7 +19,6 @@ export class EventService {
     constructor(private http: HttpClient, private paginationService: PaginationService, private memberService: MemberService, private route: Router, private toastr: ToastrService) {}
 
     private allEventsParams$: BehaviorSubject<EventParams> = new BehaviorSubject(new EventParams()); 
-    private userEvent$: BehaviorSubject<EventParams> = new BehaviorSubject(new EventParams()); 
     baseUrl: string = "https://localhost:5001/api/events";
     attendeesSubject$: BehaviorSubject<string> = new BehaviorSubject("");
     attendeeUsername: string = "";
