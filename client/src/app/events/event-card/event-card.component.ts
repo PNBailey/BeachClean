@@ -62,11 +62,6 @@ export class EventCardComponent implements OnInit, OnDestroy {
     );
   }
 
-  ngOnDestroy() {
-    this.subscriptions.forEach((sub) => {
-      sub.unsubscribe();
-    });
-  }
 
   unattend() {
     this.subscriptions.push(
@@ -85,5 +80,11 @@ export class EventCardComponent implements OnInit, OnDestroy {
           this.existingEvent.isAttending = false;
         })
     );
+  }
+  
+  ngOnDestroy() {
+    this.subscriptions.forEach((sub) => {
+      sub.unsubscribe();
+    });
   }
 }

@@ -48,7 +48,6 @@ export class MemberService {
         const response = this.memberCache.get(Object.values(memberParams).join('-'));
     
         if(response) {
-          console.log(response);
           return of(response);
         }
     

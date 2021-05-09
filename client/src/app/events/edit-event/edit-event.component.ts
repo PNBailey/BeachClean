@@ -81,9 +81,9 @@ export class EditEventComponent implements OnInit, OnDestroy {
         // console.log(this.event.date.getTime());
       })
     );
-    this.accountService.currentUserSource.pipe(take(1)).subscribe((user) => {
+    this.subscriptions.push(this.accountService.currentUserSource.pipe(take(1)).subscribe((user) => {
       this.currentUser = user;
-    });
+    }));
     this.minDate = new Date();
     this.initializeForm();
     this.filteredOptions = this.addOrganiserForm.controls[
