@@ -1,6 +1,8 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { ToastrService } from "ngx-toastr";
+import { of } from "rxjs";
+import { tap } from "rxjs/operators";
 import { Message } from "../models/message";
 
 @Injectable({
@@ -19,6 +21,14 @@ export class MessageService {
         })};
 
     getMessageThread(recipientUsername: string) {
-        this.http.get<Message[]>(`${this.baseUrl}/thread/${recipientUsername}`).subscribe(messages => this.messages = messages);
+        if(this.messages.length > 0) {
+            return of(this.messages);
+        } else {
+           return this.http.get<Message[]>(`${this.baseUrl}/thread/${recipientUsername}`).pipe(tap((messages) => {
+                this.messages = messages;
+                return of(this.messages);
+            }));
+        }
+       
     }
 }

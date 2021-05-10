@@ -120,7 +120,7 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
   }
 
   getMessageThread(recipientUsername: string) {
-    this.messageService.getMessageThread(recipientUsername);
+    this.obs.messageObs$ = this.messageService.getMessageThread(recipientUsername);
   }
 
   onTabActivated(data: TabDirective) {
@@ -133,7 +133,7 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
         break;
       }
       case 'Messages': {
-        this.getMessageThread(this.likeParams.userName);
+        this.getMessageThread(this.route.snapshot.paramMap.get('username'));
         break;
       }
     }

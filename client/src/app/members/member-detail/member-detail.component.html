@@ -78,7 +78,9 @@
                 </div> 
             </tab>
             <tab heading="Messages" (selectTab)="onTabActivated($event)">
-                <app-member-messages [memberUsername]="member.userName" [messages]="messageService.messages"></app-member-messages>
+                <div *ngIf="obs.messageObs$ | async as messageObs">
+                    <app-member-messages [memberUsername]="member.userName" [messages]="messageObs"></app-member-messages>
+                </div>
             </tab>
         </tabset>
     </div>
