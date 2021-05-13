@@ -37,8 +37,8 @@ export class FriendsService {
     }
 
     removeLike(friend: Member) {
-        this.newLike = true;
-        this.likeToggled.next();
+        // this.newLike = true;
+        // this.likeToggled.next();
        return this.http.delete(`${this.baseUrl}/${friend.id}`);
     }
 
