@@ -1,4 +1,4 @@
-<div *ngIf="(obs.memberObs$ | async) as member" class="row member-detail-container">
+<div *ngIf="member" class="row member-detail-container">
     <div class="col-4">
         <div class="card">
             <img src="{{member.photoUrl || '../../assets/images/Placeholder user image.jpg'}}" alt="{{member.userName}}"
@@ -30,7 +30,7 @@
                 </div>
                 <div class="card-footer">
                     <div class="btn-group d-flex justify-content-center">
-                        <button (click)="likeMember(member)">Like</button>
+                        <button [ngClass]="member.isLiked ? 'btn btn-danger' : 'btn btn-primary'" (click)="toggleLike(member)">{{member.isLiked ? 'Unlike' : 'Like'}}</button>
                         <button class="btn btn-success">Message</button>
                     </div>
                 </div>

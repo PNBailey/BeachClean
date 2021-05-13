@@ -16,6 +16,10 @@ namespace api.Interfaces
 
         Task<IEnumerable<LikeDto>> GetFullLikes (int userId);
 
+        void DeleteLike(int userId, int friendId);
+
+        Task<bool> SaveAllAsync();
+
         
      
     }

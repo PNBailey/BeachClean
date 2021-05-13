@@ -8,6 +8,7 @@ import { MemberParams } from '../models/memberParams';
 import { AccountService } from '../shared/account.service';
 import { FriendsService } from '../shared/friends.service';
 import { MemberService } from '../shared/member.service';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-friends',
@@ -24,6 +25,8 @@ export class FriendsComponent implements OnInit, OnDestroy {
   userLikedSub: Subscription;
   membersObs$: Observable<PaginatedResult<Member[]>>;
   friendsObs$: Observable<PaginatedResult<Member[]>>;
+  friendsPaginatedResult: PaginatedResult<Member[]>;
+  subs: Subscription[] = [];
  
   
 
@@ -31,15 +34,26 @@ export class FriendsComponent implements OnInit, OnDestroy {
   constructor(public accountService: AccountService, private friendService: FriendsService, private memberService: MemberService) { }
 
   ngOnInit() {
-    this.friendsObs$ = this.friendService.friends$;
+    this.subs.push(this.accountService.currentUserSource.pipe(take(1)).subscribe(user => {
+      this.user = user;
+      this.subs.push(this.friendService.friends$.subscribe(response => {
+        console.log(this.user);
+        console.log(response);
+        response.result.forEach(friend => {
+          friend.isLiked = true;
+        })
+        this.friendsPaginatedResult = response;
+      }));
+    }));
     this.membersObs$ = this.memberService.members$;
     this.memberParams = new MemberParams();
     this.likeParams = new LikesParams();
     this.loadFriends();
     this.loadMembers();
-    this.userLikedSub = this.friendService.userLiked.subscribe(() => {
+    this.subs.push(this.userLikedSub = this.friendService.likeToggled.subscribe(() => {
       this.loadFriends();
-    });
+    }));
+    
   }
 
   loadMembers() {
@@ -75,6 +89,8 @@ export class FriendsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.userLikedSub.unsubscribe();
+    this.subs.forEach(sub => {
+      sub.unsubscribe();
+    })
   }
 }

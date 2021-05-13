@@ -1,15 +1,15 @@
 <tabset class="member-tabset">
     <tab heading="Friends" id="tab1">
-        <div *ngIf="friendsObs$ | async as friendsObs$" class="row d-flex justify-content-center members-container">
-            <div *ngFor="let friend of friendsObs$.result" class="col-2 members">
-                <app-member-card [member]="friend"></app-member-card>
+        <div *ngIf="friendsPaginatedResult" class="row d-flex justify-content-center members-container">
+            <div *ngFor="let friend of friendsPaginatedResult.result" class="col-2 members">
+                <app-member-card [member]="friend" *ngIf="friend.isLiked"></app-member-card>
             </div>
         </div>
-        <div class="d-flex justify-content-center" *ngIf="friendsObs$ | async as friendsObs$">
+        <div class="d-flex justify-content-center" *ngIf="friendsPaginatedResult">
             <pagination
               [boundaryLinks]="true"
-              [totalItems]="friendsObs$.pagination.totalItems"
-              [itemsPerPage]="friendsObs$.pagination.itemsPerPage"
+              [totalItems]="friendsPaginatedResult.pagination.totalItems"
+              [itemsPerPage]="friendsPaginatedResult.pagination.itemsPerPage"
               [(ngModel)]="likeParams.pageNumber"
               (pageChanged)="pageChangedFriends($event)">
               </pagination>
@@ -19,7 +19,7 @@
         <div *ngIf="membersObs$ | async as paginatedResult">
             <div class="row d-flex justify-content-center members-container">
                 <div *ngFor="let member of paginatedResult.result" class="col-2 members">
-                    <app-member-card [member]="member"></app-member-card>
+                    <app-member-card [isLiked]="false" [member]="member"></app-member-card>
                 </div>
             </div>
             <div class="d-flex justify-content-center">

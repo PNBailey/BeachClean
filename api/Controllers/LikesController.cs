@@ -53,6 +53,20 @@ namespace api.Controllers
 
         }
 
+        [HttpDelete("{friendId}")]
+
+        public async Task<ActionResult> RemoveLike(int friendId) 
+        {
+            var userId = User.GetUserId();
+
+            _likesRepository.DeleteLike(userId, friendId);
+
+            if(await _likesRepository.SaveAllAsync()) return Ok();
+
+            return BadRequest("Unable to unlike user");
+
+        }
+
             [HttpGet("Full")]
 
         public async Task<ActionResult<IEnumerable<LikeDto>>> GetFullLikes()

@@ -1,10 +1,11 @@
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { ToastrService } from "ngx-toastr";
-import { BehaviorSubject, of, Subject } from "rxjs";
+import { BehaviorSubject, Observable, of, Subject } from "rxjs";
 import { map, switchMap, tap } from "rxjs/operators";
 import { LikesParams } from "../models/likesParams";
 import { Member } from "../models/member";
+import { PaginatedResult } from "../models/pagination";
 import { AccountService } from "./account.service";
 import { PaginationService } from "./pagination.service";
 
@@ -22,22 +23,29 @@ export class FriendsService {
     baseUrl: string = "https://localhost:5001/api/likes";
     memberCache = new Map();
     newLike: boolean = false;
-    userLiked: Subject<Member> = new Subject();
+    likeToggled: Subject<Member> = new Subject();
 
 
-    friends$ = this.friendsObs$.pipe(switchMap(likesParams => this.getPaginatedLikes(likesParams)));
+    friends$: Observable<PaginatedResult<Member[]>> = this.friendsObs$.pipe(switchMap(likesParams => this.getPaginatedLikes(likesParams)));
 
     addLike(member: Member) {
         this.http.post(this.baseUrl + '/' + member.userName, {}).pipe(tap(() => {
             this.updateNewLike();
-            this.userLiked.next();
+            this.likeToggled.next();
             this.toastr.success(`You have liked ${member.userName}`);
         })).subscribe();
+    }
+
+    removeLike(friend: Member) {
+        this.newLike = true;
+        this.likeToggled.next();
+       return this.http.delete(`${this.baseUrl}/${friend.id}`);
     }
 
     updateNewLike() {
         this.newLike = true;
     }
+
 
 
     getFullLikes() {
@@ -48,6 +56,7 @@ export class FriendsService {
         const response = this.memberCache.get(Object.values(likeParams).join('-'));
 
         if (response && this.newLike == false) {
+            console.log(this.newLike);
             return of(response);
             
         }

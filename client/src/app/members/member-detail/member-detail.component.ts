@@ -7,6 +7,7 @@ import {
   faUsers,
 } from '@fortawesome/free-solid-svg-icons';
 import { TabDirective, TabsetComponent } from 'ngx-bootstrap/tabs';
+import { ToastrService } from 'ngx-toastr';
 import { Observable, Subscription } from 'rxjs';
 import { filter, take } from 'rxjs/operators';
 import { BeachCleanEvent } from 'src/app/models/beachCleanEvent';
@@ -60,8 +61,8 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
     private memberService: MemberService,
     public messageService: MessageService,
     private eventService: EventService,
-    private accountService: AccountService,
-    private router: Router
+    private router: Router,
+    private toastr: ToastrService
   ) {}
 
   ngOnInit(): void {
@@ -77,25 +78,39 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
 
   initializeMemberDetail() {
     this.likeParams = new LikesParams();
-    this.obs.memberObs$ = this.memberService.getMember(
-      this.route.snapshot.params.username
-    );
-    this.subs.push(
-      this.accountService.currentUserSource.pipe(take(1)).subscribe((user) => {
-        this.currentUser = user;
-      })
-    );
+    this.subs.push(this.memberService.getMember(this.route.snapshot.params.username).subscribe(member => {
+      this.member = member
+      this.checkIfFriend(member);
+    }));
     this.obs.friendsObs$ = this.friendService.friends$;
     this.eventParams = new EventParams();
     this.eventParams.pageSize = 3;
     this.eventParams.username = this.route.snapshot.params.username;
     this.eventParams.predicate = 'userEvents';
     this.obs.eventObs$ = this.eventService.allEvents$;
-    this.eventService.setAllEventParams(this.eventParams);
+    this.eventService.setAllEventParams(this.eventParams);  
   }
 
-  likeMember(member: Member) {
-    this.friendService.addLike(member);
+  toggleLike(member: Member) {
+    if(member.isLiked) {
+      this.subs.push(this.friendService.removeLike(member).subscribe(() => {
+        this.toastr.success(`Unliked ${member.userName}`);
+        this.member.isLiked = false;
+      }));
+    } else {
+      this.friendService.addLike(member);
+      this.member.isLiked = true;
+    }
+  }
+
+  checkIfFriend(member: Member) {
+    this.subs.push(this.friendService.getFullLikes().subscribe(usersFriends => {
+      usersFriends.forEach(friend => {
+        if(friend.id == member.id) {
+          this.member.isLiked = true;
+        }
+      })
+    }));
   }
 
   pageChangedFriends(event: any) {

@@ -78,9 +78,15 @@ namespace api.Data
 
           
                 return await PagedList<LikeDto>.CreateAsync(likedUsers, likesParams.PageNumber, likesParams.PageSize);
-                        
 
+        }
 
+           public async void DeleteLike(int userId, int friendId)
+        {
+
+            var userLike = await _context.Likes.FindAsync(userId, friendId);
+
+            _context.Likes.Remove(userLike);
 
         }
 
@@ -91,5 +97,12 @@ namespace api.Data
                 .FirstOrDefaultAsync(user => user.Id == userId);
 
         }
+
+         public async Task<bool> SaveAllAsync()
+        {
+            return await _context.SaveChangesAsync() > 0;
+        }
+
+     
     }
 }

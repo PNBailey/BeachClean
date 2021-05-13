@@ -14,6 +14,7 @@ export interface Member {
          emailAddress: string,
          occupation: string,
          photo: Photo,
+         isLiked: boolean
          
 
 }

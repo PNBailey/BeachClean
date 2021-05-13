@@ -13,18 +13,28 @@ import { Member } from '../../models/member';
 })
 export class MemberCardComponent implements OnInit {
   @Input() member: Member;
+  @Input() isLiked: boolean;
   faEnvelope = faEnvelope;
   faHeart = faHeart;
   faUser = faUser;
   faLocationArrow = faLocationArrow;
 
-  constructor(private friendService: FriendsService) { }
+  constructor(private friendService: FriendsService, private toastr: ToastrService) { }
+
+
 
   ngOnInit() {
   }
 
-  likeMember(member: Member) {
-    this.friendService.addLike(member);
+  likeMember() {
+    this.friendService.addLike(this.member);
+  }
+
+  unLikeMember() {
+    this.friendService.removeLike(this.member).subscribe(() => {
+      this.toastr.success(`Unliked ${this.member.userName}`)
+      this.member.isLiked = false;
+    });
   }
 
 
