@@ -3,9 +3,9 @@ import { Injectable } from "@angular/core";
 import { ToastrService } from "ngx-toastr";
 import { BehaviorSubject, Observable, of, Subject } from "rxjs";
 import { map, switchMap, tap } from "rxjs/operators";
-import { LikesParams } from "./models/likesParams";
-import { Member } from "./models/member";
-import { PaginatedResult } from "./models/pagination";
+import { LikesParams } from "../models/likesParams";
+import { Member } from "../models/member";
+import { PaginatedResult } from "../models/pagination";
 import { AccountService } from "./account.service";
 import { PaginationService } from "./pagination.service";
 

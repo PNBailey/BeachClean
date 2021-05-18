@@ -17,9 +17,9 @@ import { LikesParams } from 'src/app/shared/models/likesParams';
 import { Member } from 'src/app/shared/models/member';
 import { Photo } from 'src/app/shared/models/photo';
 import { User } from 'src/app/shared/models/user';
-import { AccountService } from 'src/app/shared/account.service';
-import { EventService } from 'src/app/shared/event.service';
-import { FriendsService } from 'src/app/shared/friends.service';
+import { AccountService } from 'src/app/shared/services/account.service';
+import { EventService } from 'src/app/shared/services/event.service';
+import { FriendsService } from 'src/app/shared/services/friends.service';
 import {} from 'googlemaps';
 
 @Component({
@@ -41,11 +41,10 @@ export class ViewEventComponent implements OnInit, OnDestroy {
   faTrash = faTrash;
   faLocationArrow = faLocationArrow;
   faCalendar = faCalendar;
-  friendName = '';
   faBan = faBan;
   faUpload = faUpload;
   filteredOptions: Observable<Member[]>;
-  subscriptions: Subscription[] = [];
+  subs: Subscription[] = [];
   @HostListener('window:beforeunload', ['$event']) unloadNotification(
     $event: any
   ) {
@@ -68,7 +67,7 @@ export class ViewEventComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.eventId = this.route.snapshot.params['id'];
-    this.subscriptions.push(
+    this.subs.push(
       this.eventService.getEvent(this.eventId).subscribe((event) => {
         this.event = event;
         this.initializeUploader();
@@ -81,7 +80,7 @@ export class ViewEventComponent implements OnInit, OnDestroy {
         // console.log(this.event.date.getTime());
       })
     );
-    this.subscriptions.push(this.accountService.currentUserSource.pipe(take(1)).subscribe((user) => {
+    this.subs.push(this.accountService.currentUserSource.pipe(take(1)).subscribe((user) => {
       this.currentUser = user;
     }));
     this.minDate = new Date();
@@ -109,9 +108,9 @@ export class ViewEventComponent implements OnInit, OnDestroy {
 
   getFriendsOnFocus() {
     if (this.friends.length == 0) {
-      this.friendService.getFullLikes().subscribe((friends) => {
+      this.subs.push(this.friendService.getFullLikes().subscribe((friends) => {
         this.friends = friends;
-      });
+      }));
     }
   }
 
@@ -130,7 +129,7 @@ export class ViewEventComponent implements OnInit, OnDestroy {
 
   editEvent() {
     this.editEventForm.patchValue({ id: this.eventId });
-    this.subscriptions.push(
+    this.subs.push(
       this.eventService.updateEvent(this.editEventForm.value).subscribe(() => {
         this.toastr.success('Event Successfully Updated');
         if (this.editEventForm.controls['Date'].value != '') {
@@ -174,7 +173,7 @@ export class ViewEventComponent implements OnInit, OnDestroy {
       currentMainPhoto.mainPhoto = false;
     }
     photo.mainPhoto = true;
-    this.subscriptions.push(
+    this.subs.push(
       this.eventService.setMainPhoto(this.eventId, photo).subscribe(() => {
         this.event.mainPhotoUrl = photo.url;
         this.toastr.success('Main Photo Set');
@@ -183,7 +182,7 @@ export class ViewEventComponent implements OnInit, OnDestroy {
   }
 
   deletePhoto(photo: Photo) {
-    this.subscriptions.push(
+    this.subs.push(
       this.eventService.deletePhoto(this.eventId, photo.id).subscribe(() => {
         const photoIndex = this.event.photos.findIndex((p) => p == photo);
         this.event.photos.splice(photoIndex, 1);
@@ -201,7 +200,7 @@ export class ViewEventComponent implements OnInit, OnDestroy {
         friend.userName == this.addOrganiserForm.controls['organisers'].value
     );
     this.event.organisers.push(friend);
-    this.subscriptions.push(
+    this.subs.push(
       this.eventService.addOrganiser(this.eventId, friend.id).subscribe(() => {
         this.toastr.success('Organiser added');
         this.addOrganiserForm.reset();
@@ -210,7 +209,7 @@ export class ViewEventComponent implements OnInit, OnDestroy {
   }
 
   removeOrganiser(organiserId: Number) {
-    this.subscriptions.push(
+    this.subs.push(
       this.eventService
         .removeOrganiser(this.eventId, organiserId)
         .subscribe(() => {
@@ -234,7 +233,7 @@ export class ViewEventComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.subscriptions.forEach((sub) => {
+    this.subs.forEach((sub) => {
       sub.unsubscribe();
     });
   }

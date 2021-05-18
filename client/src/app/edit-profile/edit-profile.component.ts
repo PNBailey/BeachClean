@@ -7,8 +7,8 @@ import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { Member } from '../shared/models/member';
 import { User } from '../shared/models/user';
-import { AccountService } from '../shared/account.service';
-import { MemberService } from '../shared/member.service';
+import { AccountService } from '../shared/services/account.service';
+import { MemberService } from '../shared/services/member.service';
 
 @Component({
   selector: 'app-edit-profile',

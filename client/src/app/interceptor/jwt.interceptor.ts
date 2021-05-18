@@ -8,7 +8,7 @@ import {
 import { Observable } from 'rxjs';
 import { User } from '../shared/models/user';
 import { take } from 'rxjs/operators';
-import { AccountService } from '../shared/account.service';
+import { AccountService } from '../shared/services/account.service';
 
 @Injectable()
 export class JwtInterceptor implements HttpInterceptor {

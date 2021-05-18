@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { BeachCleanEvent } from 'src/app/shared/models/beachCleanEvent';
 import { EventParams } from 'src/app/shared/models/eventParams';
 import { PaginatedResult } from 'src/app/shared/models/pagination';
-import { EventService } from 'src/app/shared/event.service';
+import { EventService } from 'src/app/shared/services/event.service';
 
 @Component({
   selector: 'app-all-events',

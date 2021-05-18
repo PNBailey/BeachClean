@@ -5,8 +5,8 @@ import { FileUploader } from 'ng2-file-upload';
 import { ToastrService } from 'ngx-toastr';
 import { take } from 'rxjs/operators';
 import { User } from 'src/app/shared/models/user';
-import { AccountService } from 'src/app/shared/account.service';
-import { EventService } from 'src/app/shared/event.service';
+import { AccountService } from 'src/app/shared/services/account.service';
+import { EventService } from 'src/app/shared/services/event.service';
 
 @Component({
   selector: 'app-create-event',

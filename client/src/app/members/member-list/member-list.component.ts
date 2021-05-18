@@ -5,9 +5,9 @@ import { Member } from '../../shared/models/member';
 import { PaginatedResult, Pagination } from '../../shared/models/pagination';
 import { User } from '../../shared/models/user';
 import { MemberParams } from '../../shared/models/memberParams';
-import { AccountService } from '../../shared/account.service';
-import { FriendsService } from '../../shared/friends.service';
-import { MemberService } from '../../shared/member.service';
+import { AccountService } from '../../shared/services/account.service';
+import { FriendsService } from '../../shared/services/friends.service';
+import { MemberService } from '../../shared/services/member.service';
 import { take } from 'rxjs/operators';
 
 @Component({

@@ -6,9 +6,9 @@ import {
   faLocationArrow,
   faTrash,
 } from '@fortawesome/free-solid-svg-icons';
-import { AccountService } from 'src/app/shared/account.service';
+import { AccountService } from 'src/app/shared/services/account.service';
 import { take } from 'rxjs/operators';
-import { EventService } from 'src/app/shared/event.service';
+import { EventService } from 'src/app/shared/services/event.service';
 import { Observable, Subscription } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { Member } from 'src/app/shared/models/member';

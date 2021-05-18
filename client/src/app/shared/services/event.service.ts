@@ -4,10 +4,10 @@ import { Router } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
 import { BehaviorSubject, Observable } from "rxjs";
 import { switchMap, switchMapTo, tap } from "rxjs/operators";
-import { BeachCleanEvent } from "./models/beachCleanEvent";
-import { EventParams } from "./models/eventParams";
-import { Member } from "./models/member";
-import { Photo } from "./models/photo";
+import { BeachCleanEvent } from "../models/beachCleanEvent";
+import { EventParams } from "../models/eventParams";
+import { Member } from "../models/member";
+import { Photo } from "../models/photo";
 import { MemberService } from "./member.service";
 import { PaginationService } from "./pagination.service";
 

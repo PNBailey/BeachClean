@@ -17,11 +17,11 @@ import { Member } from 'src/app/shared/models/member';
 import { Message } from 'src/app/shared/models/message';
 import { PaginatedResult, Pagination } from 'src/app/shared/models/pagination';
 import { User } from 'src/app/shared/models/user';
-import { AccountService } from 'src/app/shared/account.service';
-import { EventService } from 'src/app/shared/event.service';
-import { FriendsService } from 'src/app/shared/friends.service';
-import { MemberService } from 'src/app/shared/member.service';
-import { MessageService } from 'src/app/shared/message.service';
+import { AccountService } from 'src/app/shared/services/account.service';
+import { EventService } from 'src/app/shared/services/event.service';
+import { FriendsService } from 'src/app/shared/services/friends.service';
+import { MemberService } from 'src/app/shared/services/member.service';
+import { MessageService } from 'src/app/shared/services/message.service';
 
 @Component({
   selector: 'app-member-detail',

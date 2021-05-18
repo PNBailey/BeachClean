@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { take } from 'rxjs/operators';
-import { User } from '../shared/models/user';
-import { AccountService } from '../shared/account.service';
+import { AccountService } from '../shared/services/account.service';
 
 @Component({
   selector: 'app-nav',
