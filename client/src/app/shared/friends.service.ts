@@ -37,8 +37,6 @@ export class FriendsService {
     }
 
     removeLike(friend: Member) {
-        // this.newLike = true;
-        // this.likeToggled.next();
        return this.http.delete(`${this.baseUrl}/${friend.id}`);
     }
 
@@ -56,7 +54,6 @@ export class FriendsService {
         const response = this.memberCache.get(Object.values(likeParams).join('-'));
 
         if (response && this.newLike == false) {
-            console.log(this.newLike);
             return of(response);
             
         }

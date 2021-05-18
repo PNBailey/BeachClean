@@ -37,8 +37,6 @@ export class FriendsComponent implements OnInit, OnDestroy {
     this.subs.push(this.accountService.currentUserSource.pipe(take(1)).subscribe(user => {
       this.user = user;
       this.subs.push(this.friendService.friends$.subscribe(response => {
-        console.log(this.user);
-        console.log(response);
         response.result.forEach(friend => {
           friend.isLiked = true;
         })

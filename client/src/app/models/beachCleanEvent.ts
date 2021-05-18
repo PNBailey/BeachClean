@@ -12,6 +12,7 @@ export class BeachCleanEvent {
     organisers: Member[];
     attendees: Member[];
     isAttending?: boolean = false;
+    pastEvent?: boolean = false;
 
     
 

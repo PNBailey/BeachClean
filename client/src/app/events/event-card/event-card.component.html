@@ -10,12 +10,22 @@
       alt="existingEvent.mainPhotoUrl"
     />
     <div class="image-btn-container animate">
-      <button *ngIf="!existingEvent.isAttending" (click)="addAttendee()" class="btn btn-primary">
-        Attend Event
-      </button>
-      <button *ngIf="existingEvent.isAttending" (click)="unattend()" class="btn btn-danger">
-        Unattend
-      </button>
+      <div *ngIf="!existingEvent.pastEvent">
+        <button class="btn btn-primary" (click)="viewEvent()">
+          View
+        </button>
+        <button *ngIf="!existingEvent.isAttending" (click)="addAttendee()" class="btn btn-primary">
+          Attend
+        </button>
+        <button *ngIf="existingEvent.isAttending" (click)="unattend()" class="btn btn-danger">
+          Unattend
+        </button>
+      </div> 
+      <div *ngIf="existingEvent.pastEvent">
+        <button class="btn btn-primary" (click)="viewEvent()">
+          View
+        </button>
+      </div>
     </div>
   </div>
   <div class="line-container">

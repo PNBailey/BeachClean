@@ -28,6 +28,7 @@ export class EventCardComponent implements OnInit, OnDestroy {
   eventServiceSub: Subscription = new Subscription();
   subscriptions: Subscription[] = [];
   attendee$: Observable<Member>;
+  todaysDate: Date;
 
   constructor(
     private accountService: AccountService,
@@ -36,6 +37,10 @@ export class EventCardComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
+    this.todaysDate = new Date();
+    if(new Date(this.existingEvent.date) < this.todaysDate) {
+      this.existingEvent.pastEvent = true;
+    }
     this.subscriptions.push(
       this.accountService.currentUserSource.pipe(take(1)).subscribe((user) => {
         this.currUserUsername = user.userName;
@@ -80,6 +85,10 @@ export class EventCardComponent implements OnInit, OnDestroy {
           this.existingEvent.isAttending = false;
         })
     );
+  }
+
+  viewEvent() {
+    
   }
   
   ngOnDestroy() {

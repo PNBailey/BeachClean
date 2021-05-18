@@ -6,8 +6,8 @@ import { BeachCleanEvent } from 'src/app/models/beachCleanEvent';
 })
 export class PastEventPipe implements PipeTransform {
 
-  pastEvents = [];
-  todaysDate: Date = new Date();
+  pastEvents: BeachCleanEvent[] = [];
+  todaysDate = new Date();
 
   transform(events: BeachCleanEvent[]): BeachCleanEvent[] {
     if(events.length == 0) {

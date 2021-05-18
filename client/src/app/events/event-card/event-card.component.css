@@ -131,3 +131,7 @@ hr {
     z-index: 99;
     
 }
+
+button {
+    margin: 5px;
+}
