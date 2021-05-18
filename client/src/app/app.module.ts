@@ -12,14 +12,14 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RegisterComponent } from './register/register.component';
 import { ToastrModule } from 'ngx-toastr';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
-import { ErrorInterceptor } from 'Interceptors/error.interceptor';
+import { ErrorInterceptor } from 'src/app/interceptor/error.interceptor';
 import { EditProfileComponent } from './edit-profile/edit-profile.component';
 import { JwtInterceptor } from './interceptor/jwt.interceptor';
 import { FileUploadModule } from 'ng2-file-upload';
 import { LoadingInterceptor } from './interceptor/loading.interceptor';
 import { NgxSpinnerModule } from "ngx-spinner";
 import { TextInputComponent } from './text-input/text-input.component';
-import { FriendsComponent } from './friends/friends.component';
+import { MemberListComponent } from './members/member-list/member-list.component';
 import { MemberCardComponent } from './members/member-card/member-card.component';
 import { MemberDetailComponent } from './members/member-detail/member-detail.component';
 import { TabsModule } from 'ngx-bootstrap/tabs';
@@ -28,7 +28,7 @@ import { TimeagoModule } from 'ngx-timeago';
 import { CreateEventComponent } from './events/create-event/create-event.component';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { DateInputComponent } from './date-input/date-input.component';
-import { EditEventComponent } from './events/edit-event/edit-event.component';
+import { ViewEventComponent } from './events/view-event/view-event.component';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
@@ -54,12 +54,12 @@ import { PastEventPipe } from './shared/pipes/pastevent.pipe';
     RegisterComponent,
     EditProfileComponent,
     TextInputComponent,
-    FriendsComponent,
+    MemberListComponent,
     MemberCardComponent,
     MemberDetailComponent,
     CreateEventComponent,
     DateInputComponent,
-    EditEventComponent,
+    ViewEventComponent,
     AllEventsComponent,
     EventCardComponent,
     MemberMessagesComponent,

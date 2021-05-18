@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { Message } from 'src/app/models/message';
+import { Message } from 'src/app/shared/models/message';
 import { MessageService } from 'src/app/shared/message.service';
 
 @Component({

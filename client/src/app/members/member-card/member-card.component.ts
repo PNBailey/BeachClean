@@ -4,7 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
 import { AccountService } from 'src/app/shared/account.service';
 import { FriendsService } from 'src/app/shared/friends.service';
-import { Member } from '../../models/member';
+import { Member } from '../../shared/models/member';
 
 @Component({
   selector: 'app-member-card',

@@ -3,8 +3,8 @@ import { Routes, RouterModule } from '@angular/router';
 import { EditProfileComponent } from './edit-profile/edit-profile.component';
 import { AllEventsComponent } from './events/all-events/all-events.component';
 import { CreateEventComponent } from './events/create-event/create-event.component';
-import { EditEventComponent } from './events/edit-event/edit-event.component';
-import { FriendsComponent } from './friends/friends.component';
+import { ViewEventComponent } from './events/view-event/view-event.component';
+import { MemberListComponent } from './members/member-list/member-list.component';
 import { AuthGuard } from './guards/auth.guard';
 import { PreventUnsavedChangesGuard } from './guards/prevent-unsaved-changes.guard';
 import { HomeComponent } from './home/home.component';
@@ -18,10 +18,10 @@ const routes: Routes = [
   {path: 'login', component: LoginComponent},
   {path: 'register', component: RegisterComponent},
   {path: 'edit-profile', component: EditProfileComponent, canActivate: [AuthGuard], canDeactivate: [PreventUnsavedChangesGuard]},
-  {path: 'friends', component: FriendsComponent},
+  {path: 'friends', component: MemberListComponent},
   {path: 'friends/:username', component: MemberDetailComponent},
   {path: 'create-event', component: CreateEventComponent},
-  {path: 'edit-event/:id', component: EditEventComponent},
+  {path: 'edit-event/:id', component: ViewEventComponent},
   {path: 'events', component: AllEventsComponent},
   {path: '**', component: HomeComponent, pathMatch: 'full'}
   

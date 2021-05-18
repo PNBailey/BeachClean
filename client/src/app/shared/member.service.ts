@@ -3,8 +3,8 @@ import { Injectable } from "@angular/core";
 import { ToastrService } from "ngx-toastr";
 import { BehaviorSubject, of, Subject } from "rxjs";
 import { filter, map, switchMap, take, takeUntil, tap } from "rxjs/operators";
-import { Member } from "../models/member";
-import { MemberParams } from "../models/memberParams";
+import { Member } from "./models/member";
+import { MemberParams } from "./models/memberParams";
 import { PaginationService } from "./pagination.service";
 
 @Injectable({

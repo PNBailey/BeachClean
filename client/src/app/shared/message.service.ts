@@ -3,7 +3,7 @@ import { Injectable } from "@angular/core";
 import { ToastrService } from "ngx-toastr";
 import { of } from "rxjs";
 import { tap } from "rxjs/operators";
-import { Message } from "../models/message";
+import { Message } from "./models/message";
 
 @Injectable({
     providedIn: 'root'

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { take } from 'rxjs/operators';
-import { User } from '../models/user';
+import { User } from '../shared/models/user';
 import { AccountService } from '../shared/account.service';
 
 @Component({

@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { BeachCleanEvent } from 'src/app/models/beachCleanEvent';
+import { BeachCleanEvent } from 'src/app/shared/models/beachCleanEvent';
 
 @Pipe({
   name: 'pastEventPipe'

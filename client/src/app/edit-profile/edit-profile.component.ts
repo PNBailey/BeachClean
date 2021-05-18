@@ -5,8 +5,8 @@ import { FileUploader } from 'ng2-file-upload';
 import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { Member } from '../models/member';
-import { User } from '../models/user';
+import { Member } from '../shared/models/member';
+import { User } from '../shared/models/user';
 import { AccountService } from '../shared/account.service';
 import { MemberService } from '../shared/member.service';
 

@@ -1,21 +1,21 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
-import { LikesParams } from '../models/likesParams';
-import { Member } from '../models/member';
-import { PaginatedResult, Pagination } from '../models/pagination';
-import { User } from '../models/user';
-import { MemberParams } from '../models/memberParams';
-import { AccountService } from '../shared/account.service';
-import { FriendsService } from '../shared/friends.service';
-import { MemberService } from '../shared/member.service';
+import { LikesParams } from '../../shared/models/likesParams';
+import { Member } from '../../shared/models/member';
+import { PaginatedResult, Pagination } from '../../shared/models/pagination';
+import { User } from '../../shared/models/user';
+import { MemberParams } from '../../shared/models/memberParams';
+import { AccountService } from '../../shared/account.service';
+import { FriendsService } from '../../shared/friends.service';
+import { MemberService } from '../../shared/member.service';
 import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-friends',
-  templateUrl: './friends.component.html',
-  styleUrls: ['./friends.component.css']
+  templateUrl: './member-list.component.html',
+  styleUrls: ['./member-list.component.css']
 })
-export class FriendsComponent implements OnInit, OnDestroy {
+export class MemberListComponent implements OnInit, OnDestroy {
 
   members: Member[];
   membersPagination: Pagination;

@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { FileUploader } from 'ng2-file-upload';
 import { ToastrService } from 'ngx-toastr';
 import { take } from 'rxjs/operators';
-import { User } from 'src/app/models/user';
+import { User } from 'src/app/shared/models/user';
 import { AccountService } from 'src/app/shared/account.service';
 import { EventService } from 'src/app/shared/event.service';
 

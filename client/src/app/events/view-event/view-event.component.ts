@@ -12,11 +12,11 @@ import { FileUploader } from 'ng2-file-upload';
 import { ToastrService } from 'ngx-toastr';
 import { Observable, Subscription } from 'rxjs';
 import { map, startWith, take } from 'rxjs/operators';
-import { BeachCleanEvent } from 'src/app/models/beachCleanEvent';
-import { LikesParams } from 'src/app/models/likesParams';
-import { Member } from 'src/app/models/member';
-import { Photo } from 'src/app/models/photo';
-import { User } from 'src/app/models/user';
+import { BeachCleanEvent } from 'src/app/shared/models/beachCleanEvent';
+import { LikesParams } from 'src/app/shared/models/likesParams';
+import { Member } from 'src/app/shared/models/member';
+import { Photo } from 'src/app/shared/models/photo';
+import { User } from 'src/app/shared/models/user';
 import { AccountService } from 'src/app/shared/account.service';
 import { EventService } from 'src/app/shared/event.service';
 import { FriendsService } from 'src/app/shared/friends.service';
@@ -24,10 +24,10 @@ import {} from 'googlemaps';
 
 @Component({
   selector: 'app-edit-event',
-  templateUrl: './edit-event.component.html',
-  styleUrls: ['./edit-event.component.css'],
+  templateUrl: './view-event.component.html',
+  styleUrls: ['./view-event.component.css'],
 })
-export class EditEventComponent implements OnInit, OnDestroy {
+export class ViewEventComponent implements OnInit, OnDestroy {
   currentUser: User;
   editEventForm: FormGroup;
   addOrganiserForm: FormGroup;

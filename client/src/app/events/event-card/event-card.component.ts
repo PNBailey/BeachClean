@@ -1,5 +1,5 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { BeachCleanEvent } from 'src/app/models/beachCleanEvent';
+import { BeachCleanEvent } from 'src/app/shared/models/beachCleanEvent';
 import {
   faCalendar,
   faCheck,
@@ -11,7 +11,7 @@ import { take } from 'rxjs/operators';
 import { EventService } from 'src/app/shared/event.service';
 import { Observable, Subscription } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
-import { Member } from 'src/app/models/member';
+import { Member } from 'src/app/shared/models/member';
 
 @Component({
   selector: 'app-event-card',
@@ -88,7 +88,7 @@ export class EventCardComponent implements OnInit, OnDestroy {
   }
 
   viewEvent() {
-    
+
   }
   
   ngOnDestroy() {
