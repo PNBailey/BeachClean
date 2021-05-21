@@ -94,7 +94,7 @@ namespace api.Controllers
                 UserName = user.UserName,
                 Token = _tokenService.CreateToken(user),
                 Location = user.Location,
-                PhotoUrl = user.Photo.Url
+                PhotoUrl = user.Photo?.Url
 
             };
     }

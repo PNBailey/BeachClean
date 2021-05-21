@@ -7,7 +7,9 @@ namespace api.DTOs
         public string Token { get; set; }
 
         public string Location { get; set; }
+        
+        #nullable enable
 
-        public string PhotoUrl { get; set; }
+        public string? PhotoUrl { get; set; }
     }
 }

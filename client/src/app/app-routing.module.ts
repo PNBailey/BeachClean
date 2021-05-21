@@ -21,7 +21,7 @@ const routes: Routes = [
   {path: 'friends', component: MemberListComponent},
   {path: 'friends/:username', component: MemberDetailComponent},
   {path: 'create-event', component: CreateEventComponent},
-  {path: 'edit-event/:id', component: ViewEventComponent},
+  {path: 'view-event/:id', component: ViewEventComponent},
   {path: 'events', component: AllEventsComponent},
   {path: '**', component: HomeComponent, pathMatch: 'full'}
   

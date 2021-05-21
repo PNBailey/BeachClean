@@ -12,6 +12,7 @@ import { EventService } from 'src/app/shared/services/event.service';
 import { Observable, Subscription } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { Member } from 'src/app/shared/models/member';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-event-card',
@@ -33,7 +34,8 @@ export class EventCardComponent implements OnInit, OnDestroy {
   constructor(
     private accountService: AccountService,
     private eventService: EventService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -88,7 +90,7 @@ export class EventCardComponent implements OnInit, OnDestroy {
   }
 
   viewEvent() {
-
+    this.router.navigate([`view-event/${this.existingEvent.id}`]);
   }
   
   ngOnDestroy() {

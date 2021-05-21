@@ -45,6 +45,7 @@ export class ViewEventComponent implements OnInit, OnDestroy {
   faUpload = faUpload;
   filteredOptions: Observable<Member[]>;
   subs: Subscription[] = [];
+  enableEditEvent = false;
   @HostListener('window:beforeunload', ['$event']) unloadNotification(
     $event: any
   ) {
@@ -71,6 +72,7 @@ export class ViewEventComponent implements OnInit, OnDestroy {
       this.eventService.getEvent(this.eventId).subscribe((event) => {
         this.event = event;
         this.initializeUploader();
+        this.checkEnableEdit();
         this.editEventForm.patchValue({ name: event.name });
         this.editEventForm.patchValue({ location: event.location });
         if (this.event.mainPhotoUrl == null) {
@@ -95,6 +97,13 @@ export class ViewEventComponent implements OnInit, OnDestroy {
     
   }
 
+  checkEnableEdit() {
+    if(this.event.creator.userName == this.currentUser.userName) {
+      this.enableEditEvent = true;
+    } else if(this.event.organisers.find(organiser => organiser.userName == this.currentUser.userName)) {
+      this.enableEditEvent = true;
+    }
+  };
   
 
   private _filter(value: string) {
