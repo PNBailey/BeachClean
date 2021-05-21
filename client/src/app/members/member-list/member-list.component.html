@@ -15,7 +15,7 @@
               </pagination>
         </div>
     </tab>
-    <tab heading="Other Members">
+    <tab heading="All Members">
         <div *ngIf="membersObs$ | async as paginatedResult">
             <div class="row d-flex justify-content-center members-container">
                 <div *ngFor="let member of paginatedResult.result" class="col-2 members">

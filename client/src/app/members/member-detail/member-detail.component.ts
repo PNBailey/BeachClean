@@ -94,6 +94,7 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
   toggleLike(member: Member) {
     if(member.isLiked) {
       this.subs.push(this.friendService.removeLike(member).subscribe(() => {
+        this.friendService.newLike = true;
         this.toastr.success(`Unliked ${member.userName}`);
         this.member.isLiked = false;
       }));
