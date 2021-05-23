@@ -78,8 +78,6 @@ export class ViewEventComponent implements OnInit, OnDestroy {
         if (this.event.mainPhotoUrl == null) {
           this.event.mainPhotoUrl = '../../assets/images/Picture-icon.png';
         }
-        // this.event.date = new Date(this.event.date);
-        // console.log(this.event.date.getTime());
       })
     );
     this.subs.push(this.accountService.currentUserSource.pipe(take(1)).subscribe((user) => {

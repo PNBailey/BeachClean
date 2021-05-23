@@ -54,10 +54,7 @@ export class FriendsService {
         const response = this.memberCache.get(Object.values(likeParams).join('-'));
 
         if (response && this.newLike == false) {
-            console.log(response);
             return of(response);
-            
-            
         }
 
 

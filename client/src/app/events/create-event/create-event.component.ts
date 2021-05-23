@@ -31,16 +31,7 @@ export class CreateEventComponent implements OnInit {
       this.currentUser = user;
     });
     this.initializeForm();
-    if (this.currentUser == null) {
-      this.userNotLoggedIn();
-    }
     this.minDate = new Date();
-  }
-
-  userNotLoggedIn() {
-    setTimeout(() => {
-      this.route.navigate(['../login']);
-    }, 3000);
   }
 
   initializeForm() {

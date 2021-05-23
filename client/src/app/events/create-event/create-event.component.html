@@ -5,34 +5,7 @@
 <hr>
 <div>
     <div class="container">
-      <!--   <div class="card">
-            <img
-              class="card-img-top img-thumbnail"
-              [src]="eventPhotoUrl"
-              alt="xx">
-            <div class="card-body">
-                Change Photo
-                <input class="Choose-file-btn" type="file" ng2FileSelect [uploader]="uploader" />
-                <div class="uploader-buttons">
-                    <button type="button" class="btn btn-success btn-s" (click)="uploader.uploadAll()"
-                    [disabled]="!uploader.getNotUploadedItems().length">
-                    <span class="fa fa-upload"></span> Upload
-                </button>
-                <button type="button" class="btn btn-warning btn-s" (click)="uploader.cancelAll()"
-                    [disabled]="!uploader.isUploading">
-                    <span class="fa fa-ban"></span> Cancel
-                </button>
-                <button type="button" class="btn btn-danger btn-s" (click)="uploader.clearQueue()"
-                    [disabled]="!uploader.queue.length">
-                    <span class="fa fa-trash"></span> Remove
-                </button>
-                </div>
-            </div>
-        </div> -->
-        <div *ngIf="currentUser === null" class="redirection-container">
-            You must log in to create an event! Redirecting to log in page...
-        </div>
-        <form *ngIf="currentUser != null" [formGroup]="createEventForm" (ngSubmit)="createEvent()" autocomplete="off">
+        <form [formGroup]="createEventForm" (ngSubmit)="createEvent()" autocomplete="off">
             <ul class="form-container">
                 <li>
                     <app-text-input [formControl]="createEventForm.controls['name']" [label]='"Event name"'>

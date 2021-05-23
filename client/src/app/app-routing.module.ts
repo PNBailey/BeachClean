@@ -14,16 +14,16 @@ import { RegisterComponent } from './register/register.component';
 
 
 const routes: Routes = [
-  { path: '', component: HomeComponent},  
+  { path: '', component: AllEventsComponent, canActivate: [AuthGuard]},  
   {path: 'login', component: LoginComponent},
   {path: 'register', component: RegisterComponent},
-  {path: 'edit-profile', component: EditProfileComponent, canActivate: [AuthGuard], canDeactivate: [PreventUnsavedChangesGuard]},
-  {path: 'friends', component: MemberListComponent},
-  {path: 'friends/:username', component: MemberDetailComponent},
-  {path: 'create-event', component: CreateEventComponent},
-  {path: 'view-event/:id', component: ViewEventComponent},
-  {path: 'events', component: AllEventsComponent},
-  {path: '**', component: HomeComponent, pathMatch: 'full'}
+  {path: 'edit-profile', runGuardsAndResolvers: 'always', component: EditProfileComponent, canActivate: [AuthGuard], canDeactivate: [PreventUnsavedChangesGuard]},
+  {path: 'friends', component: MemberListComponent, canActivate: [AuthGuard]},
+  {path: 'friends/:username', component: MemberDetailComponent, canActivate: [AuthGuard]},
+  {path: 'create-event', component: CreateEventComponent, canActivate: [AuthGuard]},
+  {path: 'view-event/:id', component: ViewEventComponent, canActivate: [AuthGuard]},
+  {path: 'events', component: AllEventsComponent, canActivate: [AuthGuard]},
+  {path: '**', component: AllEventsComponent, canActivate: [AuthGuard], pathMatch: 'full'}
   
 
 ];
