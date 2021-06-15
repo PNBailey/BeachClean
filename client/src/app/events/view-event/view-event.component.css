@@ -132,6 +132,7 @@ ul {
 .photo-btn-container {
     display: flex;
     justify-content: center;
+    
 
 }
 
@@ -146,6 +147,7 @@ ul {
 .file-select-btns {
     display: flex;
     justify-content: flex-start;
+    margin-top: 10px;
 }
 
 .file-select-btns > input {
@@ -208,6 +210,13 @@ ul {
     justify-content: center;
 }
 
+.event-details-list {
+    margin: 20px;
+}
+
+.event-details-item {
+    margin: 10px;
+}
 
 
 

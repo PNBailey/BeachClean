@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import {
   faBan,
   faCalendar,
+  faCalendarCheck,
   faLocationArrow,
   faTrash,
   faUpload,
@@ -43,6 +44,7 @@ export class ViewEventComponent implements OnInit, OnDestroy {
   faCalendar = faCalendar;
   faBan = faBan;
   faUpload = faUpload;
+  faCalendarCheck = faCalendarCheck;
   filteredOptions: Observable<Member[]>;
   subs: Subscription[] = [];
   enableEditEvent = false;

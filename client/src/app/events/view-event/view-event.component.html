@@ -80,6 +80,16 @@
               </ul>
             </form>
           </div>
+        <div *ngIf="!enableEditEvent" class="event-details-container">
+            <ul class="event-details-list"> 
+              <li class="event-details-item"> 
+                <fa-icon class="body-icon" [icon]="faCalendar"></fa-icon> 
+                {{event.date | date: "dd MMMM yyyy"}}
+              </li> 
+              <li class="event-details-item"><fa-icon class="body-icon" [icon]="faLocationArrow"></fa-icon
+                >{{event.location}}</li>                
+            </ul>
+          </div>
           </tab>
           <tab heading="Event Organisers">
             <div class="event-users-container">
