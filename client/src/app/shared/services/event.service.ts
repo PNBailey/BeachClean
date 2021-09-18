@@ -37,8 +37,11 @@ export class EventService {
 
 
       addEvent(event: BeachCleanEvent) {
+        
         this.http.post(this.baseUrl + '/', event).pipe(tap(eventId => {
+          console.log(eventId);
           this.route.navigate(['../edit-event/', eventId]);
+
           this.toastr.success("Event created");
         })).subscribe();
       }

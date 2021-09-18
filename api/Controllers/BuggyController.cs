@@ -53,7 +53,7 @@ namespace api
         public ActionResult<string> GetBadRequest() 
         
         {
-            return BadRequest("This was ot a good request");
+            return BadRequest("This was not a good request");
         }
     }
 }

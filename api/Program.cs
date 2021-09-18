@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using api.Data;
+using api.Entities;
 using API.Data;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -25,8 +27,13 @@ namespace api
 
             try {
                 var context = services.GetRequiredService<DataContext>();
+                var userManager = services.GetRequiredService<UserManager<AppUser>>();
+                
                 await context.Database.MigrateAsync(); // Using this means that we don't have to use 'dotnet ef Database update'. Once this has been entered, all we need to do is restart our app to apply any changes to the database
-                await Seed.SeedUsers(context);
+                var userRoles = services.GetRequiredService<RoleManager<AppRole>>();
+
+
+                await Seed.SeedUsers(userManager, userRoles);
             } catch (Exception ex) {
                 var logger = services.GetRequiredService<ILogger<Program>>();
                 logger.LogError(ex, "An error occured during migration");

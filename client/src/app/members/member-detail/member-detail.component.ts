@@ -28,6 +28,7 @@ import { MessageService } from 'src/app/shared/services/message.service';
   templateUrl: './member-detail.component.html',
   styleUrls: ['./member-detail.component.css'],
 })
+
 export class MemberDetailComponent implements OnInit, OnDestroy {
   @ViewChild('memberTabs', { static: true }) memberTabs: TabsetComponent;
 
