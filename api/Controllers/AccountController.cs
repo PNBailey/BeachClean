@@ -56,7 +56,7 @@ namespace api.Controllers
 
             {
                 UserName = user.UserName,
-                Token = _tokenService.CreateToken(user),
+                Token = await _tokenService.CreateToken(user),
                 Location = user.Location
 
             };
@@ -89,7 +89,7 @@ namespace api.Controllers
             return new UserDto
             {
                 UserName = user.UserName,
-                Token = _tokenService.CreateToken(user),
+                Token = await _tokenService.CreateToken(user),
                 Location = user.Location,
                 PhotoUrl = user.Photo?.Url
 
