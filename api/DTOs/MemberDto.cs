@@ -31,5 +31,7 @@ namespace api.DTOs
 
             public PhotoDto Photo { get; set; }
 
+            public ICollection<AppRole> Roles { get; set; }
+
         }
 }
