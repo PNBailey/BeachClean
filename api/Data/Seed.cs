@@ -34,21 +34,26 @@ namespace API.Data
 
                 user.UserName = user.UserName.ToLower();
 
+                user.SecurityStamp = System.Guid.NewGuid().ToString();
+
                 // DataConext.Users.Add(user); // This adds tracking to the users througn entity framework. This isn't actually adding the user. This is why we don't use the await keyword here. 
 
-                await userManager.CreateAsync(user, "Abc123");
+                await userManager.CreateAsync(user, "Pa$$w0rd");
 
                 await userManager.AddToRoleAsync(user, "Member");
             }
 
+
             var appCreator = new AppUser{
-                Name = "PaulAdmin",
-                UserName = "PaulAdmin"
+                UserName = "pauladmin",
+                SecurityStamp = System.Guid.NewGuid().ToString()
             };
 
-            await userManager.CreateAsync(appCreator, "1Australia");
 
-            await userManager.AddToRolesAsync(appCreator, new List<string>{"Member", "Admin"});
+            await userManager.CreateAsync(appCreator, "Pa$$w0rd");
+
+            await userManager.AddToRolesAsync(appCreator, new [] {"Member", "Admin"});
+
 
           
 

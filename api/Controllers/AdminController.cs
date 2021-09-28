@@ -24,19 +24,22 @@ namespace api.Controllers
         [Authorize(Policy = "RequireAdminRole")]
         [HttpGet("users-with-roles")]
 
-        public async Task<ActionResult<ICollection<MemberDto>>> getUsersWithRoles()
+        public async Task<ActionResult> getUsersWithRoles()
         {
 
             var users = await _userManager.Users
             .Include(u => u.UserRoles)
             .ThenInclude(u => u.Role)
+            .Select(u => new {
+                u.Id,
+                UserName = u.UserName,
+                Roles = u.UserRoles.Select(ur => ur.Role).ToList()
+            })
             .ToListAsync();
 
             if(users.Count <= 0) return BadRequest("No users found");
 
-            return _mapper.Map<List<AppUser>, List<MemberDto>>(users);
-
-
+            return Ok(users);
             
       }
     }

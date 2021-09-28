@@ -9,7 +9,7 @@ import { TextInputComponent } from '../text-input/text-input.component';
 
 
 @NgModule({
-  declarations: [LoginComponent, TextInputComponent],
+  declarations: [TextInputComponent],
   imports: [
     CommonModule,
     FormsModule,

@@ -50,9 +50,9 @@ import { PastEventPipe } from './shared/pipes/pastevent.pipe';
   declarations: [
     AppComponent,
     NavComponent,
-    LoginComponent,
     RegisterComponent,
     EditProfileComponent,
+    LoginComponent,
     TextInputComponent,
     MemberListComponent,
     MemberCardComponent,

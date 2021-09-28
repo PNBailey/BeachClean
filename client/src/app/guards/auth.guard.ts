@@ -16,7 +16,6 @@ export class AuthGuard implements CanActivate {
    return this.accountService.currentUser.pipe(
       map(user => {
         if(user) return true;
-        console.log("fired")
         this.toastrService.error("You need to be logged in to go to this page!");
         this.route.navigate(['./login']);
       })

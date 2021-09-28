@@ -32,18 +32,12 @@ namespace api.Helpers
 
             CreateMap<EventDto, Event>();
 
-            CreateMap<ICollection<AppUser>, ICollection<MemberDto>>();
-
             CreateMap<EventUsers, MemberDto>();
 
             CreateMap<EventUsers, EventDto>();
         
-
             CreateMap<UserEvents, EventDto>();
             
-
-            // CreateMap<UserEvents, MemberDto>();
-
             CreateMap<eventUpdateDto, Event>()
                         .ForAllMembers(o => o.Condition((src, dest, value) => value != null));
 
