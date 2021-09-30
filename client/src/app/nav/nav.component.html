@@ -2,8 +2,7 @@
     <h2 class="title"><a [routerLink]="['../']">Beach Clean</a></h2>
     <ul class="nav-links">
         <li class="nav-item regular-nav-item"><a routerLink="create-event">Create Event</a></li>
-        <li class="nav-item regular-nav-item"><a routerLink="events">All Events</a></li>
-        <li class="nav-item regular-nav-item"><a routerLink="events">Events Near Me</a></li>
+        <li class="nav-item regular-nav-item"><a routerLink="events">Events</a></li>
         <li *ngIf="(accountService.currentUser | async) == null" class="nav-item"><a routerLink="login">Login</a>
         </li>
         <div *ngIf="(accountService.currentUser | async) as user" class="nav-item dropdown" dropdown>

@@ -28,7 +28,7 @@ export class LoginComponent implements OnInit {
     },  error => {
       this.toastrService.error(error.error);
     }, () => {
-      this.route.navigate(['../']);
+      this.route.navigate(['/events']);
      
     });
   }

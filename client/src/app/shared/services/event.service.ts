@@ -40,7 +40,7 @@ export class EventService {
         
         this.http.post(this.baseUrl + '/', event).pipe(tap(eventId => {
           console.log(eventId);
-          this.route.navigate(['../edit-event/', eventId]);
+          this.route.navigate(['../view-event/', eventId]);
 
           this.toastr.success("Event created");
         })).subscribe();

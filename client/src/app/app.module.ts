@@ -38,7 +38,8 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { AllEventsComponent } from './events/all-events/all-events.component';
 import { EventCardComponent } from './events/event-card/event-card.component';
 import { MemberMessagesComponent } from './members/member-messages/member-messages.component';
-import { PastEventPipe } from './shared/pipes/pastevent.pipe'; 
+import { PastEventPipe } from './shared/pipes/pastevent.pipe';
+import { FilterPipe } from './shared/pipes/filter.pipe'; 
 
 
  
@@ -49,8 +50,8 @@ import { PastEventPipe } from './shared/pipes/pastevent.pipe';
 @NgModule({
   declarations: [
     AppComponent,
-    NavComponent,
     RegisterComponent,
+    NavComponent,
     EditProfileComponent,
     LoginComponent,
     TextInputComponent,
@@ -63,7 +64,8 @@ import { PastEventPipe } from './shared/pipes/pastevent.pipe';
     AllEventsComponent,
     EventCardComponent,
     MemberMessagesComponent,
-    PastEventPipe
+    PastEventPipe,
+    FilterPipe
     
   ],
   imports: [

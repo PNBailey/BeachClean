@@ -87,6 +87,13 @@ h2 {
 
 }
 
+.location-button-container {
+    display: flex;
+    justify-content: center;
+}
 
+.location-button-container > button {
+    margin: 10px;
+}
 
 

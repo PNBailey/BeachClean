@@ -7,7 +7,7 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 
 
 @NgModule({
-  declarations: [ NavComponent ],
+  declarations: [  ],
   imports: [
     CommonModule,
     AppRoutingModule,

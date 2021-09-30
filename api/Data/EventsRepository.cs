@@ -53,9 +53,9 @@ namespace api.Data
             var user = await _userRepository.GetUserByUsernameAsync(eventParams.username);
             var events = _context.Events.AsQueryable();
 
-            if(eventParams.predicate == "userEvents") {
+            if(eventParams.predicate == "localEvents") {
             
-            events = events.Where(e => e.Attendees.Any(attendees => attendees.Attendee.Id == user.Id) || e.Organisers.Any(organisers => organisers.Organiser.Id == user.Id));
+            events = events.Where(e => e.Location == user.Location);
             
             }
 

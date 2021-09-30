@@ -16,17 +16,22 @@ import { MemberService } from 'src/app/shared/services/member.service';
   styleUrls: ['./all-events.component.css'],
 })
 export class AllEventsComponent implements OnInit {
-  constructor(private eventService: EventService, private route: Router, private accountService: AccountService, private memberService: MemberService) {}
+  constructor(private eventService: EventService, private route: Router, public accountService: AccountService, private memberService: MemberService) {}
   events$: Observable<PaginatedResult<BeachCleanEvent[]>>;
   eventParams: EventParams;
+  // currentUser: User;
+  eventFilterLocation = "";
   currentUser: User;
 
   ngOnInit() {
     this.eventParams = new EventParams(); // The event params are created
     this.events$ = this.eventService.allEvents$; // The event$ observable from the service is assigned to a local variable
     this.getEvents();
-    this.memberService.getMembersWithRoles();
-
+    this.accountService.currentUser
+    .pipe(take(1))
+    .subscribe(user => {
+      this.currentUser = user;
+    })
   }
 
   getEvents() {
@@ -38,7 +43,9 @@ export class AllEventsComponent implements OnInit {
     this.eventService.setAllEventParams(this.eventParams);
   }
 
-
-
+  filterEvents(filterString: string) {
+    console.log(filterString);
+    this.eventFilterLocation = filterString;
+  }
 
 }

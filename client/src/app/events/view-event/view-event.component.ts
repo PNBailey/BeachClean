@@ -69,6 +69,7 @@ export class ViewEventComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    
     this.eventId = this.route.snapshot.params['id'];
     this.subs.push(
       this.eventService.getEvent(this.eventId).subscribe((event) => {
@@ -93,6 +94,8 @@ export class ViewEventComponent implements OnInit, OnDestroy {
       startWith(''),
       map((value) => this._filter(value))
     );
+
+    
     
     
   }
@@ -161,10 +164,12 @@ export class ViewEventComponent implements OnInit, OnDestroy {
       autoUpload: false,
       maxFileSize: 10 * 1024 * 1024,
     });
-    this.uploader.onAfterAddingFile = (file) => (file.withCredentials = false); // If we didn't specify this, we would need to make adjustments to our CORS configuration and allow credentials to go up with our request
-
+    this.uploader.onAfterAddingFile = (file => {
+      file.withCredentials = false;
+    }); // If we didn't specify this, we would need to make adjustments to our CORS configuration and allow credentials to go up with our request
     this.uploader.onSuccessItem = (item, response, status, headers) => {
       if (response) {
+        
         const photo = JSON.parse(response); // This gets the photo from the JSON data that is retrieved
         this.event.photos.push(photo);
         if (this.event.mainPhotoUrl == '../../assets/images/Picture-icon.png') {

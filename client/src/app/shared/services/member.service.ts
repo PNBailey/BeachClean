@@ -64,10 +64,6 @@ export class MemberService {
         }));
       }
 
-      getMembersWithRoles() {
-        this.http.get('https://localhost:5001/api/admin/users-with-roles').subscribe(members => console.log(members));
-      }
-
       
   updateMember(member: Member) {
     return this.http.put(`${this.baseUrl}/`, member).pipe(tap(() => {

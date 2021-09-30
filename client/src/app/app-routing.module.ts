@@ -14,7 +14,7 @@ import { RegisterComponent } from './register/register.component';
 
 
 const routes: Routes = [
-  { path: '', component: AllEventsComponent, canActivate: [AuthGuard]},  
+  { path: '', component: LoginComponent},  
   {path: 'login', component: LoginComponent},
   {path: 'register', component: RegisterComponent},
   {path: 'edit-profile', runGuardsAndResolvers: 'always', component: EditProfileComponent, canActivate: [AuthGuard], canDeactivate: [PreventUnsavedChangesGuard]},
