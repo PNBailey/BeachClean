@@ -44,8 +44,8 @@ namespace api
             });
 
             services.AddCors();
-
-             services.AddIdentityServices(_config); 
+            services.AddIdentityServices(_config); 
+            services.AddSignalR();
 
 
              }

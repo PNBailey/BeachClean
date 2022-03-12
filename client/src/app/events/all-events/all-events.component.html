@@ -1,7 +1,7 @@
 
 <div class="background-img"></div>
-<div class="location-button-container">
-    <button (click)="filterEvents(currentUser.location)" class="btn btn-primary">Events Near You</button>
+<div *ngIf="currentUser | async as user" class="location-button-container">
+    <button (click)="filterEvents(user.location)" class="btn btn-primary">Events Near You</button>
     <button (click)="filterEvents('')" class="btn btn-primary">All Events</button>
 </div>
   <div *ngIf="events$ | async as events$" class="container">

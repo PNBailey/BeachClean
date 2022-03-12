@@ -21,17 +21,13 @@ export class AllEventsComponent implements OnInit {
   eventParams: EventParams;
   // currentUser: User;
   eventFilterLocation = "";
-  currentUser: User;
+  currentUser: Observable<User>;
 
   ngOnInit() {
     this.eventParams = new EventParams(); // The event params are created
     this.events$ = this.eventService.allEvents$; // The event$ observable from the service is assigned to a local variable
     this.getEvents();
-    this.accountService.currentUser
-    .pipe(take(1))
-    .subscribe(user => {
-      this.currentUser = user;
-    })
+    this.currentUser = this.accountService.currentUser;
   }
 
   getEvents() {

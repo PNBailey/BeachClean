@@ -51,7 +51,7 @@ export class ViewEventComponent implements OnInit, OnDestroy {
   @HostListener('window:beforeunload', ['$event']) unloadNotification(
     $event: any
   ) {
-    // This allows us to show a warning message if the user tries to close a tab (or go to google for example) and asks them if they want to leave the page as any changes made to the form will be . The hostlistener gives us access to browser events
+    // This allows us to show a warning message if the user tries to close a tab (or go to google for example) and asks them if they want to leave the page as any changes made to the form will be lost. The hostlistener gives us access to browser events
 
     if (this.editEventForm.dirty) {
       $event.returnValue = true;
@@ -83,9 +83,9 @@ export class ViewEventComponent implements OnInit, OnDestroy {
         }
       })
     );
-    this.subs.push(this.accountService.currentUserSource.pipe(take(1)).subscribe((user) => {
+    this.accountService.currentUserSource.pipe(take(1)).subscribe((user) => {
       this.currentUser = user;
-    }));
+    });
     this.minDate = new Date();
     this.initializeForm();
     this.filteredOptions = this.addOrganiserForm.controls[
